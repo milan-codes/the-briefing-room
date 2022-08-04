@@ -4,6 +4,7 @@ import Hero from "../components/Hero";
 import Features from "../components/Features";
 import { CogIcon, DatabaseIcon, UserIcon } from "@heroicons/react/outline";
 import Faq from "../components/Faq";
+import Footer from "../components/Footer";
 const Home: NextPage = () => {
   return (
     <div>
@@ -57,6 +58,11 @@ const Home: NextPage = () => {
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             },
             {
+              title: "Is this unofficial software?",
+              description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            },
+            {
               title: "How can I support the project?",
               description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -64,6 +70,25 @@ const Home: NextPage = () => {
           ]}
         />
       </div>
+      <Footer
+        description="Get access to the latest telemetry data from the Formula 1 world championship"
+        groups={[
+          {
+            groupTitle: "About",
+            links: [
+              { label: "Features", href: "#features" },
+              { label: "FAQ", href: "#faq" },
+            ],
+          },
+          {
+            groupTitle: "Project",
+            links: [
+              { label: "Contribute", href: "/contribute" },
+              { label: "Changelog", href: "/changelog" },
+            ],
+          },
+        ]}
+      />
     </div>
   );
 };
