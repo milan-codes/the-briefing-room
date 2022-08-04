@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
 import type { NextPage } from "next";
+import Hero from "../components/Hero";
 const Home: NextPage = () => {
   return (
     <div>
@@ -9,6 +10,7 @@ const Home: NextPage = () => {
           { name: "F.A.Q.", href: "#faq" },
         ]}
       />
+      <Hero />
     </div>
   );
 };
