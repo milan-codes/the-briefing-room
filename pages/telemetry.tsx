@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState, useRef } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import { FilterIcon, MinusSmIcon, PlusSmIcon } from "@heroicons/react/solid";
@@ -6,40 +6,25 @@ import { GetStaticProps, NextPage } from "next";
 import Compobox from "../components/Combobox";
 import DataFilter, { DataFilterOption } from "../components/DataFilter/DataFilter";
 
-interface GPData {
-  roundNumber: number;
-  country: string;
-  location: string;
-  officialEventName: string;
-  eventDate: Date;
-  eventName: string;
-  eventFormat: string;
-  session1: string;
-  session1Date: Date;
-  session2: string;
-  session2Date: Date;
-  session3: string;
-  session3Date: Date;
-  session4: string;
-  session4Date: Date;
-  session5: string;
-  session5Date: Date;
-  f1ApiSupport: boolean;
+interface TelemetryProps {
+  raceCalendars: any;
 }
 
-interface Props {
-  gpData: GPData[];
-}
+const conventionalEvent: DataFilterOption[] = [
+  { id: 1, label: "Free Practice 1" },
+  { id: 2, label: "Free Practice 2" },
+  { id: 3, label: "Free Practice 3" },
+  { id: 4, label: "Qualifying" },
+  { id: 5, label: "Race" },
+];
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const res = await fetch("http://127.0.0.1:5000/racecalendar?year=2021&includeAll=true");
-  const gpData = await res.json();
-  return {
-    props: {
-      gpData,
-    },
-  };
-};
+const sprintEvent: DataFilterOption[] = [
+  { id: 1, label: "Free Practice 1" },
+  { id: 2, label: "Qualifying" },
+  { id: 3, label: "Free Practice 2" },
+  { id: 4, label: "Sprint Race" },
+  { id: 5, label: "Race" },
+];
 
 const qualiFilters: DataFilterOption[] = [
   { id: 1, label: "Velocity" },
@@ -47,26 +32,54 @@ const qualiFilters: DataFilterOption[] = [
   { id: 3, label: "Braking %" },
 ];
 
-const raceCalendarFilters: DataFilterOption[] = [
-  { id: 1, label: "2021" },
-  { id: 2, label: "2022" },
-];
+const Telemetry: NextPage<TelemetryProps> = ({ raceCalendars }) => {
+  const [selectedYear, setSelectedYear] = useState("");
 
-const Telemetry: NextPage<Props> = ({ gpData }) => {
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [selectedYear, setSelectedYear] = useState(-1);
-  const [selectedGP, setSelectedGP] = useState(-1);
-  const [selectedSession, setSelectedSession] = useState(-1);
+  const [selectedGP, setSelectedGP] = useState("");
+  const [gpOptions, setGpOptions] = useState([{ id: -1, label: "" }]);
 
-  const gpYearsCombo: DataFilterOption[] = [];
-  const gpYears = Object.keys(gpData).forEach((year, index) => {
-    gpYearsCombo.push({ id: index, label: year });
+  const [selectedSession, setSelectedSession] = useState("");
+  const [sessionOptions, setSessionOptions] = useState([{ id: -1, label: "" }]);
+
+  const yearOptions: DataFilterOption[] = [];
+  Object.keys(raceCalendars).forEach((year, index) => {
+    yearOptions.push({ id: index, label: year });
   });
 
-  const handleYearSelection = (year: number) => {
-    setSelectedYear(year);
-    console.log(selectedYear);
-  };
+  useEffect(() => {
+    // Update race calendar according to selected year, if no year is selected, no action needed
+    if (selectedYear !== "") {
+      setSelectedGP("");
+      setSelectedSession("");
+      setSessionOptions([]);
+      const weekends: DataFilterOption[] = [];
+
+      raceCalendars[parseInt(selectedYear)]
+        .filter((gp: any) => gp.EventFormat !== "testing")
+        .forEach((gp: any) => {
+          weekends.push({ id: gp.roundNumber, label: gp.EventName });
+        });
+
+      setGpOptions(weekends);
+    }
+  }, [selectedYear]);
+
+  useEffect(() => {
+    // Update session types according to selected GP, if no gp is selected, no action needed
+    if (selectedGP !== "") {
+      setSelectedSession("");
+
+      const gp = raceCalendars[parseInt(selectedYear)].find(
+        (gp: any) => gp.EventName === selectedGP
+      );
+
+      if (gp.EventFormat === "conventional") {
+        setSessionOptions(conventionalEvent);
+      } else {
+        setSessionOptions(sprintEvent);
+      }
+    }
+  }, [selectedGP]);
 
   return (
     <div className="bg-white">
@@ -76,29 +89,23 @@ const Telemetry: NextPage<Props> = ({ gpData }) => {
             <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">Telemetry</h1>
 
             <div className="flex items-center">
-              <Compobox options={gpYearsCombo} placeholder="Enter year" />
-
-              <div className="disabled:opacity-75">
-                <Compobox
-                  options={[
-                    { id: 1, label: "Free Practice 1" },
-                    { id: 2, label: "Free Practice 2" },
-                    { id: 3, label: "Free Practice 3" },
-                    { id: 4, label: "Qualifying" },
-                    { id: 5, label: "Race" },
-                  ]}
-                  placeholder="Enter Grand Prix"
-                />
-              </div>
               <Compobox
-                options={[
-                  { id: 1, label: "Free Practice 1" },
-                  { id: 2, label: "Free Practice 2" },
-                  { id: 3, label: "Free Practice 3" },
-                  { id: 4, label: "Qualifying" },
-                  { id: 5, label: "Race" },
-                ]}
+                options={yearOptions}
+                placeholder="Enter year"
+                handleChange={setSelectedYear}
+                value={selectedYear}
+              />
+              <Compobox
+                options={gpOptions}
+                placeholder="Enter Grand Prix"
+                handleChange={setSelectedGP}
+                value={selectedGP}
+              />
+              <Compobox
+                options={sessionOptions}
                 placeholder="Enter session"
+                handleChange={setSelectedSession}
+                value={selectedSession}
               />
 
               <button
@@ -107,18 +114,8 @@ const Telemetry: NextPage<Props> = ({ gpData }) => {
               >
                 Apply
               </button>
-
-              <button
-                type="button"
-                className="p-2 -m-2 ml-4 sm:ml-6 text-gray-400 hover:text-gray-500 lg:hidden"
-                onClick={() => setMobileFiltersOpen(true)}
-              >
-                <span className="sr-only">Filters</span>
-                <FilterIcon className="w-5 h-5" aria-hidden="true" />
-              </button>
             </div>
           </div>
-
           <section className="pt-6 pb-24">
             <div className="h-auto grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
               <form className="hidden lg:block">
@@ -131,10 +128,9 @@ const Telemetry: NextPage<Props> = ({ gpData }) => {
                     Data types will appear here after you select a session.
                   </li>
 
-                  <DataFilter options={qualiFilters} />
+                  <DataFilter options={[]} />
                 </ul>
               </form>
-
               <div className="lg:col-span-3">
                 <div className="border-[1px] border-solid border-gray-200 rounded-lg h-96 lg:h-full">
                   <div className="grid place-items-center h-full">
@@ -148,6 +144,16 @@ const Telemetry: NextPage<Props> = ({ gpData }) => {
       </div>
     </div>
   );
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const res = await fetch("http://127.0.0.1:5000/racecalendar?year=2021&includeAll=true");
+  const raceCalendars = await res.json();
+  return {
+    props: {
+      raceCalendars,
+    },
+  };
 };
 
 export default Telemetry;

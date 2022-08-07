@@ -10,14 +10,18 @@ export interface ComboboxOption {
 export interface ComboboxProps {
   options: ComboboxOption[];
   placeholder: string;
+  handleChange: (newState: string) => void;
+  value: string;
 }
 
-const MyCombobox: React.FC<ComboboxProps> = (props: ComboboxProps) => {
-  const [selected, setSelected] = useState(props.options[0]);
+const MyCombobox: React.FC<ComboboxProps> = (props) => {
+  const [selected, setSelected] = useState("");
   const [query, setQuery] = useState("");
 
   useEffect(() => {
-    console.log("selected", selected);
+    if (selected != null) {
+      console.log("refreshed");
+    }
   });
 
   const filteredOptions =
@@ -29,7 +33,16 @@ const MyCombobox: React.FC<ComboboxProps> = (props: ComboboxProps) => {
 
   return (
     <div>
-      <Combobox value={selected} onChange={setSelected}>
+      <Combobox
+        value={props.value}
+        onChange={(newSelection) => {
+          setSelected(newSelection);
+          if (props.handleChange && newSelection != null) {
+            props.handleChange(newSelection.toString());
+          }
+        }}
+        nullable
+      >
         <div className="relative mt-1">
           <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left">
             <Combobox.Input
