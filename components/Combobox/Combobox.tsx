@@ -12,17 +12,13 @@ export interface ComboboxProps {
   placeholder: string;
   handleChange: (newState: string) => void;
   value: string;
+  error: boolean;
 }
 
 const MyCombobox: React.FC<ComboboxProps> = (props) => {
-  const [selected, setSelected] = useState("");
   const [query, setQuery] = useState("");
-
-  useEffect(() => {
-    if (selected != null) {
-      console.log("refreshed");
-    }
-  });
+  const inputStyle = "relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left";
+  console.log("refreshed");
 
   const filteredOptions =
     query === ""
@@ -36,17 +32,20 @@ const MyCombobox: React.FC<ComboboxProps> = (props) => {
       <Combobox
         value={props.value}
         onChange={(newSelection) => {
-          setSelected(newSelection);
           if (props.handleChange && newSelection != null) {
             props.handleChange(newSelection.toString());
           }
         }}
         nullable
       >
-        <div className="relative mt-1">
-          <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left">
+        <div className="relative mt-1 ml-4">
+          <div
+            className={
+              props.error ? inputStyle + " border-[1px] border-solid border-red-400" : inputStyle
+            }
+          >
             <Combobox.Input
-              className="w-full py-2 pl-3 pr-4 text-sm leading-5 text-gray-900"
+              className="w-full py-2 pl-3 pr-4 text-sm leading-5 text-gray-900 "
               placeholder={props.placeholder}
               onChange={(event) => setQuery(event.target.value)}
             />
