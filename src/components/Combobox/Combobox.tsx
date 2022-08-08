@@ -18,7 +18,6 @@ export interface ComboboxProps {
 const MyCombobox: React.FC<ComboboxProps> = (props) => {
   const [query, setQuery] = useState("");
   const inputStyle = "relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left";
-  console.log("refreshed");
 
   const filteredOptions =
     query === ""
