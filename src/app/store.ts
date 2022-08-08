@@ -1,10 +1,10 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import seasonReducer from "../features/season/seasonSlice";
+import eventQueryReducer from "../features/season/eventQuerySlice";
 
 export const makeStore = () =>
   configureStore({
     reducer: {
-      season: seasonReducer,
+      eventQuery: eventQueryReducer,
     },
   });
 

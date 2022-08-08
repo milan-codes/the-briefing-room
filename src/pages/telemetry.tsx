@@ -1,93 +1,35 @@
-import { Fragment, useEffect, useState, useReducer } from "react";
 import { GetStaticProps, NextPage } from "next";
 import Compobox from "../components/Combobox";
 import DataFilter, { DataFilterOption } from "../components/DataFilter/DataFilter";
+import { GrandPrix, Season } from "../model/Season";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { ComboboxOption } from "../components/Combobox/Combobox";
+import {
+  selectEventQuery,
+  setSeason,
+  setGrandPrix,
+  setSession,
+} from "../features/season/eventQuerySlice";
+import { conventionalEvent, sprintEvent } from "../utils/eventFormats";
 
 interface TelemetryProps {
-  raceCalendars: any;
+  seasons: Season[];
 }
 
-const conventionalEvent: DataFilterOption[] = [
-  { id: 1, label: "Free Practice 1" },
-  { id: 2, label: "Free Practice 2" },
-  { id: 3, label: "Free Practice 3" },
-  { id: 4, label: "Qualifying" },
-  { id: 5, label: "Race" },
-];
+const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
+  const event = useAppSelector(selectEventQuery);
+  const dispatch = useAppDispatch();
 
-const sprintEvent: DataFilterOption[] = [
-  { id: 1, label: "Free Practice 1" },
-  { id: 2, label: "Qualifying" },
-  { id: 3, label: "Free Practice 2" },
-  { id: 4, label: "Sprint Race" },
-  { id: 5, label: "Race" },
-];
+  const seasonOptions = getSeasonOptions(seasons);
+  let grandPrixOptions: ComboboxOption[] = [];
+  let sessionOptions: ComboboxOption[] = [];
 
-const qualiFilters: DataFilterOption[] = [
-  { id: 1, label: "Velocity" },
-  { id: 2, label: "Throttle %" },
-  { id: 3, label: "Braking %" },
-];
-
-const Telemetry: NextPage<TelemetryProps> = ({ raceCalendars }) => {
-  const [selectedYear, setSelectedYear] = useState("");
-  const [yearError, setYearError] = useState(false);
-
-  const [selectedGP, setSelectedGP] = useState("");
-  const [gpOptions, setGpOptions] = useState([{ id: -1, label: "" }]);
-  const [gpError, setGpError] = useState(false);
-
-  const [selectedSession, setSelectedSession] = useState("");
-  const [sessionOptions, setSessionOptions] = useState([{ id: -1, label: "" }]);
-  const [sessionError, setSessionError] = useState(false);
-
-  const yearOptions: DataFilterOption[] = [];
-  Object.keys(raceCalendars).forEach((year, index) => {
-    yearOptions.push({ id: index, label: year });
-  });
-
-  useEffect(() => {
-    // Update race calendar according to selected year, if no year is selected, no action needed
-    if (selectedYear !== "") {
-      setYearError(false);
-      setSelectedGP("");
-      setSelectedSession("");
-      setSessionOptions([]);
-      const weekends: DataFilterOption[] = [];
-
-      raceCalendars[parseInt(selectedYear)]
-        .filter((gp: any) => gp.EventFormat !== "testing")
-        .forEach((gp: any) => {
-          weekends.push({ id: gp.roundNumber, label: gp.EventName });
-        });
-
-      setGpOptions(weekends);
-    }
-  }, [selectedYear]);
-
-  useEffect(() => {
-    // Update session types according to selected GP, if no gp is selected, no action needed
-    if (selectedGP !== "") {
-      setGpError(false);
-      setSelectedSession("");
-
-      const gp = raceCalendars[parseInt(selectedYear)].find(
-        (gp: any) => gp.EventName === selectedGP
-      );
-
-      if (gp.EventFormat === "conventional") {
-        setSessionOptions(conventionalEvent);
-      } else {
-        setSessionOptions(sprintEvent);
-      }
-    }
-  }, [selectedGP]);
-
-  useEffect(() => {
-    if (selectedSession !== "") {
-      setSessionError(false);
-    }
-  }, [selectedSession]);
+  const yearSelected = seasons.find((season) => season.year === event.year);
+  if (yearSelected) {
+    grandPrixOptions = getGrandPrixOptions(yearSelected);
+    const grandPrixSelected = yearSelected.events.find((gp) => gp.EventName === event.grandPrix);
+    if (grandPrixSelected) sessionOptions = getSessionOptions(grandPrixSelected);
+  }
 
   return (
     <div className="bg-white">
@@ -98,45 +40,32 @@ const Telemetry: NextPage<TelemetryProps> = ({ raceCalendars }) => {
 
             <div className="flex items-center">
               <Compobox
-                options={yearOptions}
+                options={seasonOptions}
                 placeholder="Enter year"
-                handleChange={setSelectedYear}
-                value={selectedYear}
-                error={yearError}
+                handleChange={(option) => dispatch(setSeason(parseInt(option)))}
+                value={event.year === -1 ? "" : event.year.toString()}
+                error={false}
               />
               <Compobox
-                options={gpOptions}
+                options={grandPrixOptions}
                 placeholder="Enter Grand Prix"
-                handleChange={setSelectedGP}
-                value={selectedGP}
-                error={gpError}
+                handleChange={(option) => dispatch(setGrandPrix(option))}
+                value={event.grandPrix}
+                error={false}
               />
               <Compobox
                 options={sessionOptions}
                 placeholder="Enter session"
-                handleChange={setSelectedSession}
-                value={selectedSession}
-                error={sessionError}
+                handleChange={(session) => dispatch(setSession(session))}
+                value={event.session}
+                error={false}
               />
 
               <button
                 type="button"
-                className="inline-block ml-5 px-6 py-3 bg-blue-600 text-white font-medium text-xs leading-5 rounded hover:bg-blue-700 focus:bg-blue-700  transition duration-150 ease-in-out"
-                onClick={() => {
-                  if (selectedYear !== "" && selectedGP !== "" && selectedSession !== "") {
-                    // TODO
-                  } else {
-                    if (selectedYear === "") {
-                      setYearError(true);
-                    }
-                    if (selectedGP === "") {
-                      setGpError(true);
-                    }
-                    if (selectedSession === "") {
-                      setSessionError(true);
-                    }
-                  }
-                }}
+                className="inline-block ml-5 px-6 py-3 bg-blue-600 text-white font-medium text-xs leading-5 rounded hover:bg-blue-700 focus:bg-blue-700 hover:cursor-pointer transition duration-150 ease-in-out disabled:transition-none disabled:hover:bg-blue-600 disabled:opacity-50 disabled:hover:cursor-default"
+                onClick={() => {}}
+                disabled={!event.readyToSubmit}
               >
                 Apply
               </button>
@@ -187,12 +116,29 @@ const Telemetry: NextPage<TelemetryProps> = ({ raceCalendars }) => {
   );
 };
 
+const getSeasonOptions = (seasons: Season[]): ComboboxOption[] => {
+  return seasons.map(
+    (season, index): ComboboxOption => ({ id: index, label: season.year.toString() })
+  );
+};
+
+const getGrandPrixOptions = (season: Season): ComboboxOption[] => {
+  return season.events
+    .filter((gp) => gp.EventFormat !== "testing")
+    .map((gp) => ({ id: gp.RoundNumber, label: gp.EventName }));
+};
+
+const getSessionOptions = (gp: GrandPrix): ComboboxOption[] => {
+  if (gp.EventFormat === "sprint") return sprintEvent;
+  return conventionalEvent;
+};
+
 export const getStaticProps: GetStaticProps = async (context) => {
   const res = await fetch("http://127.0.0.1:5000/racecalendar?year=2021&includeAll=true");
-  const raceCalendars = await res.json();
+  const seasons = (await res.json()) as Season[];
   return {
     props: {
-      raceCalendars,
+      seasons,
     },
   };
 };
