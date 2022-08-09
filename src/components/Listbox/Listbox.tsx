@@ -2,11 +2,12 @@ import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import { ComboboxOption } from "../Combobox/Combobox";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 interface ListboxProps {
   options: ComboboxOption[];
   placeholder: string;
-  handleChange?: (newSelection: ComboboxOption) => void;
+  handleChange: (newSelection: string) => void;
 }
 
 const MyListbox: React.FC<ListboxProps> = (props) => {
@@ -14,7 +15,13 @@ const MyListbox: React.FC<ListboxProps> = (props) => {
 
   return (
     <div className="my-2">
-      <Listbox value={selected} onChange={setSelected}>
+      <Listbox
+        value={selected}
+        onChange={(newState) => {
+          setSelected(newState);
+          props.handleChange(newState);
+        }}
+      >
         <div className="relative mt-1">
           <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-1 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
             <span className="block truncate">{selected}</span>

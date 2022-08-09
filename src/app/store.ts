@@ -2,6 +2,7 @@ import { Action, applyMiddleware, configureStore, ThunkAction } from "@reduxjs/t
 import thunk from "redux-thunk";
 import eventQueryReducer from "../features/events/eventQuerySlice";
 import eventTelemetryReducer from "../features/events/eventTelemetrySlice";
+import lapTelemetryQuerySlice from "../features/events/lapTelemetryQuerySlice";
 import lapTelemetrySlice from "../features/events/lapTelemetrySlice";
 
 export const makeStore = () =>
@@ -9,6 +10,7 @@ export const makeStore = () =>
     reducer: {
       eventQuery: eventQueryReducer,
       eventTelemetry: eventTelemetryReducer,
+      lapTelemetryQuery: lapTelemetryQuerySlice,
       lapTelemetry: lapTelemetrySlice,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(),

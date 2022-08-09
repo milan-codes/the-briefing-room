@@ -14,7 +14,7 @@ import { conventionalEvent, sprintEvent } from "../utils/eventFormats";
 import { getLapsFromApi, selectSessionData } from "../features/events/eventTelemetrySlice";
 import { Divide } from "tabler-icons-react";
 import MyListbox from "../components/Listbox/Listbox";
-import { AddDriverTelemetry } from "../components/Listbox/AddDriverTelemetry";
+import AddDriverTelemetry from "../components/Listbox/AddDriverTelemetry";
 
 interface TelemetryProps {
   seasons: Season[];
@@ -95,7 +95,7 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
                         Drivers will appear here after you select a session.
                       </li>
                     ) : (
-                      <AddDriverTelemetry driverList={eventData.drivers} />
+                      <AddDriverTelemetry driverList={eventData.drivers} laps={eventData.laps} />
                     )}
 
                     <DataFilter options={[]} />

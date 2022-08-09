@@ -1,35 +1,44 @@
 import { AnyAction, createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
 import { AppState } from "../../app/store";
 import { Lap } from "../../model/Lap";
+import { LapTelemtry } from "../../model/LapTelemetry";
 
-interface DriverTelemetry {
-  driver: string;
-  lap: string;
-  isLoaded: boolean;
+interface LapTelemetries {
+  lapTelemetries: LapTelemtry[];
 }
 
-interface LapTelemetry {
-  telemetries: DriverTelemetry[];
-}
-
-const initialState: LapTelemetry = {
-  telemetries: [],
+const initialState: LapTelemetries = {
+  lapTelemetries: [],
 };
 
 export const lapTelemetrySlice = createSlice({
-  name: "laps",
+  name: "lapTelemetries",
   initialState,
   reducers: {
-    addDriver: (state, action: PayloadAction<DriverTelemetry>) => {
-      state.telemetries.push({
-        driver: action.payload.driver,
-        lap: action.payload.lap,
-        isLoaded: true,
-      });
+    addLapTelemetry: (state, action: PayloadAction<LapTelemtry>) => {
+      state.lapTelemetries.push(action.payload);
     },
   },
 });
 
-export const { addDriver } = lapTelemetrySlice.actions;
-export const selectTelemetryData = (state: AppState) => state.lapTelemetry;
+export const { addLapTelemetry } = lapTelemetrySlice.actions;
+export const selectLapTelemetry = (state: AppState) => state.lapTelemetry;
 export default lapTelemetrySlice.reducer;
+
+export const getLapTelemetryFromApi =
+  (
+    year: number,
+    round: number,
+    session: number,
+    driver: string,
+    lap: string
+  ): ThunkAction<void, AppState, unknown, AnyAction> =>
+  async (dispatch) => {
+    console.log(`Loading telemetry for car ${driver} on lap ${lap}...`);
+    const res = await fetch(
+      `http://127.0.0.1:5000/lap?year=${year}&round=${round}&session=${session}&driver=${driver}&lap=${lap}`
+    );
+    console.log(`Loading telemetry for car ${driver} on lap ${lap}...done`);
+    const lapTelemetry = (await res.json()) as LapTelemtry;
+    dispatch(addLapTelemetry(lapTelemetry));
+  };
