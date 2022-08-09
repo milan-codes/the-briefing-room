@@ -1,11 +1,17 @@
-import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import eventQueryReducer from "../features/season/eventQuerySlice";
+import { Action, applyMiddleware, configureStore, ThunkAction } from "@reduxjs/toolkit";
+import thunk from "redux-thunk";
+import eventQueryReducer from "../features/events/eventQuerySlice";
+import eventTelemetryReducer from "../features/events/eventTelemetrySlice";
+import lapTelemetrySlice from "../features/events/lapTelemetrySlice";
 
 export const makeStore = () =>
   configureStore({
     reducer: {
       eventQuery: eventQueryReducer,
+      eventTelemetry: eventTelemetryReducer,
+      lapTelemetry: lapTelemetrySlice,
     },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
   });
 
 const store = makeStore();

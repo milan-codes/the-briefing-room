@@ -10,7 +10,7 @@ export interface ComboboxOption {
 export interface ComboboxProps {
   options: ComboboxOption[];
   placeholder: string;
-  handleChange: (newState: string) => void;
+  handleChange: (newState: ComboboxOption) => void;
   value: string;
   error: boolean;
 }
@@ -32,7 +32,8 @@ const MyCombobox: React.FC<ComboboxProps> = (props) => {
         value={props.value}
         onChange={(newSelection) => {
           if (props.handleChange && newSelection != null) {
-            props.handleChange(newSelection.toString());
+            const selectedOption = props.options.find((option) => option.label === newSelection)!;
+            props.handleChange(selectedOption);
           }
         }}
         nullable

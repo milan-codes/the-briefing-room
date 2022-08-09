@@ -9,8 +9,12 @@ import {
   setSeason,
   setGrandPrix,
   setSession,
-} from "../features/season/eventQuerySlice";
+} from "../features/events/eventQuerySlice";
 import { conventionalEvent, sprintEvent } from "../utils/eventFormats";
+import { getLapsFromApi, selectSessionData } from "../features/events/eventTelemetrySlice";
+import { Divide } from "tabler-icons-react";
+import MyListbox from "../components/Listbox/Listbox";
+import { AddDriverTelemetry } from "../components/Listbox/AddDriverTelemetry";
 
 interface TelemetryProps {
   seasons: Season[];
@@ -18,6 +22,7 @@ interface TelemetryProps {
 
 const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
   const event = useAppSelector(selectEventQuery);
+  const eventData = useAppSelector(selectSessionData);
   const dispatch = useAppDispatch();
 
   const seasonOptions = getSeasonOptions(seasons);
@@ -27,7 +32,9 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
   const yearSelected = seasons.find((season) => season.year === event.year);
   if (yearSelected) {
     grandPrixOptions = getGrandPrixOptions(yearSelected);
-    const grandPrixSelected = yearSelected.events.find((gp) => gp.EventName === event.grandPrix);
+    const grandPrixSelected = yearSelected.events.find(
+      (gp) => gp.EventName === event.grandPrix.name
+    );
     if (grandPrixSelected) sessionOptions = getSessionOptions(grandPrixSelected);
   }
 
@@ -42,7 +49,7 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
               <Compobox
                 options={seasonOptions}
                 placeholder="Enter year"
-                handleChange={(option) => dispatch(setSeason(parseInt(option)))}
+                handleChange={(option) => dispatch(setSeason(parseInt(option.label)))}
                 value={event.year === -1 ? "" : event.year.toString()}
                 error={false}
               />
@@ -50,21 +57,24 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
                 options={grandPrixOptions}
                 placeholder="Enter Grand Prix"
                 handleChange={(option) => dispatch(setGrandPrix(option))}
-                value={event.grandPrix}
+                value={event.grandPrix.name}
                 error={false}
               />
               <Compobox
                 options={sessionOptions}
                 placeholder="Enter session"
                 handleChange={(session) => dispatch(setSession(session))}
-                value={event.session}
+                value={event.session.name}
                 error={false}
               />
 
               <button
                 type="button"
                 className="inline-block ml-5 px-6 py-3 bg-blue-600 text-white font-medium text-xs leading-5 rounded hover:bg-blue-700 focus:bg-blue-700 hover:cursor-pointer transition duration-150 ease-in-out disabled:transition-none disabled:hover:bg-blue-600 disabled:opacity-50 disabled:hover:cursor-default"
-                onClick={() => {}}
+                onClick={(e) => {
+                  e.preventDefault();
+                  dispatch(getLapsFromApi(event.year, event.grandPrix.id, event.session.id));
+                }}
                 disabled={!event.readyToSubmit}
               >
                 Apply
@@ -79,23 +89,14 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
                     role="list"
                     className="text-sm font-medium text-gray-900 space-y-4 pb-6 border-b border-gray-200"
                   >
-                    <h1 className="text-lg font-bold">Data filter</h1>
-                    <li role="listitem" className="flex items-center">
-                      Data types will appear here after you select a session.
-                    </li>
-
-                    <DataFilter options={[]} />
-                  </ul>
-                </form>
-                <form className="hidden lg:block pt-6">
-                  <ul
-                    role="list"
-                    className="text-sm font-medium text-gray-900 space-y-4 pb-6 border-b border-gray-200"
-                  >
                     <h1 className="text-lg font-bold">Drivers</h1>
-                    <li role="listitem" className="flex items-center">
-                      Drivers will appear here after you select a session.
-                    </li>
+                    {eventData.drivers.length === 0 ? (
+                      <li role="listitem" className="flex items-center">
+                        Drivers will appear here after you select a session.
+                      </li>
+                    ) : (
+                      <AddDriverTelemetry driverList={eventData.drivers} />
+                    )}
 
                     <DataFilter options={[]} />
                   </ul>

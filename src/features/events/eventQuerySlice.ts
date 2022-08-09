@@ -1,17 +1,30 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppState } from "../../app/store";
+import { ComboboxOption } from "../../components/Combobox/Combobox";
 
 interface EventQueryState {
   year: number;
-  grandPrix: string;
-  session: string;
+  grandPrix: {
+    id: number;
+    name: string;
+  };
+  session: {
+    id: number;
+    name: string;
+  };
   readyToSubmit: boolean;
 }
 
 const initialState: EventQueryState = {
   year: -1,
-  grandPrix: "",
-  session: "",
+  grandPrix: {
+    id: -1,
+    name: "",
+  },
+  session: {
+    id: -1,
+    name: "",
+  },
   readyToSubmit: false,
 };
 
@@ -21,17 +34,17 @@ export const eventQuerySlice = createSlice({
   reducers: {
     setSeason: (state, action: PayloadAction<number>) => {
       state.year = action.payload;
-      if (state.grandPrix != "") state.grandPrix = "";
-      if (state.session != "") state.session = "";
+      if (state.grandPrix.id != -1) state.grandPrix = { id: -1, name: "" };
+      if (state.session.id != -1) state.session = { id: -1, name: "" };
       if (state.readyToSubmit) state.readyToSubmit = false;
     },
-    setGrandPrix: (state, action: PayloadAction<string>) => {
-      state.grandPrix = action.payload;
-      if (state.session != "") state.session = "";
+    setGrandPrix: (state, action: PayloadAction<ComboboxOption>) => {
+      state.grandPrix = { id: action.payload.id, name: action.payload.label };
+      if (state.session.id != -1) state.session = { id: -1, name: "" };
       if (state.readyToSubmit) state.readyToSubmit = false;
     },
-    setSession: (state, action: PayloadAction<string>) => {
-      state.session = action.payload;
+    setSession: (state, action: PayloadAction<ComboboxOption>) => {
+      state.session = { id: action.payload.id, name: action.payload.label };
       state.readyToSubmit = true;
     },
   },
