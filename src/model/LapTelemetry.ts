@@ -1,4 +1,4 @@
-export interface LapTelemtry {
+export interface LapData {
   Date: Date;
   RPM: number;
   Speed: number;
@@ -9,4 +9,5 @@ export interface LapTelemtry {
   Source: string;
   Time: number;
   SessionTime: Date;
+  Distance: number;
 }

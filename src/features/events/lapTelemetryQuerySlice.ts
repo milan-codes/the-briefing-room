@@ -1,7 +1,7 @@
 import { AnyAction, createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
 import { AppState } from "../../app/store";
 import { Lap } from "../../model/Lap";
-import { LapTelemtry } from "../../model/LapTelemetry";
+import { LapData } from "../../model/LapTelemetry";
 
 interface DriverTelemetry {
   driver: string;

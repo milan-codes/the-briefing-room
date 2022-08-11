@@ -15,6 +15,9 @@ import { getLapsFromApi, selectSessionData } from "../features/events/eventTelem
 import { Divide } from "tabler-icons-react";
 import MyListbox from "../components/Listbox/Listbox";
 import AddDriverTelemetry from "../components/Listbox/AddDriverTelemetry";
+import { selectLapTelemetry } from "../features/events/lapTelemetrySlice";
+import { CartesianGrid, Label, Line, LineChart, XAxis, YAxis } from "recharts";
+import _ from "lodash";
 
 interface TelemetryProps {
   seasons: Season[];
@@ -23,6 +26,7 @@ interface TelemetryProps {
 const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
   const event = useAppSelector(selectEventQuery);
   const eventData = useAppSelector(selectSessionData);
+  const lapTelemetry = useAppSelector(selectLapTelemetry);
   const dispatch = useAppDispatch();
 
   const seasonOptions = getSeasonOptions(seasons);
@@ -37,6 +41,39 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
     );
     if (grandPrixSelected) sessionOptions = getSessionOptions(grandPrixSelected);
   }
+
+  const lt = lapTelemetry.telemetries.map((telemetry) =>
+    telemetry.data.map((data) => {
+      return {
+        driverId: telemetry.driver.toString(),
+        speed: data.Speed,
+        distance: data.Distance.toFixed(0),
+      };
+    })
+  );
+  const grouped = _.groupBy(lt.flat(), "distance");
+  console.log(grouped);
+
+  const ltMerged: any = [];
+  for (const [key, value] of Object.entries(grouped)) {
+    // loop over each group, key is the Time of the group, value is an array of rows for that Time
+    const row = { distance: key } as any;
+    for (const item of value) {
+      row[item.driverId] = item.speed;
+    }
+    ltMerged.push(row);
+  }
+
+  ltMerged.sort((a: any, b: any) => a.distance - b.distance);
+  let CIRCUIT_LENGTH = 0;
+  let CIRCUIT_TICKS: number[] = [];
+  if (ltMerged.length > 0) {
+    CIRCUIT_LENGTH = parseInt(ltMerged[ltMerged.length - 1].distance);
+    CIRCUIT_TICKS = _.range(0, CIRCUIT_LENGTH, CIRCUIT_LENGTH / 10).map((tick) =>
+      parseInt(tick.toFixed(0))
+    );
+  }
+  console.log(ltMerged);
 
   return (
     <div className="bg-white">
@@ -105,7 +142,44 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
               <div className="lg:col-span-3 pt-6">
                 <div className="border-[1px] border-solid border-gray-200 rounded-lg h-96 lg:h-full">
                   <div className="grid place-items-center h-full">
-                    Telemetry data will appear here.
+                    {lapTelemetry.telemetries.length === 0 ? (
+                      "Telemetry data will appear here."
+                    ) : (
+                      <div className="p-10">
+                        <LineChart
+                          width={800}
+                          height={400}
+                          data={ltMerged}
+                          margin={{ top: 10, right: 0, left: 0, bottom: 10 }}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis
+                            type="number"
+                            dataKey="distance"
+                            domain={[0, CIRCUIT_LENGTH]}
+                            ticks={CIRCUIT_TICKS}
+                          >
+                            <Label value="Distance (m)" offset={-10} position="insideBottom" />
+                          </XAxis>
+                          <YAxis>
+                            <Label
+                              angle={-90}
+                              value="Speed (km/h)"
+                              position="insideLeft"
+                              style={{ textAnchor: "middle" }}
+                            />
+                          </YAxis>
+                          {lapTelemetry.telemetries.map((telemetry) => (
+                            <Line
+                              connectNulls={true}
+                              dataKey={telemetry.driver}
+                              stroke={`#${getRanHex(6)}`}
+                              dot={false}
+                            />
+                          ))}
+                        </LineChart>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -115,6 +189,16 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
       </div>
     </div>
   );
+};
+
+const getRanHex = (size: number) => {
+  let result = [];
+  let hexRef = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
+
+  for (let n = 0; n < size; n++) {
+    result.push(hexRef[Math.floor(Math.random() * 16)]);
+  }
+  return result.join("");
 };
 
 const getSeasonOptions = (seasons: Season[]): ComboboxOption[] => {
