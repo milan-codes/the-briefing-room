@@ -16,8 +16,8 @@ import { Divide } from "tabler-icons-react";
 import MyListbox from "../components/Listbox/Listbox";
 import AddDriverTelemetry from "../components/Listbox/AddDriverTelemetry";
 import { selectLapTelemetry } from "../features/events/lapTelemetrySlice";
-import { CartesianGrid, Label, Line, LineChart, XAxis, YAxis } from "recharts";
-import _ from "lodash";
+import { CartesianGrid, Label, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
+import _, { result } from "lodash";
 
 interface TelemetryProps {
   seasons: Season[];
@@ -127,12 +127,19 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
                     className="text-sm font-medium text-gray-900 space-y-4 pb-6 border-b border-gray-200"
                   >
                     <h1 className="text-lg font-bold">Drivers</h1>
-                    {eventData.drivers.length === 0 ? (
+                    {eventData.results.length === 0 ? (
                       <li role="listitem" className="flex items-center">
                         Drivers will appear here after you select a session.
                       </li>
                     ) : (
-                      <AddDriverTelemetry driverList={eventData.drivers} laps={eventData.laps} />
+                      <AddDriverTelemetry
+                        driverList={eventData.results.map((driverData) => ({
+                          number: driverData.DriverNumber.toString(),
+                          name: driverData.FullName,
+                          abbreviation: driverData.Abbreviation,
+                        }))}
+                        laps={eventData.laps}
+                      />
                     )}
 
                     <DataFilter options={[]} />
@@ -169,11 +176,17 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
                               style={{ textAnchor: "middle" }}
                             />
                           </YAxis>
+                          <Tooltip />
+                          <Legend verticalAlign="top" height={36} />
                           {lapTelemetry.telemetries.map((telemetry) => (
                             <Line
                               connectNulls={true}
                               dataKey={telemetry.driver}
-                              stroke={`#${getRanHex(6)}`}
+                              stroke={`#${
+                                eventData.results.find(
+                                  (result) => result.Abbreviation === telemetry.driver
+                                )!.TeamColor
+                              }`}
                               dot={false}
                             />
                           ))}
@@ -189,16 +202,6 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
       </div>
     </div>
   );
-};
-
-const getRanHex = (size: number) => {
-  let result = [];
-  let hexRef = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
-
-  for (let n = 0; n < size; n++) {
-    result.push(hexRef[Math.floor(Math.random() * 16)]);
-  }
-  return result.join("");
 };
 
 const getSeasonOptions = (seasons: Season[]): ComboboxOption[] => {

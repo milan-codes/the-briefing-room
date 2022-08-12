@@ -1,15 +1,16 @@
 import { AnyAction, createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
 import { AppState } from "../../app/store";
 import { Lap } from "../../model/Lap";
+import { SessionResult } from "../../model/SessionResult";
 
 interface EventTelemetry {
-  drivers: string[];
   laps: Lap[];
+  results: SessionResult[];
 }
 
 const initialState: EventTelemetry = {
-  drivers: [],
   laps: [],
+  results: [],
 };
 
 export const eventTelemetrySlice = createSlice({
@@ -17,8 +18,8 @@ export const eventTelemetrySlice = createSlice({
   initialState,
   reducers: {
     setLaps: (state, action: PayloadAction<EventTelemetry>) => {
-      state.drivers = action.payload.drivers;
       state.laps = action.payload.laps;
+      state.results = action.payload.results;
     },
   },
 });

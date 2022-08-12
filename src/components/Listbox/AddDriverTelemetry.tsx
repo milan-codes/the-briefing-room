@@ -11,7 +11,11 @@ import { Lap } from "../../model/Lap";
 import MyListbox from "./Listbox";
 
 interface AddDriverTelemetryProps {
-  driverList: string[];
+  driverList: {
+    number: string;
+    name: string;
+    abbreviation: string;
+  }[];
   laps: Lap[];
 }
 
@@ -25,20 +29,27 @@ const AddDriverTelemetry: React.FC<AddDriverTelemetryProps> = ({ driverList, lap
       <div className="relative z-50">
         <MyListbox
           options={driverList.map((driver) => ({
-            id: parseInt(driver),
-            label: `Car ${driver}`,
+            id: parseInt(driver.number),
+            label: driver.name,
           }))}
           placeholder="Select a driver"
-          handleChange={(option) => dispatch(setDriver(extractInteger(option)))}
+          handleChange={(option) => {
+            const driverData = driverList.find((driver) => driver.name === option)!;
+            dispatch(setDriver(driverData));
+          }}
         />
       </div>
       <div className="relative z-10">
         <MyListbox
           options={
-            lapTelemetryQuery.driver === ""
+            lapTelemetryQuery.driver.name === ""
               ? []
               : laps
-                  .filter((lap) => lap.DriverNumber === lapTelemetryQuery.driver)
+                  .filter(
+                    (lap) =>
+                      lap.DriverNumber === lapTelemetryQuery.driver.number &&
+                      lap.IsAccurate === true
+                  )
                   .map((lap) => ({
                     id: lap.LapNumber,
                     label: `Lap: ${lap.LapNumber} (${determineLapType(lap)})`,
@@ -59,7 +70,7 @@ const AddDriverTelemetry: React.FC<AddDriverTelemetryProps> = ({ driverList, lap
               eventQuery.year,
               eventQuery.grandPrix.id,
               eventQuery.session.id,
-              lapTelemetryQuery.driver,
+              lapTelemetryQuery.driver.abbreviation,
               lapTelemetryQuery.lap
             )
           );

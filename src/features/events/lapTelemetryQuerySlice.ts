@@ -3,13 +3,23 @@ import { AppState } from "../../app/store";
 import { Lap } from "../../model/Lap";
 import { LapData } from "../../model/LapTelemetry";
 
+export interface DriverQuery {
+  number: string;
+  name: string;
+  abbreviation: string;
+}
+
 interface DriverTelemetry {
-  driver: string;
+  driver: DriverQuery;
   lap: string;
 }
 
 const initialState: DriverTelemetry = {
-  driver: "",
+  driver: {
+    number: "",
+    name: "",
+    abbreviation: "",
+  },
   lap: "",
 };
 
@@ -17,7 +27,7 @@ export const lapTelemetryQuerySlice = createSlice({
   name: "laps",
   initialState,
   reducers: {
-    setDriver: (state, action: PayloadAction<string>) => {
+    setDriver: (state, action: PayloadAction<DriverQuery>) => {
       state.driver = action.payload;
     },
     setLap: (state, action: PayloadAction<string>) => {
