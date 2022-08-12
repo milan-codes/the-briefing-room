@@ -2,11 +2,16 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectEventQuery } from "../../features/events/eventQuerySlice";
 import lapTelemetryQuerySlice, {
+  emptyQuery,
   selectLapTelemetryQuery,
   setDriver,
   setLap,
 } from "../../features/events/lapTelemetryQuerySlice";
-import { getLapTelemetryFromApi } from "../../features/events/lapTelemetrySlice";
+import {
+  getLapTelemetryFromApi,
+  removeLapTelemetry,
+  selectLapTelemetry,
+} from "../../features/events/lapTelemetrySlice";
 import { Lap } from "../../model/Lap";
 import MyListbox from "./Listbox";
 
@@ -22,6 +27,7 @@ interface AddDriverTelemetryProps {
 const AddDriverTelemetry: React.FC<AddDriverTelemetryProps> = ({ driverList, laps }) => {
   const eventQuery = useAppSelector(selectEventQuery);
   const lapTelemetryQuery = useAppSelector(selectLapTelemetryQuery);
+  const lapTelemetry = useAppSelector(selectLapTelemetry);
   const dispatch = useAppDispatch();
 
   return (
@@ -37,6 +43,7 @@ const AddDriverTelemetry: React.FC<AddDriverTelemetryProps> = ({ driverList, lap
             const driverData = driverList.find((driver) => driver.name === option)!;
             dispatch(setDriver(driverData));
           }}
+          value={lapTelemetryQuery.driver.name}
         />
       </div>
       <div className="relative z-10">
@@ -56,7 +63,8 @@ const AddDriverTelemetry: React.FC<AddDriverTelemetryProps> = ({ driverList, lap
                   }))
           }
           placeholder="Select a lap to analyize"
-          handleChange={(option) => dispatch(setLap(extractInteger(option).toString()))}
+          handleChange={(option) => dispatch(setLap(extractInteger(option)))}
+          value={lapTelemetryQuery.lap}
         />
       </div>
 
@@ -74,10 +82,40 @@ const AddDriverTelemetry: React.FC<AddDriverTelemetryProps> = ({ driverList, lap
               lapTelemetryQuery.lap
             )
           );
+          dispatch(emptyQuery());
         }}
       >
-        Get Telemetry
+        Add telemetry
       </button>
+
+      {lapTelemetry.telemetries.length === 0 ? (
+        ""
+      ) : (
+        <div className="py-4">
+          <h1 className="text-md font-bold">Drivers added</h1>
+          <ul className="py-2">
+            {lapTelemetry.telemetries.map((telemetry) => (
+              <li className="py-1 flex">
+                <div className="flex-1 w-5/6">
+                  {telemetry.driver} (Lap {telemetry.lap})
+                </div>
+                <div className="flex-1 w-1/6 text-right pr-3">
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      dispatch(
+                        removeLapTelemetry({ driver: telemetry.driver, lap: telemetry.lap })
+                      );
+                    }}
+                  >
+                    x
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

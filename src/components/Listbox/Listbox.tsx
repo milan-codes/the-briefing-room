@@ -6,25 +6,25 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 interface ListboxProps {
   options: ComboboxOption[];
+  value: string;
   placeholder: string;
   handleChange: (newSelection: string) => void;
 }
 
 const MyListbox: React.FC<ListboxProps> = (props) => {
-  const [selected, setSelected] = useState(props.placeholder);
-
   return (
     <div className="my-2">
       <Listbox
-        value={selected}
+        value={props.value}
         onChange={(newState) => {
-          setSelected(newState);
           props.handleChange(newState);
         }}
       >
         <div className="relative mt-1">
           <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-1 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-            <span className="block truncate">{selected}</span>
+            <span className="block truncate">
+              {props.value === "" ? props.placeholder : props.value}
+            </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
               <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
             </span>

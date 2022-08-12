@@ -29,13 +29,22 @@ export const lapTelemetryQuerySlice = createSlice({
   reducers: {
     setDriver: (state, action: PayloadAction<DriverQuery>) => {
       state.driver = action.payload;
+      if (state.lap !== "") state.lap = "";
     },
     setLap: (state, action: PayloadAction<string>) => {
       state.lap = action.payload;
     },
+    emptyQuery: (state) => {
+      state.driver = {
+        number: "",
+        name: "",
+        abbreviation: "",
+      };
+      state.lap = "";
+    },
   },
 });
 
-export const { setDriver, setLap } = lapTelemetryQuerySlice.actions;
+export const { setDriver, setLap, emptyQuery } = lapTelemetryQuerySlice.actions;
 export const selectLapTelemetryQuery = (state: AppState) => state.lapTelemetryQuery;
 export default lapTelemetryQuerySlice.reducer;
