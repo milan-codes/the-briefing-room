@@ -18,6 +18,8 @@ import AddDriverTelemetry from "../components/Listbox/AddDriverTelemetry";
 import { selectLapTelemetry } from "../features/events/lapTelemetrySlice";
 import { CartesianGrid, Label, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 import _, { result } from "lodash";
+import { getQualiFilter, getQualiUnits } from "../utils/qualifyingDataFilters";
+import { selectDataFilter, setActiveDataFilter } from "../features/events/dataFilterSlice";
 
 interface TelemetryProps {
   seasons: Season[];
@@ -27,6 +29,7 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
   const event = useAppSelector(selectEventQuery);
   const eventData = useAppSelector(selectSessionData);
   const lapTelemetry = useAppSelector(selectLapTelemetry);
+  const dataFilter = useAppSelector(selectDataFilter);
   const dispatch = useAppDispatch();
 
   const seasonOptions = getSeasonOptions(seasons);
@@ -42,11 +45,12 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
     if (grandPrixSelected) sessionOptions = getSessionOptions(grandPrixSelected);
   }
 
+  const df = getQualiFilter().find((filter) => filter.label === dataFilter.activeFilter)?.property;
   const lt = lapTelemetry.telemetries.map((telemetry) =>
     telemetry.data.map((data) => {
       return {
         driverId: telemetry.driver.toString(),
-        speed: data.Speed,
+        activeDataFilter: data[df as keyof typeof data],
         distance: data.Distance.toFixed(0),
       };
     })
@@ -59,7 +63,7 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
     // loop over each group, key is the Time of the group, value is an array of rows for that Time
     const row = { distance: key } as any;
     for (const item of value) {
-      row[item.driverId] = item.speed;
+      row[item.driverId] = item.activeDataFilter;
     }
     ltMerged.push(row);
   }
@@ -78,8 +82,8 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
   return (
     <div className="bg-white">
       <div>
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative z-10 flex items-baseline justify-between pt-24 pb-6 border-b border-gray-200">
+        <main className="px-4 sm:px-6 lg:px-8">
+          <div className="relative z-10 flex items-baseline justify-between py-6 border-b border-gray-200">
             <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">Telemetry</h1>
 
             <div className="flex items-center">
@@ -119,8 +123,8 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
             </div>
           </div>
           <section>
-            <div className="h-auto grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
-              <div>
+            <div className="h-auto grid grid-cols-6 gap-x-8 gap-y-10">
+              <div className="col-span-1">
                 <form className="hidden lg:block pt-6">
                   <ul
                     role="list"
@@ -142,11 +146,14 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
                       />
                     )}
 
-                    <DataFilter options={[]} />
+                    <div>
+                      <h1 className="text-lg font-bold pt-1 pb-4">Data filters</h1>
+                      <DataFilter options={getQualiFilter()} />
+                    </div>
                   </ul>
                 </form>
               </div>
-              <div className="lg:col-span-3 pt-6">
+              <div className="col-span-5 pt-6">
                 <div className="border-[1px] border-solid border-gray-200 rounded-lg h-96 lg:h-full">
                   <div className="grid place-items-center h-full">
                     {lapTelemetry.telemetries.length === 0 ? (
@@ -154,10 +161,10 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
                     ) : (
                       <div className="p-10">
                         <LineChart
-                          width={800}
-                          height={400}
+                          width={1400}
+                          height={600}
                           data={ltMerged}
-                          margin={{ top: 10, right: 0, left: 0, bottom: 10 }}
+                          margin={{ top: 10, right: 5, left: 5, bottom: 10 }}
                         >
                           <CartesianGrid strokeDasharray="3 3" />
                           <XAxis
@@ -171,7 +178,9 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
                           <YAxis>
                             <Label
                               angle={-90}
-                              value="Speed (km/h)"
+                              value={`${dataFilter.activeFilter} ${getQualiUnits(
+                                dataFilter.activeFilter
+                              ).replace(" ", "")}`}
                               position="insideLeft"
                               style={{ textAnchor: "middle" }}
                             />
@@ -188,6 +197,10 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
                                 )!.TeamColor
                               }`}
                               dot={false}
+                              unit={`${getQualiUnits(dataFilter.activeFilter).replace(
+                                /[()]/g,
+                                ""
+                              )}`}
                             />
                           ))}
                         </LineChart>

@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/solid";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { selectDataFilter, setActiveDataFilter } from "../../features/events/dataFilterSlice";
 
 export interface DataFilterOption {
   id: number;
   label: string;
+  property: string;
 }
 
 export interface DataFilterProps {
@@ -12,13 +15,17 @@ export interface DataFilterProps {
 }
 
 const DataFilter: React.FC<DataFilterProps> = (props: DataFilterProps) => {
-  const [selected, setSelected] = useState(props.options[0]);
+  const dataFilter = useAppSelector(selectDataFilter);
+  const dispatch = useAppDispatch();
 
   return (
-    <div className="w-full py-2">
+    <div className="w-full pt-5 border-t-[1px] border-solid border-gray-200">
       <div className="mx-auto w-full max-w-md">
-        <RadioGroup value={selected} onChange={setSelected}>
-          <div className="space-y-2">
+        <RadioGroup
+          value={dataFilter.activeFilter}
+          onChange={(newState: string) => dispatch(setActiveDataFilter(newState))}
+        >
+          <div className="space-y-2.5">
             {props.options.map(({ id, label }) => (
               <RadioGroup.Option
                 key={id}
@@ -29,7 +36,7 @@ const DataFilter: React.FC<DataFilterProps> = (props: DataFilterProps) => {
                       ? "transition duration-300 bg-sky-900 bg-opacity-75 text-white"
                       : "bg-gray-50"
                   }
-                    relative flex cursor-pointer rounded-lg px-3 py-2`
+                    relative flex cursor-pointer rounded-lg px-3 py-4`
                 }
               >
                 {({ active, checked }) => (
