@@ -2,6 +2,7 @@ import { AnyAction, createSlice, PayloadAction, ThunkAction } from "@reduxjs/too
 import { AppState } from "../../app/store";
 import { Lap } from "../../model/Lap";
 import { LapData } from "../../model/LapTelemetry";
+import { emptyQuery, toggleLoading } from "./lapTelemetryQuerySlice";
 
 interface LapTelemetry {
   driver: string;
@@ -52,10 +53,13 @@ export const getLapTelemetryFromApi =
   ): ThunkAction<void, AppState, unknown, AnyAction> =>
   async (dispatch) => {
     console.log(`Loading telemetry for car ${driver} on lap ${lap}...`);
+    dispatch(toggleLoading());
     const res = await fetch(
       `http://127.0.0.1:5000/lap?year=${year}&round=${round}&session=${session}&driver=${driver}&lap=${lap}`
     );
+    dispatch(toggleLoading());
     console.log(`Loading telemetry for car ${driver} on lap ${lap}...done`);
+    dispatch(emptyQuery());
     const lapTelemetry = (await res.json()) as LapData[];
     dispatch(
       addLapTelemetry({

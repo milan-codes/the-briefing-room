@@ -12,6 +12,8 @@ export interface DriverQuery {
 interface DriverTelemetry {
   driver: DriverQuery;
   lap: string;
+  readyToSubmit: boolean;
+  isLoading: boolean;
 }
 
 const initialState: DriverTelemetry = {
@@ -21,6 +23,8 @@ const initialState: DriverTelemetry = {
     abbreviation: "",
   },
   lap: "",
+  readyToSubmit: false,
+  isLoading: false,
 };
 
 export const lapTelemetryQuerySlice = createSlice({
@@ -30,9 +34,11 @@ export const lapTelemetryQuerySlice = createSlice({
     setDriver: (state, action: PayloadAction<DriverQuery>) => {
       state.driver = action.payload;
       if (state.lap !== "") state.lap = "";
+      state.readyToSubmit = false;
     },
     setLap: (state, action: PayloadAction<string>) => {
       state.lap = action.payload;
+      state.readyToSubmit = true;
     },
     emptyQuery: (state) => {
       state.driver = {
@@ -41,10 +47,14 @@ export const lapTelemetryQuerySlice = createSlice({
         abbreviation: "",
       };
       state.lap = "";
+      state.readyToSubmit = false;
+    },
+    toggleLoading: (state) => {
+      state.isLoading = !state.isLoading;
     },
   },
 });
 
-export const { setDriver, setLap, emptyQuery } = lapTelemetryQuerySlice.actions;
+export const { setDriver, setLap, emptyQuery, toggleLoading } = lapTelemetryQuerySlice.actions;
 export const selectLapTelemetryQuery = (state: AppState) => state.lapTelemetryQuery;
 export default lapTelemetryQuerySlice.reducer;

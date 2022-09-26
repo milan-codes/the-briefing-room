@@ -1,4 +1,5 @@
 import React from "react";
+import { Loader2 } from "tabler-icons-react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectEventQuery } from "../../features/events/eventQuerySlice";
 import lapTelemetryQuerySlice, {
@@ -82,10 +83,19 @@ const AddDriverTelemetry: React.FC<AddDriverTelemetryProps> = ({ driverList, lap
               lapTelemetryQuery.lap
             )
           );
-          dispatch(emptyQuery());
         }}
+        disabled={!lapTelemetryQuery.readyToSubmit}
       >
-        Add telemetry
+        {lapTelemetryQuery.isLoading ? (
+          <div className="flex justify-center">
+            <div className="animate-spin">
+              <Loader2 className="h-5 w-5" />
+            </div>
+            <div className="ml-1">Loading telemetry</div>
+          </div>
+        ) : (
+          "Add telemetry"
+        )}
       </button>
 
       {lapTelemetry.telemetries.length === 0 ? (
