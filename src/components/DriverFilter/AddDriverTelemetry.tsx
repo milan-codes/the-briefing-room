@@ -2,8 +2,7 @@ import React from "react";
 import { Loader2 } from "tabler-icons-react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectEventQuery } from "../../features/events/eventQuerySlice";
-import lapTelemetryQuerySlice, {
-  emptyQuery,
+import {
   selectLapTelemetryQuery,
   setDriver,
   setLap,
@@ -14,7 +13,7 @@ import {
   selectLapTelemetry,
 } from "../../features/events/lapTelemetrySlice";
 import { Lap } from "../../model/Lap";
-import MyListbox from "./Listbox";
+import MyListbox from "../Listbox/Listbox";
 
 interface AddDriverTelemetryProps {
   driverList: {
