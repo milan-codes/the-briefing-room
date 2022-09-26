@@ -13,6 +13,7 @@ interface EventQueryState {
     name: string;
   };
   readyToSubmit: boolean;
+  isLoading: boolean;
 }
 
 const initialState: EventQueryState = {
@@ -26,6 +27,7 @@ const initialState: EventQueryState = {
     name: "",
   },
   readyToSubmit: false,
+  isLoading: false,
 };
 
 export const eventQuerySlice = createSlice({
@@ -47,9 +49,12 @@ export const eventQuerySlice = createSlice({
       state.session = { id: action.payload.id, name: action.payload.label };
       state.readyToSubmit = true;
     },
+    toggleLoading: (state) => {
+      state.isLoading = !state.isLoading;
+    },
   },
 });
 
-export const { setSeason, setGrandPrix, setSession } = eventQuerySlice.actions;
+export const { setSeason, setGrandPrix, setSession, toggleLoading } = eventQuerySlice.actions;
 export const selectEventQuery = (state: AppState) => state.eventQuery;
 export default eventQuerySlice.reducer;

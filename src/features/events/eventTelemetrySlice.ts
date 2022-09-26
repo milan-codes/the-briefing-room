@@ -2,6 +2,7 @@ import { AnyAction, createSlice, PayloadAction, ThunkAction } from "@reduxjs/too
 import { AppState } from "../../app/store";
 import { Lap } from "../../model/Lap";
 import { SessionResult } from "../../model/SessionResult";
+import { toggleLoading } from "./eventQuerySlice";
 
 interface EventTelemetry {
   laps: Lap[];
@@ -28,9 +29,11 @@ export const getLapsFromApi =
   (year: number, round: number, session: number): ThunkAction<void, AppState, unknown, AnyAction> =>
   async (dispatch) => {
     console.log("Loading event...");
+    dispatch(toggleLoading());
     const res = await fetch(
       `http://127.0.0.1:5000/session?year=${year}&round=${round}&session=${session}`
     );
+    dispatch(toggleLoading());
     console.log("Loading event...done");
     const laps = (await res.json()) as EventTelemetry;
     dispatch(setLaps(laps));

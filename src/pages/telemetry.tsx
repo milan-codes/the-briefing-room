@@ -12,14 +12,23 @@ import {
 } from "../features/events/eventQuerySlice";
 import { conventionalEvent, sprintEvent } from "../utils/eventFormats";
 import { getLapsFromApi, selectSessionData } from "../features/events/eventTelemetrySlice";
-import { Divide } from "tabler-icons-react";
-import MyListbox from "../components/Listbox/Listbox";
 import AddDriverTelemetry from "../components/Listbox/AddDriverTelemetry";
 import { selectLapTelemetry } from "../features/events/lapTelemetrySlice";
-import { CartesianGrid, Label, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
-import _, { result } from "lodash";
+import {
+  CartesianGrid,
+  Label,
+  Legend,
+  Line,
+  LineChart,
+  Tooltip,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+} from "recharts";
+import _ from "lodash";
 import { getQualiFilter, getQualiUnits } from "../utils/qualifyingDataFilters";
 import { selectDataFilter, setActiveDataFilter } from "../features/events/dataFilterSlice";
+import { Loader2 } from "tabler-icons-react";
 
 interface TelemetryProps {
   seasons: Season[];
@@ -118,7 +127,16 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
                 }}
                 disabled={!event.readyToSubmit}
               >
-                Apply
+                {event.isLoading ? (
+                  <div className="flex">
+                    <div className="animate-spin">
+                      <Loader2 className="h-5 w-5" />
+                    </div>
+                    <div className="ml-1">Loading event</div>
+                  </div>
+                ) : (
+                  "Apply"
+                )}
               </button>
             </div>
           </div>
@@ -159,51 +177,51 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
                     {lapTelemetry.telemetries.length === 0 ? (
                       "Telemetry data will appear here."
                     ) : (
-                      <div className="p-10">
-                        <LineChart
-                          width={1400}
-                          height={600}
-                          data={ltMerged}
-                          margin={{ top: 10, right: 5, left: 5, bottom: 10 }}
-                        >
-                          <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis
-                            type="number"
-                            dataKey="distance"
-                            domain={[0, CIRCUIT_LENGTH]}
-                            ticks={CIRCUIT_TICKS}
+                      <div className="w-11/12">
+                        <ResponsiveContainer height={500} width={"100%"}>
+                          <LineChart
+                            data={ltMerged}
+                            margin={{ top: 10, right: 5, left: 5, bottom: 10 }}
                           >
-                            <Label value="Distance (m)" offset={-10} position="insideBottom" />
-                          </XAxis>
-                          <YAxis>
-                            <Label
-                              angle={-90}
-                              value={`${dataFilter.activeFilter} ${getQualiUnits(
-                                dataFilter.activeFilter
-                              ).replace(" ", "")}`}
-                              position="insideLeft"
-                              style={{ textAnchor: "middle" }}
-                            />
-                          </YAxis>
-                          <Tooltip />
-                          <Legend verticalAlign="top" height={36} />
-                          {lapTelemetry.telemetries.map((telemetry) => (
-                            <Line
-                              connectNulls={true}
-                              dataKey={telemetry.driver}
-                              stroke={`#${
-                                eventData.results.find(
-                                  (result) => result.Abbreviation === telemetry.driver
-                                )!.TeamColor
-                              }`}
-                              dot={false}
-                              unit={`${getQualiUnits(dataFilter.activeFilter).replace(
-                                /[()]/g,
-                                ""
-                              )}`}
-                            />
-                          ))}
-                        </LineChart>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis
+                              type="number"
+                              dataKey="distance"
+                              domain={[0, CIRCUIT_LENGTH]}
+                              ticks={CIRCUIT_TICKS}
+                            >
+                              <Label value="Distance (m)" offset={-10} position="insideBottom" />
+                            </XAxis>
+                            <YAxis>
+                              <Label
+                                angle={-90}
+                                value={`${dataFilter.activeFilter} ${getQualiUnits(
+                                  dataFilter.activeFilter
+                                ).replace(" ", "")}`}
+                                position="insideLeft"
+                                style={{ textAnchor: "middle" }}
+                              />
+                            </YAxis>
+                            <Tooltip />
+                            <Legend verticalAlign="top" height={36} />
+                            {lapTelemetry.telemetries.map((telemetry) => (
+                              <Line
+                                connectNulls={true}
+                                dataKey={telemetry.driver}
+                                stroke={`#${
+                                  eventData.results.find(
+                                    (result) => result.Abbreviation === telemetry.driver
+                                  )!.TeamColor
+                                }`}
+                                dot={false}
+                                unit={`${getQualiUnits(dataFilter.activeFilter).replace(
+                                  /[()]/g,
+                                  ""
+                                )}`}
+                              />
+                            ))}
+                          </LineChart>
+                        </ResponsiveContainer>
                       </div>
                     )}
                   </div>
