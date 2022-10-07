@@ -5,8 +5,6 @@ import Features from "../components/Features";
 import { CogIcon, DatabaseIcon, UserIcon } from "@heroicons/react/outline";
 import Faq from "../components/Faq";
 import Footer from "../components/Footer";
-import { CSSProperties } from "react";
-import { ClipLoader } from "react-spinners";
 import { useAppSelector } from "../app/hooks";
 import { selectEventQuery } from "../features/events/eventQuerySlice";
 

@@ -26,10 +26,10 @@ const DataFilter: React.FC<DataFilterProps> = (props: DataFilterProps) => {
           onChange={(newState: string) => dispatch(setActiveDataFilter(newState))}
         >
           <div className="space-y-2.5">
-            {props.options.map(({ id, label }) => (
+            {props.options.map(({ id, label, property }) => (
               <RadioGroup.Option
                 key={id}
-                value={label}
+                value={property}
                 className={({ checked }) =>
                   `${
                     checked

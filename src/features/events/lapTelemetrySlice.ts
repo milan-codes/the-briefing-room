@@ -10,7 +10,7 @@ interface LapTelemetry {
   data: LapData[];
 }
 
-interface LapTelemetries {
+export interface LapTelemetries {
   telemetries: LapTelemetry[];
 }
 
