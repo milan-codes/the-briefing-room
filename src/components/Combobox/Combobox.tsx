@@ -17,7 +17,7 @@ export interface ComboboxProps {
 
 const MyCombobox: React.FC<ComboboxProps> = (props) => {
   const [query, setQuery] = useState("");
-  const inputStyle = "relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left";
+  const inputStyle = "relative w-full cursor-default overflow-hidden rounded-lg text-left";
 
   const filteredOptions =
     query === ""
@@ -45,7 +45,7 @@ const MyCombobox: React.FC<ComboboxProps> = (props) => {
             }
           >
             <Combobox.Input
-              className="w-full py-2 pl-3 pr-4 text-sm leading-5 text-gray-900 "
+              className="w-full py-2 pl-3 pr-4 text-sm leading-5 text-gray-900 bg-[#FCFCFF]"
               placeholder={props.placeholder}
               onChange={(event) => setQuery(event.target.value)}
             />
@@ -60,7 +60,7 @@ const MyCombobox: React.FC<ComboboxProps> = (props) => {
             leaveTo="opacity-0"
             afterLeave={() => setQuery("")}
           >
-            <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-[#FCFCFF] text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {filteredOptions.length === 0 && query !== "" ? (
                 <div className="relative cursor-default select-none py-3 px-5 text-gray-700">
                   Nothing found.
@@ -71,7 +71,7 @@ const MyCombobox: React.FC<ComboboxProps> = (props) => {
                     key={id}
                     className={({ active }) =>
                       `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                        active ? "bg-gray-600 text-white font-bold" : "text-gray-900"
+                        active ? "bg-[#3772FF] text-white font-bold" : "text-gray-900"
                       }`
                     }
                     value={label}

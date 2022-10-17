@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/solid";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectDataFilter, setActiveDataFilter } from "../../features/events/dataFilterSlice";
 
@@ -31,11 +29,7 @@ const DataFilter: React.FC<DataFilterProps> = (props: DataFilterProps) => {
                 key={id}
                 value={property}
                 className={({ checked }) =>
-                  `${
-                    checked
-                      ? "transition duration-300 bg-sky-900 bg-opacity-75 text-white"
-                      : "bg-gray-50"
-                  }
+                  `${checked ? "transition duration-300 bg-[#3772FF] text-white" : "bg-gray-50"}
                     relative flex cursor-pointer rounded-lg px-3 py-4`
                 }
               >

@@ -11,7 +11,7 @@ export interface TelemetryProps {
 
 const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
   return (
-    <div className="bg-white">
+    <div className="bg-[#FCFCFF] dark:bg-[#0A0F0D]">
       <main className="px-4 sm:px-6 lg:px-8">
         <div className="relative z-10 flex items-baseline justify-between py-6 border-b border-gray-200">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">Telemetry</h1>

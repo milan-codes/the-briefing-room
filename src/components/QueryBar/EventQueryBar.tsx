@@ -63,7 +63,7 @@ const EventQueryBar: React.FC<TelemetryProps> = ({ seasons }) => {
 
       <button
         type="button"
-        className="inline-block ml-5 px-6 py-3 bg-blue-600 text-white font-medium text-xs leading-5 rounded hover:bg-blue-700 focus:bg-blue-700 hover:cursor-pointer transition duration-150 ease-in-out disabled:transition-none disabled:hover:bg-blue-600 disabled:opacity-50 disabled:hover:cursor-default"
+        className="inline-block ml-5 px-6 py-3 bg-[#3772FF] text-white font-medium text-xs leading-5 rounded hover:bg-blue-700 focus:bg-blue-700 hover:cursor-pointer transition duration-150 ease-in-out disabled:transition-none disabled:hover:bg-blue-600 disabled:opacity-50 disabled:hover:cursor-default"
         onClick={(e) => {
           e.preventDefault();
           dispatch(getLapsFromApi(eventQuery.year, eventQuery.grandPrix.id, eventQuery.session.id));
