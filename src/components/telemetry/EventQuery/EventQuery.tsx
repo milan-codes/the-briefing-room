@@ -1,24 +1,24 @@
 import _ from "lodash";
 import { Loader2 } from "tabler-icons-react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectDataFilter } from "../../features/events/dataFilterSlice";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { selectDataFilter } from "../../../features/events/dataFilterSlice";
 import {
   selectEventQuery,
   setGrandPrix,
   setSeason,
   setSession,
-} from "../../features/events/eventQuerySlice";
-import { getLapsFromApi } from "../../features/events/eventTelemetrySlice";
-import { selectLapTelemetry } from "../../features/events/lapTelemetrySlice";
-import { TelemetryProps } from "../../pages/telemetry";
+} from "../../../features/events/eventQuerySlice";
+import { getLapsFromApi } from "../../../features/events/eventTelemetrySlice";
+import { selectLapTelemetry } from "../../../features/events/lapTelemetrySlice";
+import { TelemetryProps } from "../../../pages/telemetry";
 import {
   getGrandPrixOptions,
   getSeasonOptions,
   getSessionOptions,
-} from "../../utils/eventQueryOptions";
-import Compobox, { ComboboxOption } from "../Combobox/Combobox";
+} from "../../../utils/eventQueryOptions";
+import Compobox, { ComboboxOption } from "./Combobox";
 
-const EventQueryBar: React.FC<TelemetryProps> = ({ seasons }) => {
+const EventQuery: React.FC<TelemetryProps> = ({ seasons }) => {
   const eventQuery = useAppSelector(selectEventQuery);
   const lapTelemetry = useAppSelector(selectLapTelemetry);
   const dataFilter = useAppSelector(selectDataFilter);
@@ -85,4 +85,4 @@ const EventQueryBar: React.FC<TelemetryProps> = ({ seasons }) => {
   );
 };
 
-export default EventQueryBar;
+export default EventQuery;

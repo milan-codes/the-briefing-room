@@ -1,4 +1,4 @@
-import { DataFilterOption } from "../components/DataFilter/DataFilter";
+import { DataFilterOption } from "../components/telemetry/LapTelemetryQuery/DataFilter";
 
 export const getQualiFilter = (): DataFilterOption[] => {
   return [

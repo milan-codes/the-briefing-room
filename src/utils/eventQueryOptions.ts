@@ -1,4 +1,4 @@
-import { ComboboxOption } from "../components/Combobox/Combobox";
+import { ComboboxOption } from "../components/telemetry/EventQuery/Combobox";
 import { GrandPrix, Season } from "../model/Season";
 import { sprintEvent, conventionalEvent } from "./eventFormats";
 

@@ -1,21 +1,21 @@
 import React from "react";
 import { Loader2 } from "tabler-icons-react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectEventQuery } from "../../features/events/eventQuerySlice";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { selectEventQuery } from "../../../features/events/eventQuerySlice";
 import {
   selectLapTelemetryQuery,
   setDriver,
   setLap,
-} from "../../features/events/lapTelemetryQuerySlice";
+} from "../../../features/events/lapTelemetryQuerySlice";
 import {
   getLapTelemetryFromApi,
   removeLapTelemetry,
   selectLapTelemetry,
-} from "../../features/events/lapTelemetrySlice";
-import { Lap } from "../../model/Lap";
-import MyListbox from "../Listbox/Listbox";
+} from "../../../features/events/lapTelemetrySlice";
+import { Lap } from "../../../model/Lap";
+import MyListbox from "./Listbox";
 
-interface AddDriverTelemetryProps {
+interface DriverQueryProps {
   driverList: {
     number: string;
     name: string;
@@ -24,7 +24,7 @@ interface AddDriverTelemetryProps {
   laps: Lap[];
 }
 
-const AddDriverTelemetry: React.FC<AddDriverTelemetryProps> = ({ driverList, laps }) => {
+const DriverQuery: React.FC<DriverQueryProps> = ({ driverList, laps }) => {
   const eventQuery = useAppSelector(selectEventQuery);
   const lapTelemetryQuery = useAppSelector(selectLapTelemetryQuery);
   const lapTelemetry = useAppSelector(selectLapTelemetry);
@@ -140,4 +140,4 @@ const determineLapType = (lap: Lap): string => {
   return "Could not determine lap type";
 };
 
-export default AddDriverTelemetry;
+export default DriverQuery;

@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { IconProps } from "tabler-icons-react";
 
 export interface FeatureBlockProps {
   title: string;

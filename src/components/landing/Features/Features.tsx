@@ -1,6 +1,6 @@
 import Image from "next/image";
 import FeatureBlock, { FeatureBlockProps } from "./FeatureBlock";
-import telemetryDemo from "../../../public/telemetrydemo.png";
+import telemetryDemo from "../../../../public/telemetrydemo.png";
 
 interface FeaturesProps {
   features: FeatureBlockProps[];

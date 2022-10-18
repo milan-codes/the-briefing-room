@@ -1,10 +1,10 @@
-import Navbar from "../components/Navbar";
+import Navbar from "../components/landing/Navbar";
 import type { NextPage } from "next";
-import Hero from "../components/Hero";
-import Features from "../components/Features";
+import Hero from "../components/landing/Hero";
+import Features from "../components/landing/Features";
 import { CogIcon, DatabaseIcon, UserIcon } from "@heroicons/react/outline";
-import Faq from "../components/Faq";
-import Footer from "../components/Footer";
+import Faq from "../components/landing/Faq";
+import Footer from "../components/landing/Footer";
 import { useAppSelector } from "../app/hooks";
 import { selectEventQuery } from "../features/events/eventQuerySlice";
 

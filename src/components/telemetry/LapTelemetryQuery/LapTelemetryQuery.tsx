@@ -1,10 +1,10 @@
-import { useAppSelector } from "../../app/hooks";
-import { selectSessionData } from "../../features/events/eventTelemetrySlice";
-import { getQualiFilter } from "../../utils/qualifyingDataFilters";
-import DataFilter from "../DataFilter";
-import AddDriverTelemetry from "./AddDriverTelemetry";
+import { useAppSelector } from "../../../app/hooks";
+import { selectSessionData } from "../../../features/events/eventTelemetrySlice";
+import { getQualiFilter } from "../../../utils/qualifyingDataFilters";
+import DataFilter from "./DataFilter";
+import DriverQuery from "./DriverQuery";
 
-const DriverFilter: React.FC = () => {
+const LapTelemetryQuery: React.FC = () => {
   const eventData = useAppSelector(selectSessionData);
 
   return (
@@ -19,7 +19,7 @@ const DriverFilter: React.FC = () => {
             Drivers will appear here after you select a session.
           </li>
         ) : (
-          <AddDriverTelemetry
+          <DriverQuery
             driverList={eventData.results.map((driverData) => ({
               number: driverData.DriverNumber.toString(),
               name: driverData.FullName,
@@ -38,4 +38,4 @@ const DriverFilter: React.FC = () => {
   );
 };
 
-export default DriverFilter;
+export default LapTelemetryQuery;

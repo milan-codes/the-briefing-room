@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
-import { ComboboxOption } from "../Combobox/Combobox";
+import { ComboboxOption } from "../EventQuery/Combobox";
 
 interface ListboxProps {
   options: ComboboxOption[];
