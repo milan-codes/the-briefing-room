@@ -20,8 +20,8 @@ const MyListbox: React.FC<ListboxProps> = (props) => {
         }}
       >
         <div className="relative mt-1">
-          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-1 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-            <span className="block truncate">
+          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-gray-50 dark:bg-gray-900 py-2 pl-1 pr-10 text-left focus:outline-none sm:text-sm">
+            <span className="block truncate text-gray-900 dark:text-gray-300">
               {props.value === "" ? props.placeholder : props.value}
             </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -34,13 +34,13 @@ const MyListbox: React.FC<ListboxProps> = (props) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-50 dark:bg-gray-900 py-1 text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {props.options.map(({ id, label }) => (
                 <Listbox.Option
                   key={id}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                      active ? "bg-[#3772FF] text-white" : "text-gray-900"
+                      active ? "bg-[#3772FF] text-gray-300" : "text-gray-900 dark:text-gray-300"
                     }`
                   }
                   value={label}
@@ -53,7 +53,7 @@ const MyListbox: React.FC<ListboxProps> = (props) => {
                         {label}
                       </span>
                       {selected ? (
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-300">
                           <CheckIcon className="h-5 w-5" aria-hidden="true" />
                         </span>
                       ) : null}

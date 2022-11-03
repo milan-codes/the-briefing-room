@@ -45,7 +45,7 @@ const MyCombobox: React.FC<ComboboxProps> = (props) => {
             }
           >
             <Combobox.Input
-              className="w-full py-2 pl-3 pr-4 text-sm leading-5 text-gray-900 bg-[#FCFCFF]"
+              className="w-full py-2 pl-3 pr-4 text-sm leading-5 text-gray-900 dark:text-gray-300 bg-gray-50 dark:bg-gray-900"
               placeholder={props.placeholder}
               onChange={(event) => setQuery(event.target.value)}
             />
@@ -60,7 +60,7 @@ const MyCombobox: React.FC<ComboboxProps> = (props) => {
             leaveTo="opacity-0"
             afterLeave={() => setQuery("")}
           >
-            <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-[#FCFCFF] text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-50 dark:bg-gray-900 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {filteredOptions.length === 0 && query !== "" ? (
                 <div className="relative cursor-default select-none py-3 px-5 text-gray-700">
                   Nothing found.
@@ -71,7 +71,9 @@ const MyCombobox: React.FC<ComboboxProps> = (props) => {
                     key={id}
                     className={({ active }) =>
                       `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                        active ? "bg-[#3772FF] text-white font-bold" : "text-gray-900"
+                        active
+                          ? "bg-[#3772FF] text-white font-bold"
+                          : "text-gray-900 dark:text-gray-300"
                       }`
                     }
                     value={label}

@@ -11,10 +11,12 @@ export interface TelemetryProps {
 
 const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
   return (
-    <div className="bg-[#FCFCFF] dark:bg-[#0A0F0D]">
+    <div className="bg-[#FCFCFF] dark:bg-[#0A0F0D] min-h-screen">
       <main className="px-4 sm:px-6 lg:px-8">
-        <div className="relative z-10 flex items-baseline justify-between py-6 border-b border-gray-200">
-          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">Telemetry</h1>
+        <div className="relative z-10 flex items-baseline justify-between py-6 border-b border-gray-300 dark:border-gray-700">
+          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-300">
+            Telemetry
+          </h1>
           <EventQueryBar seasons={seasons} />
         </div>
         <section>
@@ -23,7 +25,7 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
               <DriverFilter />
             </div>
             <div className="col-span-5 pt-6">
-              <div className="border-[1px] border-solid border-gray-200 rounded-lg h-96 lg:h-full">
+              <div className="border-[1px] border-solid border-gray-300 dark:border-gray-700 rounded-lg h-96 lg:h-full">
                 <Chart />
               </div>
             </div>

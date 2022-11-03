@@ -30,7 +30,7 @@ const Chart: React.FC = () => {
   return (
     <div className="grid place-items-center h-full">
       {lapTelemetry.telemetries.length === 0 ? (
-        "Telemetry data will appear here."
+        <div className="text-gray-900 dark:text-gray-300">Telemetry data will appear here.</div>
       ) : (
         <div className="w-11/12">
           <ResponsiveContainer height={500} width={"100%"}>
