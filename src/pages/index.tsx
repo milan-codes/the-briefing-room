@@ -88,8 +88,10 @@ const Home: NextPage = () => {
           {
             groupTitle: "Project",
             links: [
-              { label: "Contribute", href: "/contribute" },
-              { label: "Changelog", href: "/changelog" },
+              {
+                label: "Contribute",
+                href: "https://github.com/milan-codes/formula-1-telemetry-frontend",
+              },
             ],
           },
         ]}
