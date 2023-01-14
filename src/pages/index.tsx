@@ -1,12 +1,10 @@
-import Navbar from "../components/Navbar";
+import Navbar from "../components/landing/Navbar";
 import type { NextPage } from "next";
-import Hero from "../components/Hero";
-import Features from "../components/Features";
+import Hero from "../components/landing/Hero";
+import Features from "../components/landing/Features";
 import { CogIcon, DatabaseIcon, UserIcon } from "@heroicons/react/outline";
-import Faq from "../components/Faq";
-import Footer from "../components/Footer";
-import { CSSProperties } from "react";
-import { ClipLoader } from "react-spinners";
+import Faq from "../components/landing/Faq";
+import Footer from "../components/landing/Footer";
 import { useAppSelector } from "../app/hooks";
 import { selectEventQuery } from "../features/events/eventQuerySlice";
 
@@ -90,8 +88,10 @@ const Home: NextPage = () => {
           {
             groupTitle: "Project",
             links: [
-              { label: "Contribute", href: "/contribute" },
-              { label: "Changelog", href: "/changelog" },
+              {
+                label: "Contribute",
+                href: "https://github.com/milan-codes/formula-1-telemetry-frontend",
+              },
             ],
           },
         ]}

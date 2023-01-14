@@ -1,22 +1,21 @@
 import React from "react";
 import { Loader2 } from "tabler-icons-react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectEventQuery } from "../../features/events/eventQuerySlice";
-import lapTelemetryQuerySlice, {
-  emptyQuery,
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { selectEventQuery } from "../../../features/events/eventQuerySlice";
+import {
   selectLapTelemetryQuery,
   setDriver,
   setLap,
-} from "../../features/events/lapTelemetryQuerySlice";
+} from "../../../features/events/lapTelemetryQuerySlice";
 import {
   getLapTelemetryFromApi,
   removeLapTelemetry,
   selectLapTelemetry,
-} from "../../features/events/lapTelemetrySlice";
-import { Lap } from "../../model/Lap";
+} from "../../../features/events/lapTelemetrySlice";
+import { Lap } from "../../../model/Lap";
 import MyListbox from "./Listbox";
 
-interface AddDriverTelemetryProps {
+interface DriverQueryProps {
   driverList: {
     number: string;
     name: string;
@@ -25,14 +24,14 @@ interface AddDriverTelemetryProps {
   laps: Lap[];
 }
 
-const AddDriverTelemetry: React.FC<AddDriverTelemetryProps> = ({ driverList, laps }) => {
+const DriverQuery: React.FC<DriverQueryProps> = ({ driverList, laps }) => {
   const eventQuery = useAppSelector(selectEventQuery);
   const lapTelemetryQuery = useAppSelector(selectLapTelemetryQuery);
   const lapTelemetry = useAppSelector(selectLapTelemetry);
   const dispatch = useAppDispatch();
 
   return (
-    <div className="border-y-[1px] border-solid border-gray-200">
+    <div className="border-y-[1px] border-solid border-gray-200 dark:border-gray-700">
       <div className="relative z-50">
         <MyListbox
           options={driverList.map((driver) => ({
@@ -71,7 +70,7 @@ const AddDriverTelemetry: React.FC<AddDriverTelemetryProps> = ({ driverList, lap
 
       <button
         type="button"
-        className="w-full px-6 py-3 bg-blue-600 text-white font-medium text-xs leading-5 rounded hover:bg-blue-700 focus:bg-blue-700 hover:cursor-pointer transition duration-150 ease-in-out disabled:transition-none disabled:hover:bg-blue-600 disabled:opacity-50 disabled:hover:cursor-default"
+        className="w-full px-6 py-3 bg-[#3772FF] text-white font-medium text-xs leading-5 rounded hover:bg-blue-700 focus:bg-blue-700 hover:cursor-pointer transition duration-150 ease-in-out disabled:transition-none disabled:hover:bg-blue-600 disabled:opacity-50 disabled:hover:cursor-default"
         onClick={(e) => {
           e.preventDefault();
           dispatch(
@@ -101,7 +100,7 @@ const AddDriverTelemetry: React.FC<AddDriverTelemetryProps> = ({ driverList, lap
       {lapTelemetry.telemetries.length === 0 ? (
         ""
       ) : (
-        <div className="py-4">
+        <div className="py-4 text-gray-900 dark:text-gray-300">
           <h1 className="text-md font-bold">Drivers added</h1>
           <ul className="py-2">
             {lapTelemetry.telemetries.map((telemetry) => (
@@ -141,4 +140,4 @@ const determineLapType = (lap: Lap): string => {
   return "Could not determine lap type";
 };
 
-export default AddDriverTelemetry;
+export default DriverQuery;

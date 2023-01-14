@@ -11,6 +11,7 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap"
             rel="stylesheet"
           />
+          <title>Formula 1 Telemetry</title>
         </Head>
         <body>
           <Main />

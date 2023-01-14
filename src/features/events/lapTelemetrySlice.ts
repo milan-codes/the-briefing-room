@@ -1,6 +1,5 @@
 import { AnyAction, createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
 import { AppState } from "../../app/store";
-import { Lap } from "../../model/Lap";
 import { LapData } from "../../model/LapTelemetry";
 import { emptyQuery, toggleLoading } from "./lapTelemetryQuerySlice";
 
@@ -10,14 +9,13 @@ interface LapTelemetry {
   data: LapData[];
 }
 
-interface LapTelemetries {
+export interface LapTelemetries {
   telemetries: LapTelemetry[];
 }
 
 const initialState: LapTelemetries = {
   telemetries: [],
 };
-let telemetryIndex = 0;
 
 export const lapTelemetrySlice = createSlice({
   name: "lapTelemetries",
