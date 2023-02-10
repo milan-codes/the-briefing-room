@@ -21,27 +21,7 @@ const Home: NextPage = () => {
       <div id="faq">
         <Faq />
       </div>
-      <Footer
-        description="Get access to the latest telemetry data from the Formula 1 world championship"
-        groups={[
-          {
-            groupTitle: "About",
-            links: [
-              { label: "Features", href: "#features" },
-              { label: "FAQ", href: "#faq" },
-            ],
-          },
-          {
-            groupTitle: "Project",
-            links: [
-              {
-                label: "Contribute",
-                href: "https://github.com/milan-codes/formula-1-telemetry-frontend",
-              },
-            ],
-          },
-        ]}
-      />
+      <Footer />
     </div>
   );
 };

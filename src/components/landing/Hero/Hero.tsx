@@ -13,7 +13,7 @@ const Hero: React.FC = () => (
         </h1>
 
         <p className="mt-4 sm:text-xl sm:leading-relaxed">
-          Formula 1 Telemetry is a free, open-source tool that allows you to analyze telemetry data
+          The Briefing Room is a free, open-source tool that allows you to analyze telemetry data
           from F1 sessions.
         </p>
 
