@@ -1,12 +1,6 @@
-import Image from "next/image";
 import FeatureBlock, { FeatureBlockProps } from "./FeatureBlock";
-import telemetryDemo from "../../../../public/telemetrydemo.png";
 
-interface FeaturesProps {
-  features: FeatureBlockProps[];
-}
-
-const Features: React.FC<FeaturesProps> = ({ features }) => (
+const Features: React.FC = () => (
   <section className="bg-blue-900 text-gray-50 min-h-screen">
     <div className="mx-auto max-w-screen-lg px-4 py-16">
       <div className="mx-auto max-w-3xl text-center">
