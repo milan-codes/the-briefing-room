@@ -3,17 +3,17 @@ import { BrandGithub } from "tabler-icons-react";
 
 const Hero: React.FC = () => (
   <section className="bg-gray-50">
-    <div className="mx-auto max-w-3xl px-4 py-32 text-center flex h-[90vh] items-center">
+    <div className="mx-auto max-w-3xl px-4 py-28 text-center flex items-center">
       <div>
         <h1 className="text-3xl font-extrabold sm:text-5xl">
-          Analyze data from F1 sessions,
+          Analyse data from F1 sessions,
           <strong className="font-extrabold text-blue-700 sm:block">
-            increase your understanding.
+            understand the sport better.
           </strong>
         </h1>
 
         <p className="mt-4 sm:text-xl sm:leading-relaxed">
-          The Briefing Room is a free, open-source tool that allows you to analyze telemetry data
+          The Briefing Room is a free, open-source tool that allows you to analyse telemetry data
           from F1 sessions.
         </p>
 

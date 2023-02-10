@@ -7,7 +7,7 @@ const Navbar: React.FC = () => (
             href="/"
             className="inline-flex px-3 py-1 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-900 text-blue-600 font-semibold"
           >
-            <span className="sr-only">Logo</span>The Briefing Room 🏎️
+            <span className="hidden sm:block">The Briefing Room &nbsp;</span>🏎️
           </a>
         </div>
 
