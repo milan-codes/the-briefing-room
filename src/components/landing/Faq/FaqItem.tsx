@@ -1,29 +1,25 @@
-import { Disclosure } from "@headlessui/react";
-import { ChevronUpIcon } from "@heroicons/react/solid";
-
 export interface FaqItemProps {
   title: string;
   description: string;
 }
 
 const FaqItem: React.FC<FaqItemProps> = ({ title, description }) => (
-  <Disclosure>
-    {({ open }) => (
-      <>
-        <Disclosure.Button className="flex justify-between items-center w-full px-5 py-4 my-4 text-left bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-800 focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-75">
-          <span className="text-xl font-semibold text-gray-800 dark:text-gray-200">{title}</span>
-          <ChevronUpIcon
-            className={`${
-              open ? "transform duration-200 rotate-180" : "duration-200"
-            } w-7 h-7 text-[#3772FF]`}
-          />
-        </Disclosure.Button>
-        <Disclosure.Panel className="px-4 pb-4 text-gray-700 dark:text-gray-300">
-          {description}
-        </Disclosure.Panel>
-      </>
-    )}
-  </Disclosure>
+  <details className="group [&_summary::-webkit-details-marker]:hidden">
+    <summary className="flex items-center justify-between p-4 rounded-lg cursor-pointer">
+      <h2 className="text-gray-900 dark:text-gray-100 font-medium">{title}</h2>
+      <svg
+        className="ml-1.5 h-5 w-5 flex-shrink-0 transition duration-300 group-open:-rotate-180 text-gray-900 dark:text-gray-100"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </summary>
+
+    <p className="px-4 mt-4 leading-relaxed text-gray-700">{description}</p>
+  </details>
 );
 
 export default FaqItem;
