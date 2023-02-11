@@ -5,10 +5,10 @@ export interface FaqItemProps {
 
 const FaqItem: React.FC<FaqItemProps> = ({ title, description }) => (
   <details className="group [&_summary::-webkit-details-marker]:hidden">
-    <summary className="flex items-center justify-between p-4 rounded-lg cursor-pointer bg-gray-50">
-      <h2 className="font-medium text-gray-900">{title}</h2>
+    <summary className="flex items-center justify-between p-4 rounded-lg cursor-pointer">
+      <h2 className="text-gray-900 dark:text-gray-100 font-medium">{title}</h2>
       <svg
-        className="ml-1.5 h-5 w-5 flex-shrink-0 transition duration-300 group-open:-rotate-180"
+        className="ml-1.5 h-5 w-5 flex-shrink-0 transition duration-300 group-open:-rotate-180 text-gray-900 dark:text-gray-100"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"

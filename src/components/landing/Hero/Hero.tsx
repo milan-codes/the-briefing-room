@@ -2,24 +2,24 @@ import Link from "next/link";
 import { BrandGithub } from "tabler-icons-react";
 
 const Hero: React.FC = () => (
-  <section className="bg-gray-50">
+  <section>
     <div className="mx-auto max-w-3xl px-4 py-28 text-center flex items-center">
       <div>
-        <h1 className="text-3xl font-extrabold sm:text-5xl">
+        <h1 className="text-gray-900 dark:text-gray-100 text-3xl font-extrabold sm:text-5xl">
           Analyse data from F1 sessions,
           <strong className="font-extrabold text-blue-700 sm:block">
             understand the sport better.
           </strong>
         </h1>
 
-        <p className="mt-4 sm:text-xl sm:leading-relaxed">
+        <p className="text-gray-700 dark:text-gray-300 mt-4 sm:text-xl sm:leading-relaxed">
           The Briefing Room is a free, open-source tool that allows you to analyse telemetry data
           from F1 sessions.
         </p>
 
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <a
-            className="block w-full rounded-md bg-blue-600 px-12 py-3 text-sm font-medium text-white shadow hover:bg-blue-700 focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
+            className="block w-full rounded-md bg-blue-600 px-12 py-3 text-sm font-medium text-gray-50 shadow hover:bg-blue-700 focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
             href="/telemetry"
           >
             Get Started

@@ -1,5 +1,5 @@
 const Footer: React.FC = () => (
-  <footer aria-label="Site Footer" className="bg-white">
+  <footer aria-label="Site footer">
     <div className="mx-auto max-w-screen-lg px-4 pt-16 pb-6 sm:px-6 lg:px-8 lg:pt-24">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
         <div>
@@ -7,7 +7,7 @@ const Footer: React.FC = () => (
             The Briefing Room 🏎️
           </div>
 
-          <p className="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-500 sm:mx-0 sm:max-w-xs sm:text-left">
+          <p className="text-gray-900 dark:text-gray-100 mx-auto mt-6 max-w-md text-center leading-relaxed sm:mx-0 sm:max-w-xs sm:text-left">
             Analyse data from any F1 session starting from the 2021 season.
           </p>
 
@@ -17,7 +17,7 @@ const Footer: React.FC = () => (
                 href="/"
                 rel="noreferrer"
                 target="_blank"
-                className="text-teal-700 transition hover:text-teal-700/75"
+                className="text-gray-700 dark:text-gray-300 transition hover:text-gray-700/75 dark:hover:text-gray-300/75"
               >
                 <span className="sr-only">GitHub</span>
                 <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -34,17 +34,23 @@ const Footer: React.FC = () => (
 
         <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
           <div className="text-center sm:text-left">
-            <p className="text-lg font-medium text-gray-900">🗺️</p>
+            <p className="text-lg font-medium text-gray-900 dark:text-gray-100">🗺️</p>
 
             <nav aria-label="Footer Services Nav" className="mt-8">
               <ul className="space-y-4 text-sm">
                 <li>
-                  <a className="text-gray-700 transition hover:text-gray-700/75" href="/">
+                  <a
+                    className="text-gray-500 dark:text-gray-400 transition hover:text-gray-500/75 dark:hover:text-gray-400/75"
+                    href="/"
+                  >
                     Home
                   </a>
                 </li>
                 <li>
-                  <a className="text-gray-700 transition hover:text-gray-700/75" href="/telemetry">
+                  <a
+                    className="text-gray-500 dark:text-gray-400 transition hover:text-gray-500/75 dark:hover:text-gray-400/75"
+                    href="/telemetry"
+                  >
                     Telemetry
                   </a>
                 </li>
@@ -53,18 +59,24 @@ const Footer: React.FC = () => (
           </div>
 
           <div className="text-center sm:text-left">
-            <p className="text-lg font-medium text-gray-900">About</p>
+            <p className="text-lg font-medium text-gray-900 dark:text-gray-100">About</p>
 
             <nav aria-label="Footer About Nav" className="mt-8">
               <ul className="space-y-4 text-sm">
                 <li>
-                  <a className="text-gray-700 transition hover:text-gray-700/75" href="#features">
+                  <a
+                    className="text-gray-500 dark:text-gray-400 transition hover:text-gray-500/75 dark:hover:text-gray-400/75"
+                    href="#features"
+                  >
                     Features
                   </a>
                 </li>
 
                 <li>
-                  <a className="text-gray-700 transition hover:text-gray-700/75" href="#faq">
+                  <a
+                    className="text-gray-500 dark:text-gray-400 transition hover:text-gray-500/75 dark:hover:text-gray-400/75"
+                    href="#faq"
+                  >
                     F.A.Q.
                   </a>
                 </li>
@@ -73,13 +85,13 @@ const Footer: React.FC = () => (
           </div>
 
           <div className="text-center sm:text-left">
-            <p className="text-lg font-medium text-gray-900">Project</p>
+            <p className="text-lg font-medium text-gray-900 dark:text-gray-100">Project</p>
 
             <nav aria-label="Footer Services Nav" className="mt-8">
               <ul className="space-y-4 text-sm">
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-gray-700/75"
+                    className="text-gray-500 dark:text-gray-400 transition hover:text-gray-500/75 dark:hover:text-gray-400/75"
                     href="https://github.com/milan-codes/formula-1-telemetry-frontend"
                   >
                     GitHub
@@ -87,7 +99,7 @@ const Footer: React.FC = () => (
                 </li>
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-gray-700/75"
+                    className="text-gray-500 dark:text-gray-400 transition hover:text-gray-500/75 dark:hover:text-gray-400/75"
                     href="https://github.com/milan-codes/formula-1-telemetry-frontend"
                   >
                     Contribute
@@ -95,7 +107,7 @@ const Footer: React.FC = () => (
                 </li>
                 <li>
                   <a
-                    className="text-gray-700 transition hover:text-gray-700/75"
+                    className="text-gray-500 dark:text-gray-400 transition hover:text-gray-500/75 dark:hover:text-gray-400/75"
                     href="https://github.com/milan-codes/formula-1-telemetry-frontend"
                   >
                     Bugs
@@ -107,9 +119,9 @@ const Footer: React.FC = () => (
         </div>
       </div>
 
-      <div className="mt-12 border-t border-gray-100 pt-6">
+      <div className="mt-12 border-t border-gray-800 dark:border-gray-100 pt-6">
         <div className="text-center sm:flex sm:justify-between sm:text-left">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
             Made by Milán Herke, a fellow F1 fan. <br />
             The creator of this website is in no way, shape or form linked to FORMULA 1, Liberty
             Media, the FIA or any other organization. This website was created only for fun, and

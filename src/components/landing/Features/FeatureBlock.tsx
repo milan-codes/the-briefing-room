@@ -8,12 +8,12 @@ export interface FeatureBlockProps {
 
 const FeatureBlock: React.FC<FeatureBlockProps> = ({ title, description, icon }) => (
   <div className="flex items-start">
-    <span className="flex-shrink-0 rounded-lg bg-gray-800 p-4">{icon}</span>
+    <span className="flex-shrink-0 rounded-lg bg-gray-800 text-gray-100 p-4">{icon}</span>
 
     <div className="ml-4">
-      <h2 className="text-lg font-bold">{title}</h2>
+      <h2 className="text-gray-100 text-lg font-bold">{title}</h2>
 
-      <p className="mt-1 text-sm text-gray-300">{description}</p>
+      <p className="text-gray-300 mt-1 text-sm">{description}</p>
     </div>
   </div>
 );

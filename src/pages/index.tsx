@@ -17,12 +17,10 @@ const Home: NextPage = () => {
     <div className="bg-gray-50 dark:bg-gray-900">
       <Navbar />
       <Hero />
-      <div className="mx-auto max-w-screen-lg bg-gray-50 ">
+      <div className="mx-auto max-w-screen-lg">
         <Image src={telemetryDemo} />
       </div>
-      <div id="features">
-        <Features />
-      </div>
+      <Features />
       <div id="faq">
         <Faq />
       </div>
