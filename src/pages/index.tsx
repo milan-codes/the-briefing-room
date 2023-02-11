@@ -2,13 +2,12 @@ import Navbar from "../components/landing/Navbar";
 import type { NextPage } from "next";
 import Hero from "../components/landing/Hero";
 import Features from "../components/landing/Features";
-import { CogIcon, DatabaseIcon, UserIcon } from "@heroicons/react/outline";
 import Faq from "../components/landing/Faq";
 import Footer from "../components/landing/Footer";
 import { useAppSelector } from "../app/hooks";
 import { selectEventQuery } from "../features/events/eventQuerySlice";
 import Image from "next/image";
-import telemetryDemo from "../../public/telemetrydemo.png";
+import telemetryDemo from "../../public/images/telemetrydemo.png";
 
 const Home: NextPage = () => {
   const event = useAppSelector(selectEventQuery);
@@ -21,9 +20,7 @@ const Home: NextPage = () => {
         <Image src={telemetryDemo} />
       </div>
       <Features />
-      <div id="faq">
-        <Faq />
-      </div>
+      <Faq />
       <Footer />
     </div>
   );
