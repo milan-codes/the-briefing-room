@@ -14,7 +14,7 @@ const Home: NextPage = () => {
   const event = useAppSelector(selectEventQuery);
 
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-50 dark:bg-gray-900">
       <Navbar />
       <Hero />
       <div className="mx-auto max-w-screen-lg bg-gray-50 ">
