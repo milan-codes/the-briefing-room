@@ -22,11 +22,15 @@ const links = [
   },
   {
     name: "Features",
-    href: "#features",
+    href: "/#features",
   },
   {
     name: "FAQ",
-    href: "#faq",
+    href: "/#faq",
+  },
+  {
+    name: "Standings",
+    href: "/standings",
   },
   {
     name: "Telemetry",
