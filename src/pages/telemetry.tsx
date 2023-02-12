@@ -1,6 +1,5 @@
 import { GetStaticProps, NextPage } from "next";
 import { Season } from "../model/Season";
-import _ from "lodash";
 import EventQueryBar from "../components/telemetry/EventQuery";
 import DriverFilter from "../components/telemetry/LapTelemetryQuery";
 import Chart from "../components/telemetry/Chart";
