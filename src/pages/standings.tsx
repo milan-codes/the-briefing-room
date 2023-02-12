@@ -1,4 +1,4 @@
-import { GetStaticProps, NextPage } from "next";
+import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Footer from "../components/landing/Footer";
 import Navbar from "../components/landing/Navbar";
 import { DriverStanding } from "../model/Standing";
@@ -40,7 +40,9 @@ const Standings: NextPage<StandingsProps> = ({ standings }) => {
 
   const wccTableData = Object.keys(constructorStandings).map((key, index) => [
     `${index + 1}`,
-    `${constructorStandings[key][0].Constructors[0].name}`,
+    `${getCountryFlag(constructorStandings[key][0].Constructors[0].nationality)} ${
+      constructorStandings[key][0].Constructors[0].name
+    }`,
     `${constructorStandings[key].reduce((acc, curr) => acc + parseInt(curr.points), 0)}`,
     `${constructorStandings[key].reduce((acc, curr) => acc + parseInt(curr.wins), 0)}`,
   ]);
