@@ -21,12 +21,12 @@ const links = [
     href: "/",
   },
   {
-    name: "Archive",
-    href: "/Archive",
-  },
-  {
     name: "Telemetry",
     href: "/telemetry",
+  },
+  {
+    name: "Archive",
+    href: "/archive",
   },
 ];
 
