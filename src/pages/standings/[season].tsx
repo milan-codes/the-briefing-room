@@ -1,10 +1,11 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import Footer from "../components/landing/Footer";
-import Navbar from "../components/landing/Navbar";
-import { DriverStanding } from "../model/Standing";
+import Footer from "../../components/landing/Footer";
+import Navbar from "../../components/landing/Navbar";
+import { DriverStanding } from "../../model/Standing";
 import getUnicodeFlagIcon from "country-flag-icons/unicode";
 import _ from "lodash";
-import Table from "../components/standings/Table";
+import Table from "../../components/standings/Table";
+import { useRouter } from "next/router";
 
 export interface StandingsProps {
   standings: DriverStanding[];
@@ -22,6 +23,8 @@ const getCountryFlag = (nationality: string) => {
 };
 
 const Standings: NextPage<StandingsProps> = ({ standings }) => {
+  const { query } = useRouter();
+
   const constructorStandings = _.groupBy(
     standings,
     (standing) => standing.Constructors[0].constructorId
@@ -47,16 +50,21 @@ const Standings: NextPage<StandingsProps> = ({ standings }) => {
     `${constructorStandings[key].reduce((acc, curr) => acc + parseInt(curr.wins), 0)}`,
   ]);
 
+  // sort wccTableData by points
+  wccTableData.sort((a, b) => parseInt(b[2]) - parseInt(a[2]));
+  // fix the positions
+  wccTableData.forEach((row, index) => (row[0] = `${index + 1}`));
+
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
       <Navbar />
       <Table
-        title="Latest WDC standings"
+        title={`${query.season} WDC standings`}
         headers={["Position", "Driver #", "Driver", "Team", "Points", "Wins"]}
         data={wdcTableData}
       />
       <Table
-        title="Latest WCC standings"
+        title={`${query.season} WCC standings`}
         headers={["Position", "Team", "Points", "Wins"]}
         data={wccTableData}
       />
@@ -65,8 +73,22 @@ const Standings: NextPage<StandingsProps> = ({ standings }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const res = await fetch("http://127.0.0.1:5000/standings");
+export const getStaticPaths: GetStaticPaths = async () => {
+  // create an array of paths starting from the 1950 season up until the previous year
+  const paths = Array.from({ length: new Date().getFullYear() - 1950 }, (_, i) => ({
+    params: { season: (1950 + i).toString() },
+  }));
+
+  return {
+    paths,
+    fallback: false, // only pre-render at build time
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  let queryParam = "";
+  if (params?.season) queryParam = `?season=${params.season}`;
+  const res = await fetch(`http://127.0.0.1:5000/standings${queryParam}`);
   const standings = (await res.json()) as DriverStanding[];
   return {
     props: {
