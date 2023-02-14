@@ -49,6 +49,14 @@ const Footer: React.FC = () => (
                 <li>
                   <a
                     className="text-gray-500 dark:text-gray-400 transition hover:text-gray-500/75 dark:hover:text-gray-400/75"
+                    href="/season-hub"
+                  >
+                    Season Hub
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="text-gray-500 dark:text-gray-400 transition hover:text-gray-500/75 dark:hover:text-gray-400/75"
                     href="/telemetry"
                   >
                     Telemetry

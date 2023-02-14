@@ -21,6 +21,10 @@ const links = [
     href: "/",
   },
   {
+    name: "Season Hub",
+    href: "/season-hub",
+  },
+  {
     name: "Telemetry",
     href: "/telemetry",
   },
