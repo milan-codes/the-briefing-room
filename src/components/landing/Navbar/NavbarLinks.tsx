@@ -21,16 +21,8 @@ const links = [
     href: "/",
   },
   {
-    name: "Features",
-    href: "/#features",
-  },
-  {
-    name: "FAQ",
-    href: "/#faq",
-  },
-  {
-    name: "Standings",
-    href: "/standings",
+    name: "Archive",
+    href: "/Archive",
   },
   {
     name: "Telemetry",
