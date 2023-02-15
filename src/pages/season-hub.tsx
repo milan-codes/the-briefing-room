@@ -1,13 +1,149 @@
 import { NextPage } from "next";
+import { useEffect } from "react";
+import { ChevronRight } from "tabler-icons-react";
+import { useAppDispatch } from "../app/hooks";
 import Footer from "../components/landing/Footer";
 import Navbar from "../components/landing/Navbar";
-import { Season } from "../model/Season";
+import NextRaceBanner from "../components/season-hub/NextRaceBanner";
+import Table from "../components/standings/Table";
+import {
+  ClassificationProps,
+  selectClassification,
+  setClassification,
+} from "../features/events/classificationSlice";
+import { getClassificationFromApi } from "../features/events/classificationSlice";
+import { GrandPrix, Season } from "../model/Season";
+import getUnicodeFlagIcon from "country-flag-icons/unicode";
+import _ from "lodash";
+import { getCountryFlag } from "./archive/[season]";
 
 interface SeasonHubProps {
   season: Season[];
+  upcomingRace: GrandPrix;
+  previousRace: GrandPrix;
+  latestClassification: ClassificationProps;
 }
 
-const SeasonHub: NextPage<SeasonHubProps> = ({ season }) => {
+const getCountryFlagByCode = (country: string) => {
+  // edge cases not correctly formatted for i18n-iso-countries
+  if (country === "UAE") country = "United Arab Emirates";
+
+  const countries = require("i18n-iso-countries");
+  countries.registerLocale(require("i18n-iso-countries/langs/en.json"));
+  return getUnicodeFlagIcon(countries.getAlpha2Code(country, "en"));
+};
+
+const SeasonHub: NextPage<SeasonHubProps> = ({
+  season,
+  upcomingRace,
+  previousRace,
+  latestClassification,
+}) => {
+  //format ms to hh:mm:ss
+  const formatTime = (ms: number) => {
+    const milliseconds = Math.floor((ms % 1000) / 10);
+    const seconds = Math.floor((ms / 1000) % 60);
+    const minutes = Math.floor((ms / (1000 * 60)) % 60);
+    const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
+
+    return `${hours}:${minutes}:${seconds}.${milliseconds}`;
+  };
+
+  const classificationTableData = latestClassification.classification.map((driver, index) => [
+    `${index + 1}`,
+    `${driver.DriverNumber}`,
+    `${driver.FullName}`,
+    `${driver.TeamName}`,
+    `${driver.Time ? formatTime(driver.Time) : `DNF (${driver.Status})`}`,
+    `${driver.GridPosition}`,
+    `${driver.Points}`,
+  ]);
+
+  const { standings } = latestClassification;
+  const constructorStandings = _.groupBy(
+    standings,
+    (standing) => standing.Constructors[0].constructorId
+  );
+
+  const wdcTableData = standings.map((standing, index) => [
+    `${index + 1}`,
+    `${standing.Driver.permanentNumber}`,
+    `${getCountryFlag(standing.Driver.nationality)} ${standing.Driver.givenName} ${
+      standing.Driver.familyName
+    }`,
+    `${standing.Constructors[0].name}`,
+    `${standing.points}`,
+    `${standing.wins}`,
+  ]);
+
+  const wccTableData = Object.keys(constructorStandings).map((key, index) => [
+    `${index + 1}`,
+    `${getCountryFlag(constructorStandings[key][0].Constructors[0].nationality)} ${
+      constructorStandings[key][0].Constructors[0].name
+    }`,
+    `${constructorStandings[key].reduce((acc, curr) => acc + parseInt(curr.points), 0)}`,
+    `${constructorStandings[key].reduce((acc, curr) => acc + parseInt(curr.wins), 0)}`,
+  ]);
+
+  // sort wccTableData by points
+  wccTableData.sort((a, b) => parseInt(b[2]) - parseInt(a[2]));
+  // fix the positions
+  wccTableData.forEach((row, index) => (row[0] = `${index + 1}`));
+
+  return (
+    <div className="bg-gray-50 dark:bg-gray-900">
+      <Navbar />
+      <NextRaceBanner grandPrixName={upcomingRace.EventName} />
+      <div className="mx-auto max-w-screen-lg">
+        <Table
+          title={`${previousRace.EventName} classification`}
+          headers={["Position", "Driver #", "Driver", "Team", "Time", "Grid position", "Points"]}
+          data={classificationTableData}
+        />
+        <Table
+          title="WDC standings"
+          headers={["Position", "Driver #", "Driver", "Team", "Points", "Wins"]}
+          data={wdcTableData}
+        />
+        <Table
+          title="WCC standings"
+          headers={["Position", "Team", "Points", "Wins"]}
+          data={wccTableData}
+        />
+        <div>
+          <h1 className="text-xl font-extrabold px-4 py-8">Season schedule</h1>
+          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 px-4">
+            {season[0].events.map((event, index) => (
+              <li key={index} className="col-span-1 flex shadow-sm rounded-md hover:cursor-pointer">
+                <div className="flex-shrink-0 flex items-center justify-center w-16 bg-gray-500 text-white text-3xl font-medium rounded-l-md">
+                  {getCountryFlagByCode(event.Country)}
+                </div>
+                <div className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 dark:border-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 rounded-r-md truncate">
+                  <div className="flex-1 px-4 py-2 text-sm truncate">
+                    {event.EventName}
+                    <p className="text-gray-500 dark:text-gray-400">
+                      {new Date(event.EventDate).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <div className="flex-shrink-0 pr-2 text-gray-500 dark:text-gray-400">
+                    <span className="sr-only">View</span>
+                    <ChevronRight />
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+export const getStaticProps = async () => {
+  const res = await fetch(`http://127.0.0.1:5000/racecalendar?year=${new Date().getFullYear()}`);
+  const season = (await res.json()) as Season[];
+
   // get the upcoming race from the current season
   let upcomingRaceDate = new Date();
   let upcomingRace = season[0].events[0];
@@ -19,54 +155,22 @@ const SeasonHub: NextPage<SeasonHubProps> = ({ season }) => {
     }
   }
 
-  return (
-    <div className="bg-gray-50 dark:bg-gray-900">
-      <Navbar />
-      <div className="mx-auto max-w-screen-lg px-4 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Season Hub</h1>
-        <p className="text-gray-600 dark:text-gray-400">
-          All the information you need about the {new Date().getFullYear()} Formula 1 season
-        </p>
-        <div className="mt-12 flex flex-col items-center gap-4 rounded-lg bg-gradient-to-r from-indigo-600 to-blue-900  p-6 shadow-lg sm:flex-row sm:justify-between">
-          <strong className="text-xl text-white sm:text-xl">
-            Next up: {upcomingRace.EventName}
-          </strong>
+  let previousRaceDate = new Date();
+  let previousRace = season[0].events[0];
+  for (let i = 0; i < season[0].events.length; i++) {
+    if (season[0].events[i].EventDate < previousRaceDate) {
+      previousRaceDate = season[0].events[i].EventDate;
+      previousRace = season[0].events[i];
+    } else break;
+  }
 
-          <a
-            className="inline-flex items-center rounded-full border border-white bg-white px-8 py-3 text-indigo-600 hover:bg-sky-50 focus:outline-none focus:ring active:bg-white/90"
-            href="/"
-          >
-            <span className="text-sm font-medium"> Go to event page </span>
-
-            <svg
-              className="ml-3 h-5 w-5"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
-              />
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <Footer />
-    </div>
+  const resClassification = await fetch(
+    `http://127.0.0.1:5000/classification?year=${2022}&round=${1}&session=${5}`
   );
-};
-
-export const getStaticProps = async () => {
-  const res = await fetch(`http://127.0.0.1:5000/racecalendar?year=${new Date().getFullYear()}`);
-  const season = (await res.json()) as Season[];
+  const latestClassification = (await resClassification.json()) as ClassificationProps;
 
   return {
-    props: { season },
+    props: { season, upcomingRace, previousRace, latestClassification },
     revalidate: 60 * 60 * 24, // at most once in every 24 hours
   };
 };

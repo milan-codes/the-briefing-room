@@ -1,5 +1,6 @@
 import { Action, applyMiddleware, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
+import classificationSlice from "../features/events/classificationSlice";
 import dataFilterSlice from "../features/events/dataFilterSlice";
 import eventQueryReducer from "../features/events/eventQuerySlice";
 import eventTelemetryReducer from "../features/events/eventTelemetrySlice";
@@ -14,6 +15,7 @@ export const makeStore = () =>
       lapTelemetryQuery: lapTelemetryQuerySlice,
       lapTelemetry: lapTelemetrySlice,
       dataFilter: dataFilterSlice,
+      classification: classificationSlice,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
   });

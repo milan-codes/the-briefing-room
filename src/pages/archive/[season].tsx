@@ -11,7 +11,7 @@ export interface StandingsProps {
   standings: DriverStanding[];
 }
 
-const getCountryFlag = (nationality: string) => {
+export const getCountryFlag = (nationality: string) => {
   // i18n-nationality has Monaco as "Monacan" instead of "Monegasque"
   if (nationality === "Monegasque") nationality = "Monacan";
 
