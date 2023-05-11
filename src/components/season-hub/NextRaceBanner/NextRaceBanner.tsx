@@ -9,7 +9,7 @@ const NextRaceBanner: React.FC<NextRaceBannerProps> = ({ grandPrixName }) => (
       All the information you need about the {new Date().getFullYear()} Formula 1 season
     </p>
     <div className="mt-12 flex flex-col items-center gap-4 rounded-lg bg-gradient-to-r from-indigo-600 to-blue-900  p-6 shadow-lg sm:flex-row sm:justify-between">
-      <strong className="text-xl text-white sm:text-xl">Next up: Saudi Arabian Grand Prix</strong>
+      <strong className="text-xl text-white sm:text-xl">Next up: {grandPrixName}</strong>
 
       <a
         className="inline-flex items-center rounded-full border border-white bg-white px-8 py-3 text-indigo-600 hover:bg-sky-50 focus:outline-none focus:ring active:bg-white/90"

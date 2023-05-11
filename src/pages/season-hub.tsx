@@ -26,7 +26,7 @@ interface SeasonHubProps {
 
 const getCountryFlagByCode = (country: string) => {
   // edge cases not correctly formatted for i18n-iso-countries
-  if (country === "UAE") country = "United Arab Emirates";
+  if (country === "UAE" || country === "Abu Dhabi") country = "United Arab Emirates";
 
   const countries = require("i18n-iso-countries");
   countries.registerLocale(require("i18n-iso-countries/langs/en.json"));
@@ -148,7 +148,7 @@ export const getStaticProps = async () => {
   let upcomingRaceDate = new Date();
   let upcomingRace = season[0].events[0];
   for (let i = 0; i < season[0].events.length; i++) {
-    if (season[0].events[i].EventDate > upcomingRaceDate) {
+    if (season[0].events[i].EventDate > new Date()) {
       upcomingRaceDate = season[0].events[i].EventDate;
       upcomingRace = season[0].events[i];
       break;
@@ -158,14 +158,16 @@ export const getStaticProps = async () => {
   let previousRaceDate = new Date();
   let previousRace = season[0].events[0];
   for (let i = 0; i < season[0].events.length; i++) {
-    if (season[0].events[i].EventDate < previousRaceDate) {
+    if (season[0].events[i].EventDate < new Date()) {
       previousRaceDate = season[0].events[i].EventDate;
       previousRace = season[0].events[i];
-    } else break;
+    }
   }
 
   const resClassification = await fetch(
-    `http://127.0.0.1:5000/classification?year=${2022}&round=${1}&session=${5}`
+    `http://127.0.0.1:5000/classification?year=${new Date().getFullYear()}&round=${
+      previousRace.RoundNumber
+    }&session=${5}`
   );
   const latestClassification = (await resClassification.json()) as ClassificationProps;
 
