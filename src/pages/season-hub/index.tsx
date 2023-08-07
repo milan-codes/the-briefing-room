@@ -106,7 +106,7 @@ const SeasonHub: NextPage<SeasonHubProps> = ({
 };
 
 export const getStaticProps = async () => {
-  const res = await fetch(`http://127.0.0.1:5000/racecalendar?year=${new Date().getFullYear()}`);
+  const res = await fetch(`${process.env.SERVER}/racecalendar?year=${new Date().getFullYear()}`);
   const season = (await res.json()) as Season[];
 
   // get the upcoming race from the current season
@@ -130,7 +130,7 @@ export const getStaticProps = async () => {
   }
 
   const resClassification = await fetch(
-    `http://127.0.0.1:5000/classification?year=${new Date().getFullYear()}&round=${
+    `${process.env.SERVER}/classification?year=${new Date().getFullYear()}&round=${
       previousRace.RoundNumber
     }&session=${5}`
   );

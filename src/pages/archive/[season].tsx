@@ -88,7 +88,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   let queryParam = "";
   if (params?.season) queryParam = `?season=${params.season}`;
-  const res = await fetch(`http://127.0.0.1:5000/standings${queryParam}`);
+  const res = await fetch(`${process.env.SERVER}/standings${queryParam}`);
   const standings = (await res.json()) as DriverStanding[];
   return {
     props: {
