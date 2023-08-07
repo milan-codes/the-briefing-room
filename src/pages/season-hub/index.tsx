@@ -1,17 +1,13 @@
 import { NextPage } from "next";
-import { useEffect } from "react";
-import { ChevronRight } from "tabler-icons-react";
 import Footer from "../../components/landing/Footer";
 import Navbar from "../../components/landing/Navbar";
 import NextRaceBanner from "../../components/season-hub/NextRaceBanner";
 import Table from "../../components/standings/Table";
 import { ClassificationProps } from "../../features/events/classificationSlice";
 import { GrandPrix, Season } from "../../model/Season";
-import getUnicodeFlagIcon from "country-flag-icons/unicode";
 import _ from "lodash";
 import { getCountryFlag } from "../archive/[season]";
-import Link from "next/link";
-import { slugify } from "../../utils/slugify";
+import { RaceCalendar } from "../../components/season-hub/RaceCalendar/RaceCalendar";
 
 interface SeasonHubProps {
   season: Season[];
@@ -19,15 +15,6 @@ interface SeasonHubProps {
   previousRace: GrandPrix;
   latestClassification: ClassificationProps;
 }
-
-const getCountryFlagByCode = (country: string) => {
-  // edge cases not correctly formatted for i18n-iso-countries
-  if (country === "UAE" || country === "Abu Dhabi") country = "United Arab Emirates";
-
-  const countries = require("i18n-iso-countries");
-  countries.registerLocale(require("i18n-iso-countries/langs/en.json"));
-  return getUnicodeFlagIcon(countries.getAlpha2Code(country, "en"));
-};
 
 const SeasonHub: NextPage<SeasonHubProps> = ({
   season,
@@ -93,9 +80,9 @@ const SeasonHub: NextPage<SeasonHubProps> = ({
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
-      <Navbar />
-      <NextRaceBanner grandPrixName={upcomingRace.EventName} />
       <div className="mx-auto max-w-screen-lg">
+        <Navbar />
+        <NextRaceBanner grandPrixName={upcomingRace.EventName} country={upcomingRace.Country} />
         <Table
           title={`${previousRace.EventName} classification`}
           headers={["Position", "Driver #", "Driver", "Team", "Time", "Grid position", "Points"]}
@@ -111,36 +98,9 @@ const SeasonHub: NextPage<SeasonHubProps> = ({
           headers={["Position", "Team", "Points", "Wins"]}
           data={wccTableData}
         />
-        <div>
-          <h1 className="text-xl font-extrabold px-4 py-8">Season schedule</h1>
-          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 px-4">
-            {season[0].events.map((event, index) => (
-              <li key={index} className="col-span-1 shadow-sm rounded-md hover:cursor-pointer">
-                <Link href={`season-hub/${slugify(event.EventName)}`}>
-                  <div className="flex">
-                    <div className="flex-shrink-0 flex items-center justify-center w-16 bg-gray-500 text-white text-3xl font-medium rounded-l-md">
-                      {getCountryFlagByCode(event.Country)}
-                    </div>
-                    <div className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 dark:border-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 rounded-r-md truncate">
-                      <div className="flex-1 px-4 py-2 text-sm truncate">
-                        {event.EventName}
-                        <p className="text-gray-500 dark:text-gray-400">
-                          {new Date(event.EventDate).toLocaleDateString()}
-                        </p>
-                      </div>
-                      <div className="flex-shrink-0 pr-2 text-gray-500 dark:text-gray-400">
-                        <span className="sr-only">View</span>
-                        <ChevronRight />
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <RaceCalendar season={season} />
+        <Footer />
       </div>
-      <Footer />
     </div>
   );
 };
