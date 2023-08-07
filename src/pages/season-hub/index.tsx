@@ -1,21 +1,17 @@
 import { NextPage } from "next";
 import { useEffect } from "react";
 import { ChevronRight } from "tabler-icons-react";
-import { useAppDispatch } from "../app/hooks";
-import Footer from "../components/landing/Footer";
-import Navbar from "../components/landing/Navbar";
-import NextRaceBanner from "../components/season-hub/NextRaceBanner";
-import Table from "../components/standings/Table";
-import {
-  ClassificationProps,
-  selectClassification,
-  setClassification,
-} from "../features/events/classificationSlice";
-import { getClassificationFromApi } from "../features/events/classificationSlice";
-import { GrandPrix, Season } from "../model/Season";
+import Footer from "../../components/landing/Footer";
+import Navbar from "../../components/landing/Navbar";
+import NextRaceBanner from "../../components/season-hub/NextRaceBanner";
+import Table from "../../components/standings/Table";
+import { ClassificationProps } from "../../features/events/classificationSlice";
+import { GrandPrix, Season } from "../../model/Season";
 import getUnicodeFlagIcon from "country-flag-icons/unicode";
 import _ from "lodash";
-import { getCountryFlag } from "./archive/[season]";
+import { getCountryFlag } from "../archive/[season]";
+import Link from "next/link";
+import { slugify } from "../../utils/slugify";
 
 interface SeasonHubProps {
   season: Season[];
@@ -119,22 +115,26 @@ const SeasonHub: NextPage<SeasonHubProps> = ({
           <h1 className="text-xl font-extrabold px-4 py-8">Season schedule</h1>
           <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 px-4">
             {season[0].events.map((event, index) => (
-              <li key={index} className="col-span-1 flex shadow-sm rounded-md hover:cursor-pointer">
-                <div className="flex-shrink-0 flex items-center justify-center w-16 bg-gray-500 text-white text-3xl font-medium rounded-l-md">
-                  {getCountryFlagByCode(event.Country)}
-                </div>
-                <div className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 dark:border-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 rounded-r-md truncate">
-                  <div className="flex-1 px-4 py-2 text-sm truncate">
-                    {event.EventName}
-                    <p className="text-gray-500 dark:text-gray-400">
-                      {new Date(event.EventDate).toLocaleDateString()}
-                    </p>
+              <li key={index} className="col-span-1 shadow-sm rounded-md hover:cursor-pointer">
+                <Link href={`season-hub/${slugify(event.EventName)}`}>
+                  <div className="flex">
+                    <div className="flex-shrink-0 flex items-center justify-center w-16 bg-gray-500 text-white text-3xl font-medium rounded-l-md">
+                      {getCountryFlagByCode(event.Country)}
+                    </div>
+                    <div className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 dark:border-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 rounded-r-md truncate">
+                      <div className="flex-1 px-4 py-2 text-sm truncate">
+                        {event.EventName}
+                        <p className="text-gray-500 dark:text-gray-400">
+                          {new Date(event.EventDate).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <div className="flex-shrink-0 pr-2 text-gray-500 dark:text-gray-400">
+                        <span className="sr-only">View</span>
+                        <ChevronRight />
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex-shrink-0 pr-2 text-gray-500 dark:text-gray-400">
-                    <span className="sr-only">View</span>
-                    <ChevronRight />
-                  </div>
-                </div>
+                </Link>
               </li>
             ))}
           </ul>
