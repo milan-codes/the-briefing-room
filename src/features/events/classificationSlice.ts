@@ -47,7 +47,7 @@ export const getClassificationFromApi =
   async (dispatch) => {
     console.log("Loading event...");
     const res = await fetch(
-      `http://127.0.0.1:5000/classification?year=${year}&round=${round}&session=${session}`
+      `http://127.0.0.1:8000/classification?year=${year}&round=${round}&session=${session}`
     );
     console.log("Loading event...done");
     const classification = (await res.json()) as ClassificationProps;

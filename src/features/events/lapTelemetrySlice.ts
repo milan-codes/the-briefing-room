@@ -53,7 +53,7 @@ export const getLapTelemetryFromApi =
     console.log(`Loading telemetry for car ${driver} on lap ${lap}...`);
     dispatch(toggleLoading());
     const res = await fetch(
-      `http://127.0.0.1:5000/lap?year=${year}&round=${round}&session=${session}&driver=${driver}&lap=${lap}`
+      `${process.env.SERVER}/lap?year=${year}&round=${round}&session=${session}&driver=${driver}&lap=${lap}`
     );
     dispatch(toggleLoading());
     console.log(`Loading telemetry for car ${driver} on lap ${lap}...done`);
