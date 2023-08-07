@@ -59,6 +59,11 @@ const SeasonHub: NextPage<SeasonHubProps> = ({
     `${driver.Points}`,
   ]);
 
+  // add a + sign to driver time starting from 2nd position
+  classificationTableData.forEach((row, index) => {
+    if (index > 0 && !row[4].includes("DNF")) row[4] = `+${row[4]}`;
+  });
+
   const { standings } = latestClassification;
   const constructorStandings = _.groupBy(
     standings,

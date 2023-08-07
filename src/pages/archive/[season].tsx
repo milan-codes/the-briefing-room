@@ -32,7 +32,7 @@ const Standings: NextPage<StandingsProps> = ({ standings }) => {
 
   const wdcTableData = standings.map((standing, index) => [
     `${index + 1}`,
-    `${standing.Driver.permanentNumber}`,
+    `${standing.Driver.permanentNumber || "N/A"}`,
     `${getCountryFlag(standing.Driver.nationality)} ${standing.Driver.givenName} ${
       standing.Driver.familyName
     }`,
