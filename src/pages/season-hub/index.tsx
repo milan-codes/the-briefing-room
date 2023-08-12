@@ -7,7 +7,7 @@ import { ClassificationProps } from "../../features/events/classificationSlice";
 import { GrandPrix, Season } from "../../model/Season";
 import _ from "lodash";
 import { getCountryFlag } from "../archive/[season]";
-import { RaceCalendar } from "../../components/season-hub/RaceCalendar/RaceCalendar";
+import RaceCalendar from "../../components/season-hub/RaceCalendar";
 
 interface SeasonHubProps {
   season: Season[];
