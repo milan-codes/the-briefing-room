@@ -1,28 +1,18 @@
-import Link from "next/link";
-import { UrlObject } from "url";
-
-interface FooterLinkProps {
-  label: string;
-  href: string | UrlObject;
-}
+import FooterGroupLinks, { FooterGroupLink } from "./FooterGroupLinks";
 
 export interface FooterGroupProps {
-  groupTitle: string;
-  links: FooterLinkProps[];
+  title: string;
+  links: FooterGroupLink[];
 }
 
-const FooterGroup: React.FC<FooterGroupProps> = ({ groupTitle, links }) => (
-  <div>
-    <p className="text-xl font-semibold text-gray-800 dark:text-gray-200">{groupTitle}</p>
+const FooterGroup: React.FC<FooterGroupProps> = ({ title, links }) => {
+  return (
+    <div className="text-center sm:text-left">
+      <p className="text-lg font-medium text-gray-900 dark:text-gray-100">{title}</p>
 
-    <nav className="flex flex-col mt-4 space-y-2 text-sm text-gray-500">
-      {links.map(({ label: title, href }, index) => (
-        <Link key={index} href={href}>
-          <a className="text-gray-700 dark:text-gray-300">{title}</a>
-        </Link>
-      ))}
-    </nav>
-  </div>
-);
+      <FooterGroupLinks links={links} />
+    </div>
+  );
+};
 
 export default FooterGroup;
