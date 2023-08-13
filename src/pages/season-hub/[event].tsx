@@ -3,8 +3,6 @@ import React from "react";
 import { GrandPrix, Season } from "../../model/Season";
 import { slugify } from "../../utils/slugify";
 import Navbar from "../../components/landing/Navbar/Navbar";
-import { getCountryFlagByCode } from "../../utils/getCountryFlagCode";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import GrandPrixInfoHeader from "../../components/season-hub/GrandPrixInfoHeader/GrandPrixInfoHeader";
 import Footer from "../../components/landing/Footer/Footer";
 
