@@ -5,8 +5,8 @@ interface TableProps {
 }
 
 const Table: React.FC<TableProps> = ({ title, headers, data }) => (
-  <div className="mx-auto max-w-screen-lg px-4 py-8 overflow-x-auto">
-    <h1 className="text-3xl font-extrabold mb-8 text-gray-900 dark:text-gray-100">{title}</h1>
+  <div className="mx-auto max-w-screen-lg px-4 pt-4 pb-8 overflow-x-auto">
+    <h1 className="text-xl font-extrabold mb-8 text-gray-900 dark:text-gray-100">{title}</h1>
     <table className="min-w-full divide-y-2 divide-gray-300 dark:divide-gray-700 text-sm">
       <thead>
         <tr>

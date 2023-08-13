@@ -21,20 +21,16 @@ const links = [
     href: "/",
   },
   {
-    name: "Features",
-    href: "/#features",
-  },
-  {
-    name: "FAQ",
-    href: "/#faq",
-  },
-  {
-    name: "Standings",
-    href: "/standings",
+    name: "Season Hub",
+    href: "/season-hub",
   },
   {
     name: "Telemetry",
     href: "/telemetry",
+  },
+  {
+    name: "Archive",
+    href: "/archive",
   },
 ];
 
