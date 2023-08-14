@@ -7,7 +7,7 @@ import Footer from "../components/landing/Footer";
 import { useAppSelector } from "../app/hooks";
 import { selectEventQuery } from "../features/events/eventQuerySlice";
 import Image from "next/image";
-import telemetryDemo from "../../public/images/telemetrydemo.png";
+import telemetryDemo from "../../public/images/readme/telemetry-demo.png";
 
 const Home: NextPage = () => {
   const event = useAppSelector(selectEventQuery);

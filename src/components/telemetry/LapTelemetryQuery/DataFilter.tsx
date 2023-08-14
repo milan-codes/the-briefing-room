@@ -17,8 +17,8 @@ const DataFilter: React.FC<DataFilterProps> = (props: DataFilterProps) => {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="w-full pt-5 border-t-[1px] border-solid border-gray-200 dark:border-gray-700">
-      <div className="mx-auto w-full max-w-md">
+    <div className="w-full pt-5 border-t-2 border-solid border-gray-200 dark:border-gray-700">
+      <div className="">
         <RadioGroup
           value={dataFilter.activeFilter}
           onChange={(newState: string) => dispatch(setActiveDataFilter(newState))}
@@ -30,7 +30,9 @@ const DataFilter: React.FC<DataFilterProps> = (props: DataFilterProps) => {
                 value={property}
                 className={({ checked }) =>
                   `${
-                    checked ? "transition duration-300 bg-[#3772FF]" : "bg-gray-50 dark:bg-gray-900"
+                    checked
+                      ? "transition duration-300 bg-[#3772FF]"
+                      : "bg-gray-100 dark:bg-gray-800"
                   }
                     relative flex cursor-pointer rounded-lg px-3 py-4`
                 }

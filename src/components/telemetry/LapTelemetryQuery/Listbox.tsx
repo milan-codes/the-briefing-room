@@ -20,8 +20,8 @@ const MyListbox: React.FC<ListboxProps> = (props) => {
         }}
       >
         <div className="relative mt-1">
-          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-gray-50 dark:bg-gray-900 py-2 pl-1 pr-10 text-left focus:outline-none sm:text-sm">
-            <span className="block truncate text-gray-900 dark:text-gray-300">
+          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-gray-100 dark:bg-gray-800 py-2 pl-1 pr-10 text-left focus:outline-none sm:text-sm">
+            <span className="block truncate pl-2 text-gray-900 dark:text-gray-300">
               {props.value === "" ? props.placeholder : props.value}
             </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
