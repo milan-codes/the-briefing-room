@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 
@@ -38,14 +38,14 @@ const MyCombobox: React.FC<ComboboxProps> = (props) => {
         }}
         nullable
       >
-        <div className="relative mt-1 ml-4">
+        <div className="relative mt-1">
           <div
             className={
-              props.error ? inputStyle + " border-[1px] border-solid border-red-400" : inputStyle
+              props.error ? inputStyle + " border-2 border-solid border-red-400" : inputStyle
             }
           >
             <Combobox.Input
-              className="w-full py-2 pl-3 pr-4 text-sm leading-5 text-gray-900 dark:text-gray-300 bg-gray-50 dark:bg-gray-900"
+              className="w-full py-2 pl-3 pr-8 text-sm leading-5 text-gray-900 dark:text-gray-300 bg-gray-100 dark:bg-gray-800"
               placeholder={props.placeholder}
               onChange={(event) => setQuery(event.target.value)}
             />
