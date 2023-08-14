@@ -56,8 +56,9 @@ const Chart: React.FC = () => {
               </YAxis>
               <Tooltip />
               <Legend verticalAlign="top" height={36} />
-              {lapTelemetry.telemetries.map((telemetry) => (
+              {lapTelemetry.telemetries.map((telemetry, index) => (
                 <Line
+                  key={index}
                   connectNulls={true}
                   dataKey={telemetry.driver}
                   stroke={`#${

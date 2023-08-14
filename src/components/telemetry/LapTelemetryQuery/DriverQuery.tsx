@@ -101,8 +101,8 @@ const DriverQuery: React.FC<DriverQueryProps> = ({ driverList, laps }) => {
         <div className="py-4 text-gray-900 dark:text-gray-300">
           <h1 className="text-md font-bold">Drivers added</h1>
           <ul className="py-2">
-            {lapTelemetry.telemetries.map((telemetry) => (
-              <li className="py-1 flex">
+            {lapTelemetry.telemetries.map((telemetry, index) => (
+              <li key={index} className="py-1 flex">
                 <div className="flex-1 w-5/6">
                   {telemetry.driver} (Lap {telemetry.lap})
                 </div>
