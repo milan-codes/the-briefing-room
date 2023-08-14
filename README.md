@@ -48,6 +48,8 @@ Explore the rich history of F1 by accessing WDC and WCC standings from every sea
 
 Contributions are welcomed! If you have coding skills, insights, or ideas to improve the app, you can actively participate in its development. Whether it's fixing bugs, adding new features, or suggesting improvements, your input can make a significant difference. Open an issue if you have any insights.
 
+- Note that only signed commits are accepted
+
 ## Disclaimer
 
 The creator of this web application is in no way, shape or form linked to FORMULA 1, Liberty Media, the FIA or any other organization. This website was created only for fun, and educational purposes and it does not generate any revenue. All rights belong to their respective owners. Any insights or data derived from the app should be regarded as unofficial and for informational purposes only.
