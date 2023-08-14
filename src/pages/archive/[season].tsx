@@ -11,7 +11,7 @@ export interface StandingsProps {
   standings: DriverStanding[];
 }
 
-const getCountryFlag = (nationality: string) => {
+export const getCountryFlag = (nationality: string) => {
   // i18n-nationality has Monaco as "Monacan" instead of "Monegasque"
   if (nationality === "Monegasque") nationality = "Monacan";
 
@@ -32,7 +32,7 @@ const Standings: NextPage<StandingsProps> = ({ standings }) => {
 
   const wdcTableData = standings.map((standing, index) => [
     `${index + 1}`,
-    `${standing.Driver.permanentNumber}`,
+    `${standing.Driver.permanentNumber || "N/A"}`,
     `${getCountryFlag(standing.Driver.nationality)} ${standing.Driver.givenName} ${
       standing.Driver.familyName
     }`,
@@ -88,7 +88,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   let queryParam = "";
   if (params?.season) queryParam = `?season=${params.season}`;
-  const res = await fetch(`http://127.0.0.1:5000/standings${queryParam}`);
+  const res = await fetch(`${process.env.SERVER}/standings${queryParam}`);
   const standings = (await res.json()) as DriverStanding[];
   return {
     props: {

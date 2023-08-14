@@ -36,7 +36,7 @@ const Telemetry: NextPage<TelemetryProps> = ({ seasons }) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const res = await fetch("http://127.0.0.1:5000/racecalendar?year=2021&includeAll=true");
+  const res = await fetch(`${process.env.SERVER}/racecalendar?year=2021&includeAll=true`);
   const seasons = (await res.json()) as Season[];
   return {
     props: {

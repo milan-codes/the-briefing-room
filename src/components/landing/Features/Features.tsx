@@ -1,4 +1,4 @@
-import { BuildingCommunity, Medal, TrendingUp } from "tabler-icons-react";
+import { History, Medal, TrendingUp } from "tabler-icons-react";
 import FeatureBlock from "./FeatureBlock";
 
 const Features: React.FC = () => (
@@ -8,9 +8,9 @@ const Features: React.FC = () => (
         <h2 className="text-gray-100 text-3xl font-bold sm:text-4xl">Built by fans</h2>
 
         <p className="text-gray-300 mt-4">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat dolores iure fugit totam
-          iste obcaecati. Consequatur ipsa quod ipsum sequi culpa delectus, cumque id tenetur
-          quibusdam, quos fuga minima.
+          Crafted by passionate F1 enthusiasts for fellow fans of the sport. This interactive
+          platform offers users the opportunity to delve into the intricate world of the pinnacle of
+          motorsport through telemetry data analysis.
         </p>
       </div>
 
@@ -25,22 +25,22 @@ const Features: React.FC = () => (
 
 const featureItems = [
   {
-    title: "Feature 1",
+    title: "Analyse telemetry data",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat dolores iure fugit totam iste obcaecati.",
-    icon: <BuildingCommunity />,
-  },
-  {
-    title: "Feature 2",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat dolores iure fugit totam iste obcaecati.",
+      "Dive into the heart of the race with our Telemetry page, where you can analyze and compare drivers' telemetry data from the exhilarating 2021 season, gaining unparalleled insights into their driving styles and strategies.",
     icon: <TrendingUp />,
   },
   {
-    title: "Feature 3",
+    title: "Access the Season Hub",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat dolores iure fugit totam iste obcaecati.",
+      "Explore the Season Hub for comprehensive insights into the latest race results, up-to-date WDC and WCC standings, ensuring you're always in the know about the ongoing F1 season's dynamics.",
     icon: <Medal />,
+  },
+  {
+    title: "View historical statistics",
+    description:
+      "Step back in time and relive the rich history of the sport with our Season Archive page, allowing you to explore WDC and WCC standings from the inaugural 1950 season to the present day, all in one convenient and nostalgic journey.",
+    icon: <History />,
   },
 ];
 

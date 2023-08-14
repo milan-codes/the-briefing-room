@@ -31,7 +31,7 @@ export const getLapsFromApi =
     console.log("Loading event...");
     dispatch(toggleLoading());
     const res = await fetch(
-      `http://127.0.0.1:5000/session?year=${year}&round=${round}&session=${session}`
+      `http://127.0.0.1:8000/session?year=${year}&round=${round}&session=${session}`
     );
     dispatch(toggleLoading());
     console.log("Loading event...done");
