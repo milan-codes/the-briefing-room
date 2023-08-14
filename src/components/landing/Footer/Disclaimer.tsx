@@ -1,5 +1,5 @@
 const Disclaimer: React.FC = () => (
-  <div className="mt-12 border-t border-gray-800 dark:border-gray-100 pt-6">
+  <div className="mt-12 border-t-2 border-gray-200 dark:border-gray-800 pt-6">
     <div className="text-center sm:flex sm:justify-between sm:text-left">
       <p className="text-sm text-gray-500 dark:text-gray-400">
         Made by Milán Herke, a fellow F1 fan. <br />

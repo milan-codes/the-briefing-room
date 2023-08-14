@@ -30,10 +30,12 @@ const Chart: React.FC = () => {
   return (
     <div className="grid place-items-center h-full">
       {lapTelemetry.telemetries.length === 0 ? (
-        <div className="text-gray-900 dark:text-gray-300">Telemetry data will appear here.</div>
+        <div className="text-gray-900 dark:text-gray-300 h-[200px] flex items-center">
+          Telemetry data will appear here.
+        </div>
       ) : (
         <div className="w-11/12">
-          <ResponsiveContainer height={500} width={"100%"}>
+          <ResponsiveContainer height={200} width={"100%"}>
             <LineChart data={mergedData} margin={{ top: 10, right: 5, left: 5, bottom: 10 }}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
@@ -54,8 +56,9 @@ const Chart: React.FC = () => {
               </YAxis>
               <Tooltip />
               <Legend verticalAlign="top" height={36} />
-              {lapTelemetry.telemetries.map((telemetry) => (
+              {lapTelemetry.telemetries.map((telemetry, index) => (
                 <Line
+                  key={index}
                   connectNulls={true}
                   dataKey={telemetry.driver}
                   stroke={`#${

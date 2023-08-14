@@ -31,7 +31,7 @@ const DriverQuery: React.FC<DriverQueryProps> = ({ driverList, laps }) => {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="border-y-[1px] border-solid border-gray-200 dark:border-gray-700">
+    <div className="border-t-2 pt-5 border-solid border-gray-200 dark:border-gray-700">
       <div className="relative z-50">
         <MyListbox
           options={driverList.map((driver) => ({
@@ -97,14 +97,12 @@ const DriverQuery: React.FC<DriverQueryProps> = ({ driverList, laps }) => {
         )}
       </button>
 
-      {lapTelemetry.telemetries.length === 0 ? (
-        ""
-      ) : (
+      {lapTelemetry.telemetries.length !== 0 && (
         <div className="py-4 text-gray-900 dark:text-gray-300">
           <h1 className="text-md font-bold">Drivers added</h1>
           <ul className="py-2">
-            {lapTelemetry.telemetries.map((telemetry) => (
-              <li className="py-1 flex">
+            {lapTelemetry.telemetries.map((telemetry, index) => (
+              <li key={index} className="py-1 flex">
                 <div className="flex-1 w-5/6">
                   {telemetry.driver} (Lap {telemetry.lap})
                 </div>
