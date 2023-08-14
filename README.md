@@ -41,7 +41,8 @@ Explore the rich history of F1 by accessing WDC and WCC standings from every sea
 1. In order to run the web application locally, you need to install and run [The Briefing Room API](https://github.com/milan-codes/the-briefing-room-api).
 2. After the backend is up and running, you will need to clone this repository with: `git clone git@github.com:milan-codes/the-briefing-room.git`
 3. Navigate to the folder and install the node modules with yarn: `cd the-briefing-room && yarn install`
-4. Start the app in dev mode with `yarn dev` (or alternatively to test out the build: `yarn build` and then `yarn start`)
+4. Create a `.env.local` file where you specify in the `SERVER` environment variable where the API is running (e.g.: `SERVER=http://127.0.0.1:8000`)
+5. Start the app in dev mode with `yarn dev` (or alternatively to test out the build: `yarn build` and then `yarn start`)
 
 ## Contributing
 
