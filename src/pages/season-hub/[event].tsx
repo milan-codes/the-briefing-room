@@ -7,6 +7,7 @@ import GrandPrixInfoHeader from "../../components/season-hub/GrandPrixInfoHeader
 import Footer from "../../components/landing/Footer/Footer";
 import Table from "../../components/standings/Table/Table";
 import { formatTime } from "../../utils/formatTime";
+import { getCountryFlag } from "../archive/[season]";
 
 interface EventPreviewProps {
   grandprix: GrandPrix;
@@ -87,6 +88,40 @@ const EventPreview: React.FC<EventPreviewProps> = ({ grandprix }) => {
     ]);
   }
 
+  const { wdcStandings, wccStandings } = grandprix;
+
+  let wdcTableData: string[][] = [];
+  if (wdcStandings) {
+    wdcTableData = wdcStandings.map((driver) => [
+      driver.position.toString(),
+      driver.driverNumber.toString(),
+      getCountryFlag(driver.driverNationality) + " " + driver.givenName + " " + driver.familyName,
+      driver.constructorNames[0],
+      driver.points.toString(),
+      driver.wins.toString(),
+    ]);
+  }
+
+  let wccTableData: string[][] = [];
+  if (wccStandings) {
+    wccTableData = wccStandings.map((team) => [
+      team.position.toString(),
+      getCountryFlag(team.constructorNationality) + " " + team.constructorName,
+      team.points.toString(),
+      team.wins.toString(),
+    ]);
+  }
+
+  const wdcStandingsTitle =
+    grandprix.EventDate < new Date()
+      ? `World Drivers' Championship after the ${grandprix.EventName}`
+      : `World Drivers' Championship heading into the ${grandprix.EventName}`;
+
+  const wccStandingsTitle =
+    grandprix.EventDate < new Date()
+      ? `World Constructors' Championship after the ${grandprix.EventName}`
+      : `World Constructors' Championship heading into the ${grandprix.EventName}`;
+
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
       <div className="mx-auto max-w-screen-lg">
@@ -147,6 +182,20 @@ const EventPreview: React.FC<EventPreviewProps> = ({ grandprix }) => {
             data={qualifyingTableData}
           />
         )}
+        {wdcStandings && (
+          <Table
+            title={wdcStandingsTitle}
+            headers={["Position", "Driver #", "Driver", "Team", "Points", "Wins"]}
+            data={wdcTableData}
+          />
+        )}
+        {wccStandings && (
+          <Table
+            title={wccStandingsTitle}
+            headers={["Position", "Team", "Points", "Wins"]}
+            data={wccTableData}
+          />
+        )}
         <Footer />
       </div>
     </div>
@@ -169,10 +218,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   let event = "";
-  if (params?.event) {
-    // replace - with space
-    event = params.event.toString().replace(/-/g, " ");
-  }
+  if (params?.event) event = params.event.toString();
   const res = await fetch(
     `${process.env.SERVER}/grandprix?year=${new Date().getFullYear()}&name=${event}`
   );

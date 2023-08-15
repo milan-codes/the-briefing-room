@@ -20,6 +20,8 @@ export interface GrandPrix {
   qualifyingResults?: QualifyingResult[];
   sprintResults?: SprintResult[];
   raceResults?: RaceResult[];
+  wdcStandings?: WdcStanding[];
+  wccStandings?: WccStanding[];
 }
 
 export interface QualifyingResult {
@@ -95,6 +97,36 @@ export interface RaceResult {
   fastestLapTime: number;
   fastestLapAvgSpeedUnits: string;
   fastestLapAvgSpeed: number;
+}
+
+export interface WdcStanding {
+  position: number;
+  positionText: string;
+  points: number;
+  wins: number;
+  driverId: string;
+  driverNumber: number;
+  driverCode: string;
+  driverUrl: string;
+  givenName: string;
+  familyName: string;
+  dateOfBirth: Date;
+  driverNationality: string;
+  constructorIds: string[];
+  constructorUrls: string[];
+  constructorNames: string[];
+  constructorNationalities: string[];
+}
+
+export interface WccStanding {
+  position: number;
+  positionText: string;
+  points: number;
+  wins: number;
+  constructorId: string;
+  constructorUrl: string;
+  constructorName: string;
+  constructorNationality: string;
 }
 
 export interface Season {
