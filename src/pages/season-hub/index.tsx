@@ -8,6 +8,7 @@ import { GrandPrix, Season } from "../../model/Season";
 import _ from "lodash";
 import { getCountryFlag } from "../archive/[season]";
 import RaceCalendar from "../../components/season-hub/RaceCalendar";
+import { formatTime } from "../../utils/formatTime";
 
 interface SeasonHubProps {
   season: Season[];
@@ -22,16 +23,6 @@ const SeasonHub: NextPage<SeasonHubProps> = ({
   previousRace,
   latestClassification,
 }) => {
-  //format ms to hh:mm:ss
-  const formatTime = (ms: number) => {
-    const milliseconds = Math.floor((ms % 1000) / 10);
-    const seconds = Math.floor((ms / 1000) % 60);
-    const minutes = Math.floor((ms / (1000 * 60)) % 60);
-    const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
-
-    return `${hours}:${minutes}:${seconds}.${milliseconds}`;
-  };
-
   const classificationTableData = latestClassification.classification.map((driver, index) => [
     `${index + 1}`,
     `${driver.DriverNumber}`,

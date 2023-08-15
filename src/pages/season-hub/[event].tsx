@@ -5,6 +5,8 @@ import { slugify } from "../../utils/slugify";
 import Navbar from "../../components/landing/Navbar/Navbar";
 import GrandPrixInfoHeader from "../../components/season-hub/GrandPrixInfoHeader/GrandPrixInfoHeader";
 import Footer from "../../components/landing/Footer/Footer";
+import Table from "../../components/standings/Table/Table";
+import { formatTime } from "../../utils/formatTime";
 
 interface EventPreviewProps {
   grandprix: GrandPrix;
@@ -36,6 +38,54 @@ const EventPreview: React.FC<EventPreviewProps> = ({ grandprix }) => {
       date: new Date(grandprix.Session5Date),
     },
   ];
+
+  const { qualifyingResults, sprintResults, raceResults } = grandprix;
+
+  let qualifyingTableData: string[][] = [];
+  if (qualifyingResults) {
+    qualifyingTableData = qualifyingResults.map((result) => [
+      result.position.toString(),
+      result.givenName + " " + result.familyName,
+      result.constructorName,
+      result.Q1 ? formatTime(result.Q1) : "",
+      result.Q2 ? formatTime(result.Q2) : "",
+      result.Q3 ? formatTime(result.Q3) : "",
+    ]);
+  }
+
+  let sprintTableData: string[][] = [];
+  if (sprintResults) {
+    sprintTableData = sprintResults.map((result) => [
+      result.position.toString(),
+      result.givenName + " " + result.familyName,
+      result.constructorName,
+      result.grid.toString(),
+      result.totalRaceTimeMillis
+        ? formatTime(result.totalRaceTimeMillis)
+        : "DNF  (" + result.status + ")",
+      result.fastestLapTime ? formatTime(result.fastestLapTime) : "No time set",
+      result.points === 0 ? "" : "+" + result.points.toString(),
+    ]);
+  }
+
+  let raceTableData: string[][] = [];
+  if (raceResults) {
+    raceTableData = raceResults.map((result) => [
+      result.position.toString(),
+      result.givenName + " " + result.familyName,
+      result.constructorName,
+      result.grid.toString(),
+      result.totalRaceTimeMillis
+        ? formatTime(result.totalRaceTimeMillis)
+        : "DNF  (" + result.status + ")",
+      result.fastestLapTime
+        ? result.fastestLapRank === 1
+          ? formatTime(result.fastestLapTime) + " (Fastest)"
+          : formatTime(result.fastestLapTime)
+        : "No time set",
+      result.points === 0 ? "" : "+" + result.points.toString(),
+    ]);
+  }
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
@@ -74,7 +124,29 @@ const EventPreview: React.FC<EventPreviewProps> = ({ grandprix }) => {
               ))}
             </div>
           </div>
+          <div className="my-4 border-[1px] border-gray-200 dark:border-gray-800"></div>
         </div>
+        {raceResults && (
+          <Table
+            title="Race results"
+            headers={["Position", "Driver", "Team", "Grid", "Time", "Fastest lap", "Points"]}
+            data={raceTableData}
+          />
+        )}
+        {sprintResults && (
+          <Table
+            title="Sprint results"
+            headers={["Position", "Driver", "Team", "Grid", "Time", "Fastest lap", "Points"]}
+            data={sprintTableData}
+          />
+        )}
+        {qualifyingResults && (
+          <Table
+            title="Qualifying results"
+            headers={["Position", "Driver", "Team", "Q1", "Q2", "Q3"]}
+            data={qualifyingTableData}
+          />
+        )}
         <Footer />
       </div>
     </div>
@@ -104,7 +176,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const res = await fetch(
     `${process.env.SERVER}/grandprix?year=${new Date().getFullYear()}&name=${event}`
   );
-  const grandprix = (await res.json()) as GrandPrix[];
+  const grandprix = (await res.json()) as GrandPrix;
 
   return {
     props: {
