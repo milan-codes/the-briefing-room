@@ -4,11 +4,13 @@ import Navbar from "../../components/landing/Navbar";
 import getUnicodeFlagIcon from "country-flag-icons/unicode";
 import _ from "lodash";
 import Table from "../../components/standings/Table";
-import { Standings } from "../../model/Season";
+import { Season, Standings } from "../../model/Season";
 import Link from "next/link";
+import RaceCalendar from "../../components/season-hub/RaceCalendar/RaceCalendar";
 
 export interface ArchiveStandingsProps {
   season: number;
+  raceCalendar: Season[];
   standings: Standings;
 }
 
@@ -23,7 +25,11 @@ export const getCountryFlag = (nationality: string) => {
   return getUnicodeFlagIcon(countryCode);
 };
 
-const ArchiveSeasonStandings: NextPage<ArchiveStandingsProps> = ({ season, standings }) => {
+const ArchiveSeasonStandings: NextPage<ArchiveStandingsProps> = ({
+  season,
+  raceCalendar,
+  standings,
+}) => {
   const { wdc, wcc } = standings;
 
   let wdcTableData: string[][] = [];
@@ -84,6 +90,9 @@ const ArchiveSeasonStandings: NextPage<ArchiveStandingsProps> = ({ season, stand
           </p>
         </div>
       )}
+      <div className="mx-auto max-w-screen-lg">
+        <RaceCalendar season={raceCalendar} hrefPrefix={`${season}`} />
+      </div>
       <Footer />
     </div>
   );
@@ -108,9 +117,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   if (params?.season) queryParam = `?year=${params.season}`;
   const res = await fetch(`${process.env.SERVER}/standings${queryParam}`);
   const standings = (await res.json()) as Standings;
+
+  const raceCalendarRes = await fetch(`${process.env.SERVER}/racecalendar?year=${season}`);
+  const raceCalendar = (await raceCalendarRes.json()) as Season[];
   return {
     props: {
       season,
+      raceCalendar,
       standings,
     },
   };

@@ -87,7 +87,7 @@ const SeasonHub: NextPage<SeasonHubProps> = ({
           headers={["Position", "Team", "Points", "Wins"]}
           data={wccTableData}
         />
-        <RaceCalendar season={season} />
+        <RaceCalendar season={season} hrefPrefix="/season-hub" />
         <Footer />
       </div>
     </div>

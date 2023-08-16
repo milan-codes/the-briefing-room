@@ -7,9 +7,13 @@ import Link from "next/link";
 
 interface RaceCalendarListItemProps {
   event: GrandPrix;
+  hrefPrefix: string;
 }
 
-export const RaceCalendarListItem: React.FC<RaceCalendarListItemProps> = ({ event }) => {
+export const RaceCalendarListItem: React.FC<RaceCalendarListItemProps> = ({
+  event,
+  hrefPrefix,
+}) => {
   const eventAlreadyHappened = new Date(event.EventDate) < new Date();
   const eventDoneStyle =
     "border-sky-300 dark:border-sky-700 bg-sky-100 hover:bg-sky-300 dark:bg-sky-800 hover:dark:bg-sky-700";
@@ -17,7 +21,7 @@ export const RaceCalendarListItem: React.FC<RaceCalendarListItemProps> = ({ even
     "border-gray-200 dark:border-gray-700 bg-gray-100 hover:bg-gray-300 dark:bg-gray-800 hover:dark:bg-gray-700";
   return (
     <li key={event.RoundNumber} className="col-span-1 shadow-sm rounded-md hover:cursor-pointer">
-      <Link href={`season-hub/${slugify(event.EventName)}`}>
+      <Link href={`${hrefPrefix}/${slugify(event.EventName)}`}>
         <div className="flex">
           <div className="flex-shrink-0 flex items-center justify-center w-16 bg-gray-500 dark:bg-gray-400 text-3xl rounded-l-md">
             {getCountryFlagByCode(event.Country)}
