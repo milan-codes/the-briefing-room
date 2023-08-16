@@ -3,7 +3,7 @@ import React from "react";
 import { GrandPrix, Season } from "../../model/Season";
 import { slugify } from "../../utils/slugify";
 import Navbar from "../../components/landing/Navbar/Navbar";
-import GrandPrixInfoHeader from "../../components/season-hub/GrandPrixInfoHeader/GrandPrixInfoHeader";
+import GrandPrixInfoHeader from "../../../app/components/GrandPrixInfoHeader/GrandPrixInfoHeader";
 import Footer from "../../../app/components/Footer/Footer";
 import Table from "../../components/standings/Table/Table";
 import { formatTime } from "../../utils/formatTime";

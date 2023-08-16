@@ -1,6 +1,6 @@
 import React from "react";
-import { Season } from "../../../model/Season";
 import { RaceCalendarListItem } from "./RaceCalendarListItem";
+import { Season } from "../../../src/model/Season";
 
 interface RaceCalendarProps {
   season: Season[];

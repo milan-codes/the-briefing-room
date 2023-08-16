@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { slugify } from "../../../utils/slugify";
-import { getCountryFlagByCode } from "../../../utils/getCountryFlagCode";
 import { ChevronRight } from "tabler-icons-react";
+import { getCountryFlagByCode } from "../../../src/utils/getCountryFlagCode";
+import { slugify } from "../../../src/utils/slugify";
 
 interface NextRaceBannerProps {
   grandPrixName: string;

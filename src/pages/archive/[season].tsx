@@ -1,12 +1,12 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Footer from "../../../app/components/Footer";
-import Navbar from "../../components/landing/Navbar";
+import Navbar from "../../../app/components/Navbar";
 import getUnicodeFlagIcon from "country-flag-icons/unicode";
 import _ from "lodash";
 import Table from "../../components/standings/Table";
 import { Season, Standings } from "../../model/Season";
 import Link from "next/link";
-import RaceCalendar from "../../components/season-hub/RaceCalendar/RaceCalendar";
+import RaceCalendar from "../../../app/components/RaceCalendar/RaceCalendar";
 
 export interface ArchiveStandingsProps {
   season: number;
