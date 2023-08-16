@@ -18,8 +18,8 @@ const FooterGroupLinks: React.FC<FooterGroupLinksProps> = ({ links }) => {
         {links.map((link, index) => (
           <li key={index}>
             {link.href.startsWith("/") ? (
-              <Link href={link.href}>
-                <a className={linkStyle}>{link.title}</a>
+              <Link href={link.href} className={linkStyle}>
+                {link.title}
               </Link>
             ) : (
               <a className={linkStyle} href={link.href}>

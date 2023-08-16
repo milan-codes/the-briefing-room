@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { slugify } from "../../../utils/slugify";
 import { getCountryFlagByCode } from "../../../utils/getCountryFlagCode";
+import { ChevronRight } from "tabler-icons-react";
 
 interface NextRaceBannerProps {
   grandPrixName: string;
@@ -22,20 +23,7 @@ const NextRaceBanner: React.FC<NextRaceBannerProps> = ({ grandPrixName, country 
         <div className="inline-flex items-center rounded-full border border-white bg-white px-8 py-3 text-indigo-600 hover:cursor-pointer hover:bg-sky-50 focus:outline-none focus:ring active:bg-white/90">
           <span className="text-sm font-medium"> See preview </span>
 
-          <svg
-            className="ml-3 h-5 w-5"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M17 8l4 4m0 0l-4 4m4-4H3"
-            />
-          </svg>
+          <ChevronRight />
         </div>
       </Link>
     </div>

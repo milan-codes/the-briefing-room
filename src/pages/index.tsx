@@ -17,7 +17,7 @@ const Home: NextPage = () => {
       <Navbar />
       <Hero />
       <div className="mx-auto max-w-screen-lg">
-        <Image src={telemetryDemo} />
+        <Image src={telemetryDemo} alt="App demo image" />
       </div>
       <Features />
       <Faq />

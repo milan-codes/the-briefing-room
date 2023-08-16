@@ -5,10 +5,11 @@ const NavbarLinks: React.FC = () => (
     <ul className="flex items-center gap-6 text-sm">
       {links.map((link) => (
         <li key={link.name}>
-          <Link href={link.href}>
-            <a className="text-gray-500 dark:text-gray-400 transition hover:text-gray-500/75 dark:hover:text-gray-400/75">
-              {link.name}
-            </a>
+          <Link
+            href={link.href}
+            className="text-gray-500 dark:text-gray-400 transition hover:text-gray-500/75 dark:hover:text-gray-400/75"
+          >
+            {link.name}
           </Link>
         </li>
       ))}
