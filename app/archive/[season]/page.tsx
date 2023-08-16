@@ -60,13 +60,6 @@ const ArchiveSeasonStandings = async ({ params }: { params: { season: string } }
   );
 };
 
-export const generateStaticParams = async () => {
-  // create an array of paths starting from the 1950 season up until the previous year
-  return Array.from({ length: new Date().getFullYear() - 1950 }, (_, i) => ({
-    season: (1950 + i).toString(),
-  }));
-};
-
 const getStandings = async (season: number) => {
   const standingsRes = await fetch(`${process.env.SERVER}/standings?year=${season}`);
   const standings = (await standingsRes.json()) as Standings;

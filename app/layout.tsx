@@ -9,6 +9,8 @@ export const metadata: Metadata = {
     "The Briefing Room is an open source tool, that lets you analyse telemetry data from F1 sessions",
 };
 
+export const dynamicParams = false;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
