@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import Footer from "../../components/landing/Footer";
+import Footer from "../../../app/components/Footer";
 import Navbar from "../../components/landing/Navbar";
 import getUnicodeFlagIcon from "country-flag-icons/unicode";
 import _ from "lodash";

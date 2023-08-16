@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import Footer from "../../components/landing/Footer";
+import Footer from "../../../app/components/Footer";
 import Navbar from "../../components/landing/Navbar";
 import NextRaceBanner from "../../components/season-hub/NextRaceBanner";
 import Table from "../../components/standings/Table";

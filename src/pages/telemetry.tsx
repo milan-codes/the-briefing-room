@@ -4,7 +4,7 @@ import EventQueryBar from "../components/telemetry/EventQuery";
 import DriverFilter from "../components/telemetry/LapTelemetryQuery";
 import Chart from "../components/telemetry/Chart";
 import Navbar from "../components/landing/Navbar";
-import Footer from "../components/landing/Footer/Footer";
+import Footer from "../../app/components/Footer/Footer";
 
 export interface TelemetryProps {
   seasons: Season[];

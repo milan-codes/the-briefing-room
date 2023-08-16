@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import ArchiveList from "../../components/archive/ArchiveList/ArchiveList";
-import Footer from "../../components/landing/Footer";
+import Footer from "../../../app/components/Footer";
 import Navbar from "../../components/landing/Navbar";
 
 const Archive: NextPage = () => {
