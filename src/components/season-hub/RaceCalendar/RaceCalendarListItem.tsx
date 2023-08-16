@@ -19,6 +19,10 @@ export const RaceCalendarListItem: React.FC<RaceCalendarListItemProps> = ({
     "border-sky-300 dark:border-sky-700 bg-sky-100 hover:bg-sky-300 dark:bg-sky-800 hover:dark:bg-sky-700";
   const eventStillToComeStyle =
     "border-gray-200 dark:border-gray-700 bg-gray-100 hover:bg-gray-300 dark:bg-gray-800 hover:dark:bg-gray-700";
+
+  //Edge case
+  if (event.Country === "Korea") event.Country = "South Korea";
+
   return (
     <li key={event.RoundNumber} className="col-span-1 shadow-sm rounded-md hover:cursor-pointer">
       <Link href={`${hrefPrefix}/${slugify(event.EventName)}`}>
