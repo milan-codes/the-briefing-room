@@ -1,4 +1,7 @@
 import { Metadata } from "next";
+import Navbar from "../src/components/landing/Navbar/Navbar";
+import Footer from "../src/components/landing/Footer/Footer";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "The Briefing Room",
@@ -6,16 +9,14 @@ export const metadata: Metadata = {
     "The Briefing Room is an open source tool, that lets you analyse telemetry data from F1 sessions",
 };
 
-export default function RootLayout({
-  // Layouts must accept a children prop.
-  // This will be populated with nested layouts or pages
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Navbar />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }
