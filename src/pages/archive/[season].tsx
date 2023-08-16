@@ -6,9 +6,10 @@ import getUnicodeFlagIcon from "country-flag-icons/unicode";
 import _ from "lodash";
 import Table from "../../components/standings/Table";
 import { useRouter } from "next/router";
+import { Standings } from "../../model/Season";
 
-export interface StandingsProps {
-  standings: DriverStanding[];
+export interface ArchiveStandingsProps {
+  standings: Standings;
 }
 
 export const getCountryFlag = (nationality: string) => {
@@ -22,42 +23,48 @@ export const getCountryFlag = (nationality: string) => {
   return getUnicodeFlagIcon(countryCode);
 };
 
-const Standings: NextPage<StandingsProps> = ({ standings }) => {
-  const { query } = useRouter();
+const ArchiveSeasonStandings: NextPage<ArchiveStandingsProps> = ({ standings }) => {
+  const router = useRouter();
+  const { query } = router;
 
-  const constructorStandings = _.groupBy(
-    standings,
-    (standing) => standing.Constructors[0].constructorId
-  );
+  const { wdc, wcc } = standings;
 
-  const wdcTableData = standings.map((standing, index) => [
-    `${index + 1}`,
-    `${standing.Driver.permanentNumber || "N/A"}`,
-    `${getCountryFlag(standing.Driver.nationality)} ${standing.Driver.givenName} ${
-      standing.Driver.familyName
-    }`,
-    `${standing.Constructors[0].name}`,
-    `${standing.points}`,
-    `${standing.wins}`,
-  ]);
+  let wdcTableData: string[][] = [];
+  if (wdc) {
+    wdcTableData = wdc.map((driver) => [
+      driver.position.toString(),
+      driver.driverNumber.toString(),
+      getCountryFlag(driver.driverNationality) + " " + driver.givenName + " " + driver.familyName,
+      driver.constructorNames[0],
+      driver.points.toString(),
+      driver.wins.toString(),
+    ]);
+  }
 
-  const wccTableData = Object.keys(constructorStandings).map((key, index) => [
-    `${index + 1}`,
-    `${getCountryFlag(constructorStandings[key][0].Constructors[0].nationality)} ${
-      constructorStandings[key][0].Constructors[0].name
-    }`,
-    `${constructorStandings[key].reduce((acc, curr) => acc + parseInt(curr.points), 0)}`,
-    `${constructorStandings[key].reduce((acc, curr) => acc + parseInt(curr.wins), 0)}`,
-  ]);
-
-  // sort wccTableData by points
-  wccTableData.sort((a, b) => parseInt(b[2]) - parseInt(a[2]));
-  // fix the positions
-  wccTableData.forEach((row, index) => (row[0] = `${index + 1}`));
+  let wccTableData: string[][] = [];
+  if (wcc) {
+    wccTableData = wcc.map((team) => [
+      team.position.toString(),
+      getCountryFlag(team.constructorNationality) + " " + team.constructorName,
+      team.points.toString(),
+      team.wins.toString(),
+    ]);
+  }
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
       <Navbar />
+      <div className="mx-auto max-w-screen-lg px-4">
+        <div className="mt-8">
+          <h1 className="text-3xl font-extrabold mb-3 text-gray-900 dark:text-gray-100">
+            Season archive of the {query.season} season
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400 mb-1">
+            Take a look at the standings of the {query.season} season
+          </p>
+        </div>
+        <div className="my-4 border-[1px] border-gray-200 dark:border-gray-800"></div>
+      </div>
       <Table
         title={`${query.season} WDC standings`}
         headers={["Position", "Driver #", "Driver", "Team", "Points", "Wins"]}
@@ -87,9 +94,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   let queryParam = "";
-  if (params?.season) queryParam = `?season=${params.season}`;
+  if (params?.season) queryParam = `?year=${params.season}`;
   const res = await fetch(`${process.env.SERVER}/standings${queryParam}`);
-  const standings = (await res.json()) as DriverStanding[];
+  const standings = (await res.json()) as Standings;
   return {
     props: {
       standings,
@@ -97,4 +104,4 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   };
 };
 
-export default Standings;
+export default ArchiveSeasonStandings;

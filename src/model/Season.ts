@@ -129,6 +129,11 @@ export interface WccStanding {
   constructorNationality: string;
 }
 
+export interface Standings {
+  wdc: WdcStanding[];
+  wcc: WccStanding[];
+}
+
 export interface Season {
   year: number;
   events: GrandPrix[];

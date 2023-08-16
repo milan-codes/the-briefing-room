@@ -3,8 +3,7 @@ import Footer from "../../components/landing/Footer";
 import Navbar from "../../components/landing/Navbar";
 import NextRaceBanner from "../../components/season-hub/NextRaceBanner";
 import Table from "../../components/standings/Table";
-import { ClassificationProps } from "../../features/events/classificationSlice";
-import { GrandPrix, Season } from "../../model/Season";
+import { GrandPrix, RaceResult, Season, Standings } from "../../model/Season";
 import _ from "lodash";
 import { getCountryFlag } from "../archive/[season]";
 import RaceCalendar from "../../components/season-hub/RaceCalendar";
@@ -14,7 +13,8 @@ interface SeasonHubProps {
   season: Season[];
   upcomingRace: GrandPrix;
   previousRace: GrandPrix;
-  latestClassification: ClassificationProps;
+  latestClassification: RaceResult[];
+  standings: Standings;
 }
 
 const SeasonHub: NextPage<SeasonHubProps> = ({
@@ -22,52 +22,50 @@ const SeasonHub: NextPage<SeasonHubProps> = ({
   upcomingRace,
   previousRace,
   latestClassification,
+  standings,
 }) => {
-  const classificationTableData = latestClassification.classification.map((driver, index) => [
-    `${index + 1}`,
-    `${driver.DriverNumber}`,
-    `${driver.FullName}`,
-    `${driver.TeamName}`,
-    `${driver.Time ? formatTime(driver.Time) : `DNF (${driver.Status})`}`,
-    `${driver.GridPosition}`,
-    `${driver.Points}`,
-  ]);
+  let classificationTableData: string[][] = [];
+  if (latestClassification) {
+    classificationTableData = latestClassification.map((result) => [
+      result.position.toString(),
+      result.givenName + " " + result.familyName,
+      result.constructorName,
+      result.grid.toString(),
+      result.totalRaceTimeMillis
+        ? formatTime(result.totalRaceTimeMillis)
+        : "DNF  (" + result.status + ")",
+      result.fastestLapTime
+        ? result.fastestLapRank === 1
+          ? formatTime(result.fastestLapTime) + " (Fastest)"
+          : formatTime(result.fastestLapTime)
+        : "No time set",
+      result.points === 0 ? "" : "+" + result.points.toString(),
+    ]);
+  }
 
-  // add a + sign to driver time starting from 2nd position
-  classificationTableData.forEach((row, index) => {
-    if (index > 0 && !row[4].includes("DNF")) row[4] = `+${row[4]}`;
-  });
+  const { wdc, wcc } = standings;
 
-  const { standings } = latestClassification;
-  const constructorStandings = _.groupBy(
-    standings,
-    (standing) => standing.Constructors[0].constructorId
-  );
+  let wdcTableData: string[][] = [];
+  if (wdc) {
+    wdcTableData = wdc.map((driver) => [
+      driver.position.toString(),
+      driver.driverNumber.toString(),
+      getCountryFlag(driver.driverNationality) + " " + driver.givenName + " " + driver.familyName,
+      driver.constructorNames[0],
+      driver.points.toString(),
+      driver.wins.toString(),
+    ]);
+  }
 
-  const wdcTableData = standings.map((standing, index) => [
-    `${index + 1}`,
-    `${standing.Driver.permanentNumber}`,
-    `${getCountryFlag(standing.Driver.nationality)} ${standing.Driver.givenName} ${
-      standing.Driver.familyName
-    }`,
-    `${standing.Constructors[0].name}`,
-    `${standing.points}`,
-    `${standing.wins}`,
-  ]);
-
-  const wccTableData = Object.keys(constructorStandings).map((key, index) => [
-    `${index + 1}`,
-    `${getCountryFlag(constructorStandings[key][0].Constructors[0].nationality)} ${
-      constructorStandings[key][0].Constructors[0].name
-    }`,
-    `${constructorStandings[key].reduce((acc, curr) => acc + parseInt(curr.points), 0)}`,
-    `${constructorStandings[key].reduce((acc, curr) => acc + parseInt(curr.wins), 0)}`,
-  ]);
-
-  // sort wccTableData by points
-  wccTableData.sort((a, b) => parseInt(b[2]) - parseInt(a[2]));
-  // fix the positions
-  wccTableData.forEach((row, index) => (row[0] = `${index + 1}`));
+  let wccTableData: string[][] = [];
+  if (wcc) {
+    wccTableData = wcc.map((team) => [
+      team.position.toString(),
+      getCountryFlag(team.constructorNationality) + " " + team.constructorName,
+      team.points.toString(),
+      team.wins.toString(),
+    ]);
+  }
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
@@ -76,7 +74,7 @@ const SeasonHub: NextPage<SeasonHubProps> = ({
         <NextRaceBanner grandPrixName={upcomingRace.EventName} country={upcomingRace.Country} />
         <Table
           title={`${previousRace.EventName} classification`}
-          headers={["Position", "Driver #", "Driver", "Team", "Time", "Grid position", "Points"]}
+          headers={["Position", "Driver", "Team", "Grid", "Time", "Fastest lap", "Points"]}
           data={classificationTableData}
         />
         <Table
@@ -97,38 +95,39 @@ const SeasonHub: NextPage<SeasonHubProps> = ({
 };
 
 export const getStaticProps = async () => {
-  const res = await fetch(`${process.env.SERVER}/racecalendar?year=${new Date().getFullYear()}`);
-  const season = (await res.json()) as Season[];
+  const seasonRes = await fetch(
+    `${process.env.SERVER}/racecalendar?year=${new Date().getFullYear()}`
+  );
+  const season = (await seasonRes.json()) as Season[];
+
+  const classificationRes = await fetch(
+    `${process.env.SERVER}/race-classification?year=${new Date().getFullYear()}`
+  );
+  const latestClassification = (await classificationRes.json()) as RaceResult[];
+
+  const standingsRes = await fetch(
+    `${process.env.SERVER}/standings?year=${new Date().getFullYear()}`
+  );
+  const standings = (await standingsRes.json()) as Standings;
 
   // get the upcoming race from the current season
-  let upcomingRaceDate = new Date();
   let upcomingRace = season[0].events[0];
   for (let i = 0; i < season[0].events.length; i++) {
     if (season[0].events[i].EventDate > new Date()) {
-      upcomingRaceDate = season[0].events[i].EventDate;
       upcomingRace = season[0].events[i];
       break;
     }
   }
 
-  let previousRaceDate = new Date();
   let previousRace = season[0].events[0];
   for (let i = 0; i < season[0].events.length; i++) {
     if (season[0].events[i].EventDate < new Date()) {
-      previousRaceDate = season[0].events[i].EventDate;
       previousRace = season[0].events[i];
     }
   }
 
-  const resClassification = await fetch(
-    `${process.env.SERVER}/classification?year=${new Date().getFullYear()}&round=${
-      previousRace.RoundNumber
-    }&session=${5}`
-  );
-  const latestClassification = (await resClassification.json()) as ClassificationProps;
-
   return {
-    props: { season, upcomingRace, previousRace, latestClassification },
+    props: { season, upcomingRace, previousRace, latestClassification, standings },
     revalidate: 60 * 60 * 24, // at most once in every 24 hours
   };
 };
