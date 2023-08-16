@@ -1,14 +1,14 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Footer from "../../components/landing/Footer";
 import Navbar from "../../components/landing/Navbar";
-import { DriverStanding } from "../../model/Standing";
 import getUnicodeFlagIcon from "country-flag-icons/unicode";
 import _ from "lodash";
 import Table from "../../components/standings/Table";
-import { useRouter } from "next/router";
 import { Standings } from "../../model/Season";
+import Link from "next/link";
 
 export interface ArchiveStandingsProps {
+  season: number;
   standings: Standings;
 }
 
@@ -23,17 +23,14 @@ export const getCountryFlag = (nationality: string) => {
   return getUnicodeFlagIcon(countryCode);
 };
 
-const ArchiveSeasonStandings: NextPage<ArchiveStandingsProps> = ({ standings }) => {
-  const router = useRouter();
-  const { query } = router;
-
+const ArchiveSeasonStandings: NextPage<ArchiveStandingsProps> = ({ season, standings }) => {
   const { wdc, wcc } = standings;
 
   let wdcTableData: string[][] = [];
   if (wdc) {
     wdcTableData = wdc.map((driver) => [
       driver.position.toString(),
-      driver.driverNumber.toString(),
+      driver.driverNumber?.toString() ?? "N/A",
       getCountryFlag(driver.driverNationality) + " " + driver.givenName + " " + driver.familyName,
       driver.constructorNames[0],
       driver.points.toString(),
@@ -49,6 +46,9 @@ const ArchiveSeasonStandings: NextPage<ArchiveStandingsProps> = ({ standings }) 
       team.points.toString(),
       team.wins.toString(),
     ]);
+  } else {
+    // The WCC was not awarded until the 1958 season
+    wccTableData = [];
   }
 
   return (
@@ -57,24 +57,33 @@ const ArchiveSeasonStandings: NextPage<ArchiveStandingsProps> = ({ standings }) 
       <div className="mx-auto max-w-screen-lg px-4">
         <div className="mt-8">
           <h1 className="text-3xl font-extrabold mb-3 text-gray-900 dark:text-gray-100">
-            Season archive of the {query.season} season
+            Season archive of the {season} season
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mb-1">
-            Take a look at the standings of the {query.season} season
+            Take a look at the standings of the {season} season
           </p>
         </div>
         <div className="my-4 border-[1px] border-gray-200 dark:border-gray-800"></div>
       </div>
       <Table
-        title={`${query.season} WDC standings`}
+        title={`${season} World Drivers' Championship standings`}
         headers={["Position", "Driver #", "Driver", "Team", "Points", "Wins"]}
         data={wdcTableData}
       />
-      <Table
-        title={`${query.season} WCC standings`}
-        headers={["Position", "Team", "Points", "Wins"]}
-        data={wccTableData}
-      />
+      {season >= 1958 ? (
+        <Table
+          title={`${season} World Constructors' Championship standings`}
+          headers={["Position", "Team", "Points", "Wins"]}
+          data={wccTableData}
+        />
+      ) : (
+        <div className="mx-auto max-w-screen-lg px-4 mt-6">
+          <p className="text-gray-600 dark:text-gray-400">
+            The World Constructors' Championship was not awarded until the{" "}
+            <Link href="/archive/1958">1958 season</Link>
+          </p>
+        </div>
+      )}
       <Footer />
     </div>
   );
@@ -93,12 +102,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const season = params?.season ?? -1;
+
   let queryParam = "";
   if (params?.season) queryParam = `?year=${params.season}`;
   const res = await fetch(`${process.env.SERVER}/standings${queryParam}`);
   const standings = (await res.json()) as Standings;
   return {
     props: {
+      season,
       standings,
     },
   };
