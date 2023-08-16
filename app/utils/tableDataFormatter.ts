@@ -5,8 +5,8 @@ import {
   WccStanding,
   WdcStanding,
 } from "../../src/model/Season";
-import { getCountryFlag } from "../../src/pages/archive/[season]";
 import { formatTime } from "../../src/utils/formatTime";
+import { getCountryFlag } from "./countryFlags";
 
 export const formatQualificationData = (data: QualifyingResult[]) => {
   return data.map((result) => [
@@ -54,7 +54,7 @@ export const formatRaceData = (data: RaceResult[]) => {
 export const formatWdcData = (data: WdcStanding[]) => {
   return data.map((driver) => [
     driver.position.toString(),
-    driver.driverNumber.toString(),
+    driver.driverNumber?.toString() ?? "N/A",
     getCountryFlag(driver.driverNationality) + " " + driver.givenName + " " + driver.familyName,
     driver.constructorNames[0],
     driver.points.toString(),

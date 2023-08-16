@@ -1,57 +1,23 @@
 import NextRaceBanner from "../components/NextRaceBanner";
 import Table from "../../src/components/standings/Table";
 import { RaceResult, Season, Standings } from "../../src/model/Season";
-import { getCountryFlag } from "../../src/pages/archive/[season]";
 import RaceCalendar from "../components/RaceCalendar";
-import { formatTime } from "../../src/utils/formatTime";
+import { formatRaceData, formatWccData, formatWdcData } from "../utils/tableDataFormatter";
 
 const SeasonHub = async () => {
   const { season, upcomingRace, previousRace } = await getRaceCalendar();
   const { latestClassification } = await getLatestRaceResult();
   const { standings } = await getStandings();
-
-  let classificationTableData: string[][] = [];
-  if (latestClassification) {
-    classificationTableData = latestClassification.map((result) => [
-      result.position.toString(),
-      result.givenName + " " + result.familyName,
-      result.constructorName,
-      result.grid.toString(),
-      result.totalRaceTimeMillis
-        ? formatTime(result.totalRaceTimeMillis)
-        : "DNF  (" + result.status + ")",
-      result.fastestLapTime
-        ? result.fastestLapRank === 1
-          ? formatTime(result.fastestLapTime) + " (Fastest)"
-          : formatTime(result.fastestLapTime)
-        : "No time set",
-      result.points === 0 ? "" : "+" + result.points.toString(),
-    ]);
-  }
-
   const { wdc, wcc } = standings;
 
+  let classificationTableData: string[][] = [];
+  if (latestClassification) classificationTableData = formatRaceData(latestClassification);
+
   let wdcTableData: string[][] = [];
-  if (wdc) {
-    wdcTableData = wdc.map((driver) => [
-      driver.position.toString(),
-      driver.driverNumber.toString(),
-      getCountryFlag(driver.driverNationality) + " " + driver.givenName + " " + driver.familyName,
-      driver.constructorNames[0],
-      driver.points.toString(),
-      driver.wins.toString(),
-    ]);
-  }
+  if (wdc) wdcTableData = formatWdcData(wdc);
 
   let wccTableData: string[][] = [];
-  if (wcc) {
-    wccTableData = wcc.map((team) => [
-      team.position.toString(),
-      getCountryFlag(team.constructorNationality) + " " + team.constructorName,
-      team.points.toString(),
-      team.wins.toString(),
-    ]);
-  }
+  if (wcc) wccTableData = formatWccData(wcc);
 
   return (
     <div className="mx-auto max-w-screen-lg">
