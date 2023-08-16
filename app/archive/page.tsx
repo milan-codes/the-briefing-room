@@ -1,18 +1,12 @@
-import { useRouter } from "next/router";
-import ArchiveListItem from "../ArchiveListItem/ArchiveListItem";
+import { NextPage } from "next";
+import ArchiveListItem from "./ArchiveListItem";
 
-const ArchiveList: React.FC = () => {
-  const router = useRouter();
-
+const Archive: NextPage = () => {
   // create a seasons array from 1950 until the previous year
   const seasons = Array.from(
     { length: new Date().getFullYear() - 1950 },
     (_, i) => new Date().getFullYear() - (i + 1)
   );
-
-  const onListItemClick = (season: number) => {
-    router.push(`/archive/${season}`);
-  };
   return (
     <div className="mx-auto max-w-screen-lg px-4 py-8">
       <h1 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100">Season archives</h1>
@@ -22,7 +16,7 @@ const ArchiveList: React.FC = () => {
       <div className="mt-8">
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {seasons.map((season) => (
-            <ArchiveListItem season={season} handleOnClick={onListItemClick} />
+            <ArchiveListItem season={season} />
           ))}
         </ul>
       </div>
@@ -30,4 +24,4 @@ const ArchiveList: React.FC = () => {
   );
 };
 
-export default ArchiveList;
+export default Archive;
