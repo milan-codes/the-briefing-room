@@ -182,6 +182,9 @@ const EventPreview: React.FC<EventPreviewProps> = ({ grandprix }) => {
             data={qualifyingTableData}
           />
         )}
+        {(raceResults || sprintResults || qualifyingResults) && (
+          <div className="mx-4 my-4 border-[1px] border-gray-200 dark:border-gray-800"></div>
+        )}
         {wdcStandings && (
           <Table
             title={wdcStandingsTitle}
