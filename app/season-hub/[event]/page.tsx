@@ -1,12 +1,7 @@
-import getCountryFlag from "country-flag-icons/unicode";
-import { GetStaticPaths, GetStaticProps } from "next";
 import React from "react";
 import { GrandPrix, Season } from "../../../src/model/Season";
-import { formatTime } from "../../../src/utils/formatTime";
 import { slugify } from "../../../src/utils/slugify";
-import Footer from "../../components/Footer";
 import GrandPrixInfoHeader from "../../components/GrandPrixInfoHeader";
-import Navbar from "../../components/Navbar";
 import Table from "../../../src/components/standings/Table/Table";
 import {
   formatQualificationData,
