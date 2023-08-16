@@ -2,11 +2,6 @@ import _ from "lodash";
 import { Loader2 } from "tabler-icons-react";
 import Compobox, { ComboboxOption } from "./Combobox";
 import {
-  getSeasonOptions,
-  getGrandPrixOptions,
-  getSessionOptions,
-} from "../../../src/utils/eventQueryOptions";
-import {
   selectEventQuery,
   setSeason,
   setGrandPrix,
@@ -14,7 +9,12 @@ import {
 } from "../../_redux/features/events/eventQuerySlice";
 import { getLapsFromApi } from "../../_redux/features/events/eventTelemetrySlice";
 import { useAppSelector, useAppDispatch } from "../../_redux/hooks";
-import { Season } from "../../../src/model/Season";
+import { Season } from "../../_model/Season";
+import {
+  getSeasonOptions,
+  getGrandPrixOptions,
+  getSessionOptions,
+} from "../../_utils/eventQueryOptions";
 
 const EventQuery: React.FC<{ seasons: Season[] }> = ({ seasons }) => {
   const eventQuery = useAppSelector(selectEventQuery);

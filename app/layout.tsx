@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer/Footer";
+import Navbar from "./_components/Navbar";
+import Footer from "./_components/Footer/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {

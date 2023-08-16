@@ -1,7 +1,7 @@
-import Hero from "./components/Hero";
+import Hero from "./_components/Hero";
 import Image from "next/image";
-import Features from "./components/Features";
-import Faq from "./components/Faq";
+import Features from "./_components/Features";
+import Faq from "./_components/Faq";
 import telemetryDemo from "../public/images/readme/telemetry-demo.png";
 
 const Home = () => {

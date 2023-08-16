@@ -1,6 +1,6 @@
-import { getQualiFilter } from "../../../src/utils/qualifyingDataFilters";
 import { selectSessionData } from "../../_redux/features/events/eventTelemetrySlice";
 import { useAppSelector } from "../../_redux/hooks";
+import { getQualiFilter } from "../../_utils/qualifyingDataFilters";
 import DataFilter from "./DataFilter";
 import DriverQuery from "./DriverQuery";
 

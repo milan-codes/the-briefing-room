@@ -1,9 +1,8 @@
 import Link from "next/link";
-import RaceCalendar from "../../../app/components/RaceCalendar/RaceCalendar";
-import { Season, Standings } from "../../../src/model/Season";
-import Table from "../../components/Table";
-import { getCountryFlag } from "../../utils/countryFlags";
-import { formatWccData, formatWdcData } from "../../utils/tableDataFormatter";
+import RaceCalendar from "../../_components/RaceCalendar/RaceCalendar";
+import { Season, Standings } from "../../_model/Season";
+import Table from "../../_components/Table";
+import { formatWccData, formatWdcData } from "../../_utils/tableDataFormatter";
 
 const ArchiveSeasonStandings = async ({ params }: { params: { season: string } }) => {
   const season = parseInt(params.season);

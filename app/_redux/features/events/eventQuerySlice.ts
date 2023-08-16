@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppState } from "../../store";
-import { ComboboxOption } from "../../components/telemetry/EventQuery/Combobox";
+import { ComboboxOption } from "../../../_components/EventQuery/Combobox";
 
 interface EventQueryState {
   year: number;

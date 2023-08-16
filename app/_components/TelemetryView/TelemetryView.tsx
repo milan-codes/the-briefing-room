@@ -1,11 +1,11 @@
 "use client";
 
 import { Provider } from "react-redux";
-import { Season } from "../../src/model/Season";
-import store from "../_redux/store";
-import Chart from "./Chart";
-import EventQuery from "./EventQuery";
-import LapTelemetryQuery from "./LapTelemetryQuery";
+import { Season } from "../../_model/Season";
+import store from "../../_redux/store";
+import Chart from "../Chart";
+import EventQuery from "../EventQuery";
+import LapTelemetryQuery from "../LapTelemetryQuery";
 
 const TelemetryView: React.FC<{ seasons: Season[] }> = ({ seasons }) => {
   return (

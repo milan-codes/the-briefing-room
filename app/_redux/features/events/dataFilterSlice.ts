@@ -1,4 +1,4 @@
-import { AnyAction, createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
 import { AppState } from "../../store";
 
 interface DataFilterProp {

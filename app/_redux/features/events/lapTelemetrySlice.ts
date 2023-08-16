@@ -1,6 +1,6 @@
 import { AnyAction, createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
 import { AppState } from "../../store";
-import { LapData } from "../../../../src/model/LapTelemetry";
+import { LapData } from "../../../_model/LapTelemetry";
 import { emptyQuery, toggleLoading } from "./lapTelemetryQuerySlice";
 
 interface LapTelemetry {

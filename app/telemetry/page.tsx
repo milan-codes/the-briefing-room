@@ -1,5 +1,5 @@
-import TelemetryView from "../components/TelemetryView";
-import { Season } from "../../src/model/Season";
+import TelemetryView from "../_components/TelemetryView";
+import { Season } from "../_model/Season";
 
 const Telemetry = async () => {
   const { seasons } = await getSeasonData();

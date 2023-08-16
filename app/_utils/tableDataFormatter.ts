@@ -4,9 +4,9 @@ import {
   SprintResult,
   WccStanding,
   WdcStanding,
-} from "../../src/model/Season";
-import { formatTime } from "../../src/utils/formatTime";
+} from "../_model/Season";
 import { getCountryFlag } from "./countryFlags";
+import { formatTime } from "./formatTime";
 
 export const formatQualificationData = (data: QualifyingResult[]) => {
   return data.map((result) => [

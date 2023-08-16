@@ -18,12 +18,12 @@ const Hero: React.FC = () => (
         </p>
 
         <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <a
+          <Link
             className="block w-full rounded-md bg-blue-600 px-12 py-3 text-sm font-medium text-gray-50 shadow hover:bg-blue-700 focus:outline-none focus:ring active:bg-blue-500 sm:w-auto"
             href="/telemetry"
           >
             Get Started
-          </a>
+          </Link>
 
           <a
             className="block w-full rounded px-12 py-3 text-sm font-medium text-blue-600 hover:text-blue-700 focus:outline-none focus:ring active:text-blue-500 sm:w-auto"

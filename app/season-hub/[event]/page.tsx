@@ -1,14 +1,14 @@
 import React from "react";
-import { GrandPrix, Season } from "../../../src/model/Season";
-import { slugify } from "../../../src/utils/slugify";
-import GrandPrixInfoHeader from "../../components/GrandPrixInfoHeader";
-import Table from "../../components/Table/Table";
+import { GrandPrix, Season } from "../../_model/Season";
+import { slugify } from "../../_utils/slugify";
+import GrandPrixInfoHeader from "../../_components/GrandPrixInfoHeader";
+import Table from "../../_components/Table/Table";
 import {
   formatQualificationData,
   formatSprintData,
   formatWccData,
   formatWdcData,
-} from "../../utils/tableDataFormatter";
+} from "../../_utils/tableDataFormatter";
 
 const EventPreview = async ({ params }: { params: { event: string } }) => {
   const { grandprix } = await getGrandPrixData(params.event);

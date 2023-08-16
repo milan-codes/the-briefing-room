@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import ArchiveListItem from "../components/ArchiveListItem";
+import ArchiveListItem from "../_components/ArchiveListItem";
 
 const Archive: NextPage = () => {
   // create a seasons array from 1950 until the previous year

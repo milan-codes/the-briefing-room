@@ -1,9 +1,9 @@
 import React from "react";
 import { ChevronRight } from "tabler-icons-react";
 import Link from "next/link";
-import { GrandPrix } from "../../../src/model/Season";
-import { getCountryFlagByCode } from "../../../src/utils/getCountryFlagCode";
-import { slugify } from "../../../src/utils/slugify";
+import { GrandPrix } from "../../_model/Season";
+import { slugify } from "../../_utils/slugify";
+import { getCountryFlagByCode } from "../../_utils/getCountryFlagCode";
 
 interface RaceCalendarListItemProps {
   event: GrandPrix;

@@ -1,7 +1,7 @@
 import React from "react";
 import { Loader2 } from "tabler-icons-react";
 import MyListbox from "./Listbox";
-import { Lap } from "../../../src/model/Lap";
+import { Lap } from "../../_model/Lap";
 import { selectEventQuery } from "../../_redux/features/events/eventQuerySlice";
 import {
   selectLapTelemetryQuery,

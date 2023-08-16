@@ -1,5 +1,5 @@
 import React from "react";
-import { getCountryFlagByCode } from "../../../src/utils/getCountryFlagCode";
+import { getCountryFlagByCode } from "../../_utils/getCountryFlagCode";
 
 interface GrandPrixInfoHeaderProps {
   eventName: string;

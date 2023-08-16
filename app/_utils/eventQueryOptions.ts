@@ -1,5 +1,5 @@
-import { ComboboxOption } from "../components/telemetry/EventQuery/Combobox";
-import { GrandPrix, Season } from "../model/Season";
+import { ComboboxOption } from "../_components/EventQuery/Combobox";
+import { GrandPrix, Season } from "../_model/Season";
 import { sprintEvent, conventionalEvent } from "./eventFormats";
 
 export const getSeasonOptions = (seasons: Season[]): ComboboxOption[] => {

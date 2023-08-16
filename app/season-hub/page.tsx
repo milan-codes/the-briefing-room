@@ -1,8 +1,8 @@
-import NextRaceBanner from "../components/NextRaceBanner";
-import Table from "../components/Table";
-import { RaceResult, Season, Standings } from "../../src/model/Season";
-import RaceCalendar from "../components/RaceCalendar";
-import { formatRaceData, formatWccData, formatWdcData } from "../utils/tableDataFormatter";
+import NextRaceBanner from "../_components/NextRaceBanner";
+import Table from "../_components/Table";
+import { RaceResult, Season, Standings } from "../_model/Season";
+import RaceCalendar from "../_components/RaceCalendar";
+import { formatRaceData, formatWccData, formatWdcData } from "../_utils/tableDataFormatter";
 
 const SeasonHub = async () => {
   const { season, upcomingRace, previousRace } = await getRaceCalendar();
