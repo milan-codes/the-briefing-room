@@ -1,22 +1,22 @@
 import _ from "lodash";
 import { Loader2 } from "tabler-icons-react";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import Compobox, { ComboboxOption } from "./Combobox";
+import {
+  getSeasonOptions,
+  getGrandPrixOptions,
+  getSessionOptions,
+} from "../../../src/utils/eventQueryOptions";
 import {
   selectEventQuery,
-  setGrandPrix,
   setSeason,
+  setGrandPrix,
   setSession,
-} from "../../../features/events/eventQuerySlice";
-import { getLapsFromApi } from "../../../features/events/eventTelemetrySlice";
-import { TelemetryProps } from "../../../pages/telemetry";
-import {
-  getGrandPrixOptions,
-  getSeasonOptions,
-  getSessionOptions,
-} from "../../../utils/eventQueryOptions";
-import Compobox, { ComboboxOption } from "./Combobox";
+} from "../../_redux/features/events/eventQuerySlice";
+import { getLapsFromApi } from "../../_redux/features/events/eventTelemetrySlice";
+import { useAppSelector, useAppDispatch } from "../../_redux/hooks";
+import { Season } from "../../../src/model/Season";
 
-const EventQuery: React.FC<TelemetryProps> = ({ seasons }) => {
+const EventQuery: React.FC<{ seasons: Season[] }> = ({ seasons }) => {
   const eventQuery = useAppSelector(selectEventQuery);
   const dispatch = useAppDispatch();
 

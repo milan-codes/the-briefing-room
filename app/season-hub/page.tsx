@@ -1,5 +1,5 @@
 import NextRaceBanner from "../components/NextRaceBanner";
-import Table from "../../src/components/standings/Table";
+import Table from "../components/Table";
 import { RaceResult, Season, Standings } from "../../src/model/Season";
 import RaceCalendar from "../components/RaceCalendar";
 import { formatRaceData, formatWccData, formatWdcData } from "../utils/tableDataFormatter";

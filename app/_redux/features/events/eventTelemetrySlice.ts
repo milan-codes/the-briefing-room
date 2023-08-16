@@ -1,7 +1,7 @@
 import { AnyAction, createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
-import { AppState } from "../../app/store";
-import { Lap } from "../../model/Lap";
-import { SessionResult } from "../../model/SessionResult";
+import { AppState } from "../../store";
+import { Lap } from "../../../../src/model/Lap";
+import { SessionResult } from "../../../../src/model/SessionResult";
 import { toggleLoading } from "./eventQuerySlice";
 
 interface EventTelemetry {

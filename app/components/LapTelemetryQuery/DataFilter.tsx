@@ -1,6 +1,11 @@
+"use client";
+
 import { RadioGroup } from "@headlessui/react";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { selectDataFilter, setActiveDataFilter } from "../../../features/events/dataFilterSlice";
+import {
+  selectDataFilter,
+  setActiveDataFilter,
+} from "../../_redux/features/events/dataFilterSlice";
+import { useAppSelector, useAppDispatch } from "../../_redux/hooks";
 
 export interface DataFilterOption {
   id: number;

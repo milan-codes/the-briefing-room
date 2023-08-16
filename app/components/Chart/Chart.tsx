@@ -10,11 +10,11 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { useAppSelector } from "../../../app/hooks";
-import { selectDataFilter } from "../../../features/events/dataFilterSlice";
-import { selectSessionData } from "../../../features/events/eventTelemetrySlice";
-import { LapTelemetries, selectLapTelemetry } from "../../../features/events/lapTelemetrySlice";
-import { getQualiUnits } from "../../../utils/qualifyingDataFilters";
+import { getQualiUnits } from "../../../src/utils/qualifyingDataFilters";
+import { selectDataFilter } from "../../_redux/features/events/dataFilterSlice";
+import { selectSessionData } from "../../_redux/features/events/eventTelemetrySlice";
+import { selectLapTelemetry, LapTelemetries } from "../../_redux/features/events/lapTelemetrySlice";
+import { useAppSelector } from "../../_redux/hooks";
 
 const Chart: React.FC = () => {
   const eventData = useAppSelector(selectSessionData);

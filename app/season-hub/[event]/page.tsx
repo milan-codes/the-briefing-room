@@ -2,7 +2,7 @@ import React from "react";
 import { GrandPrix, Season } from "../../../src/model/Season";
 import { slugify } from "../../../src/utils/slugify";
 import GrandPrixInfoHeader from "../../components/GrandPrixInfoHeader";
-import Table from "../../../src/components/standings/Table/Table";
+import Table from "../../components/Table/Table";
 import {
   formatQualificationData,
   formatSprintData,

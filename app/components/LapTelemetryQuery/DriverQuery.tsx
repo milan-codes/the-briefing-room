@@ -1,19 +1,19 @@
 import React from "react";
 import { Loader2 } from "tabler-icons-react";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { selectEventQuery } from "../../../features/events/eventQuerySlice";
+import MyListbox from "./Listbox";
+import { Lap } from "../../../src/model/Lap";
+import { selectEventQuery } from "../../_redux/features/events/eventQuerySlice";
 import {
   selectLapTelemetryQuery,
   setDriver,
   setLap,
-} from "../../../features/events/lapTelemetryQuerySlice";
+} from "../../_redux/features/events/lapTelemetryQuerySlice";
 import {
+  selectLapTelemetry,
   getLapTelemetryFromApi,
   removeLapTelemetry,
-  selectLapTelemetry,
-} from "../../../features/events/lapTelemetrySlice";
-import { Lap } from "../../../model/Lap";
-import MyListbox from "./Listbox";
+} from "../../_redux/features/events/lapTelemetrySlice";
+import { useAppSelector, useAppDispatch } from "../../_redux/hooks";
 
 interface DriverQueryProps {
   driverList: {

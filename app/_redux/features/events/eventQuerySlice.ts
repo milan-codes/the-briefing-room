@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AppState } from "../../app/store";
+import { AppState } from "../../store";
 import { ComboboxOption } from "../../components/telemetry/EventQuery/Combobox";
 
 interface EventQueryState {

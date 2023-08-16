@@ -1,5 +1,5 @@
 import { AnyAction, createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
-import { AppState } from "../../app/store";
+import { AppState } from "../../store";
 
 interface DataFilterProp {
   activeFilter: string;

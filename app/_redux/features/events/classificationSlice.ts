@@ -1,6 +1,6 @@
 import { AnyAction, createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
-import { AppState } from "../../app/store";
-import { DriverStanding } from "../../model/Standing";
+import { AppState } from "../../store";
+import { DriverStanding } from "../../../../src/model/Standing";
 
 export interface ClassificationProps {
   classification: Result[];

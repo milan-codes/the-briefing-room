@@ -1,7 +1,7 @@
 import Link from "next/link";
 import RaceCalendar from "../../../app/components/RaceCalendar/RaceCalendar";
 import { Season, Standings } from "../../../src/model/Season";
-import Table from "../../../src/components/standings/Table";
+import Table from "../../components/Table";
 import { getCountryFlag } from "../../utils/countryFlags";
 import { formatWccData, formatWdcData } from "../../utils/tableDataFormatter";
 
